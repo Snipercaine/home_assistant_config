@@ -121,7 +121,7 @@
       entity_picture_local:
       friendly_name: Master bedroom Speaker
       is_volume_muted: false
-      media_content_id: http://audio-dc6-t1-2-v4v6.pandora.com/access/8516724261611269120.mp4?version=5&lid=56737856&token=zB%2B0oDVyqwOCIlnBNuTgOVwGbscV%2FI%2BPc6%2F3OFD7HKqGhyHCG5ED%2Br6Qyj1T61zHyyFJWi91tr5WGxF4GsE1N7JRVmmt3fgd7b2LrSRSI8crY6DnHjtfxUNGgZYD1hFsnCPQ6KBkj7CLFrhpLq%2Bl4ptoApsLd40dJV%2FRYdz4WknWtZbRVCHIR6Xl0FKxu40mtOKCFxYGPY5ht5fXH3%2FjUb7U87KBtOoVC%2FU6DVapNOpeEynL2YLDOr2bgpVIW%2FaHqHY9HoY1TfA30DqN%2Fh9chkaFmnJBxk%2FiKxATrJpETgDxQFYlEWUd5o8zEtOVOznZyT5ltriTAaEsAowac0u7EigMkCV4J6kN
+      media_content_id: Peter Citera Radio
       media_position: 0
       media_position_updated_at: '2020-04-23T19:02:46.276384+00:00'
       state: idle
