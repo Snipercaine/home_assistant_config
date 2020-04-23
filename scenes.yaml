@@ -115,131 +115,17 @@
 - id: '1576435972930'
   name: Romantic
   entities:
-    light.windows_2:
-      brightness: 85
-      effect: Lake
-      effect_list:
-      - Android
-      - BPM
-      - Blink
-      - Blink Rainbow
-      - Breathe
-      - Chase
-      - Chase
-      - Chase Flash
-      - Chase Flash Rnd
-      - Chase Rainbow
-      - Chase Rainbow
-      - Chase Random
-      - Circus
-      - Colorful
-      - Colorloop
-      - Colortwinkles
-      - Colorwaves
-      - Dark Sparkle
-      - Dissolve
-      - Dissolve Rnd
-      - Dual Scan
-      - Dual Scanner
-      - Dynamic
-      - Fade
-      - Fill Noise
-      - Fire 2012
-      - Fire Flicker
-      - Fireworks
-      - Gradient
-      - Halloween
-      - Halloween Eyes
-      - ICU
-      - In In
-      - In Out
-      - Juggle
-      - Lake
-      - Lighthouse
-      - Lightning
-      - Loading
-      - Mega Strobe
-      - Merry Christmas
-      - Meteor
-      - Multi Comet
-      - Noise 1
-      - Noise 2
-      - Noise 3
-      - Noise 4
-      - Oscillate
-      - Out In
-      - Out Out
-      - Palette
-      - Pride 2015
-      - Railway
-      - Rain
-      - Rainbow
-      - Rainbow Runner
-      - Random Colors
-      - Red & Blue
-      - Ripple
-      - Running
-      - Running 2
-      - Saw
-      - Scan
-      - Scanner
-      - Smooth Meteor
-      - Solid
-      - Sparkle
-      - Sparkle+
-      - Stream
-      - Stream 2
-      - Strobe
-      - Strobe Rainbow
-      - Sweep
-      - Sweep Random
-      - Traffic Light
-      - Tri Chase
-      - Tri Fade
-      - Tri Wipe
-      - Twinkle
-      - Twinklecat
-      - Twinklefox
-      - Wipe
-      - Wipe Random
-      friendly_name: Windows
-      hs_color:
-      - 120
-      - 100
-      icon: mdi:led-strip-variant
-      intensity: 128
-      max_mireds: 500
-      min_mireds: 153
-      palette: Default
-      playlist:
-      preset:
-      rgb_color:
-      - 0
-      - 255
-      - 0
-      speed: 75
-      state: 'on'
-      supported_features: 55
-      xy_color:
-      - 0.172
-      - 0.747
     media_player.googlehome7032:
-      app_id: 211CD751
-      app_name: Pandora
-      entity_picture: http://mediaserver-cont-usc-mp1-2-v4v6.pandora.com/images/public/int/5/5/7/6/886446656755_500W_500H.jpg
+      app_id: CC1AD845
+      app_name: Default Media Receiver
+      entity_picture_local:
       friendly_name: Master bedroom Speaker
       is_volume_muted: false
-      media_album_artist: Pentatonix (Holiday)
-      media_album_name: A Pentatonix Christmas Deluxe
-      media_artist: Pentatonix (Holiday)
       media_content_id: http://audio-dc6-t1-2-v4v6.pandora.com/access/8516724261611269120.mp4?version=5&lid=56737856&token=zB%2B0oDVyqwOCIlnBNuTgOVwGbscV%2FI%2BPc6%2F3OFD7HKqGhyHCG5ED%2Br6Qyj1T61zHyyFJWi91tr5WGxF4GsE1N7JRVmmt3fgd7b2LrSRSI8crY6DnHjtfxUNGgZYD1hFsnCPQ6KBkj7CLFrhpLq%2Bl4ptoApsLd40dJV%2FRYdz4WknWtZbRVCHIR6Xl0FKxu40mtOKCFxYGPY5ht5fXH3%2FjUb7U87KBtOoVC%2FU6DVapNOpeEynL2YLDOr2bgpVIW%2FaHqHY9HoY1TfA30DqN%2Fh9chkaFmnJBxk%2FiKxATrJpETgDxQFYlEWUd5o8zEtOVOznZyT5ltriTAaEsAowac0u7EigMkCV4J6kN
-      media_content_type: music
-      media_duration: 215
-      media_position: 119
-      media_position_updated_at: '2019-12-15T18:52:06.366388+00:00'
-      media_title: O Come, All Ye Faithful
-      state: playing
-      supported_features: 21437
+      media_position: 0
+      media_position_updated_at: '2020-04-23T19:02:46.276384+00:00'
+      state: idle
+      supported_features: 21391
       volume_level: 0.4300000071525574
     switch.master_crown:
       friendly_name: Master Crown
@@ -261,8 +147,6 @@
   entities:
     light.grace:
       assumed_state: true
-      brightness: 18
-      effect: '[FX=61] Stream 2'
       effect_list:
       - '[FX=00] Solid'
       - '[FX=01] Blink'
@@ -348,22 +232,10 @@
       - '[FX=81] Twinklecat'
       - '[FX=82] Halloween Eyes'
       friendly_name: Grace
-      hs_color:
-      - 37.412
-      - 100
-      rgb_color:
-      - 255
-      - 159
-      - 0
-      state: 'on'
+      state: 'off'
       supported_features: 21
-      xy_color:
-      - 0.57
-      - 0.41
     light.holly_2:
       assumed_state: true
-      brightness: 20
-      effect: '[FX=09] Rainbow'
       effect_list:
       - '[FX=00] Solid'
       - '[FX=01] Blink'
@@ -449,18 +321,8 @@
       - '[FX=81] Twinklecat'
       - '[FX=82] Halloween Eyes'
       friendly_name: Holly
-      hs_color:
-      - 37.412
-      - 100
-      rgb_color:
-      - 255
-      - 159
-      - 0
-      state: 'on'
+      state: 'off'
       supported_features: 21
-      xy_color:
-      - 0.57
-      - 0.41
     switch.basement_playroom:
       friendly_name: Basement Playroom
       state: 'off'
