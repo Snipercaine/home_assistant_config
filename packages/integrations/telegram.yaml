@@ -1,5 +1,5 @@
 telegram_bot:
   - platform: polling
-    api_key: !secrets telegram
+    api_key: !secret telegram
     allowed_chat_ids:
       - 783985844
