@@ -1,0 +1,925 @@
+group:
+  notification_view:
+    name: Notifications
+    icon: mdi:speaker
+    entities:
+      - group.notifications
+      - group.notification_settings
+
+  notifications:
+    name: Notifications
+    entities:
+      - automation.notification_new_device_connected
+      - automation.notification_update_available
+      - automation.notification_start_up
+      - automation.notification_shut_down
+      - automation.notification_battery_alert
+      - automation.notification_left_something_open
+      - automation.notification_repeat_last_message
+
+
+  notification_settings:
+    name: Settings
+    entities:
+      - input_boolean.speech_notifications
+      - input_boolean.text_notifications
+      - input_select.notification_media_player_google
+      - input_number.notification_google_volume
+      - input_select.notification_media_player_alexa
+      - input_number.notification_alexa_volume
+      - input_boolean.guest_mode
+      - input_boolean.notification_alert_mode
+
+sensor:
+  - platform: mqtt
+    state_topic: "tts/last_message"
+    name: "Last Message"
+
+input_boolean:
+
+  notification_alert_mode:
+    name: Alert Mode
+    icon: mdi:bell
+
+  guest_mode:
+    name: Guest Mode
+    icon: mdi:account-alert
+
+  speech_notifications:
+    name: Speech Notifications
+    icon: mdi:bell-outline
+
+  text_notifications:
+    name: Text Notifications
+    icon: mdi:message-text-outline
+
+  last_message:
+    name: Last Message
+    initial: off
+    icon: mdi:repeat-once
+
+input_number:
+  notification_google_volume:
+    name: Google Volume
+    icon: mdi:volume-high
+    min: 0.0
+    max: 1.0
+    step: 0.01
+  notification_alexa_volume:
+    name: Alexa Volume
+    icon: mdi:volume-high
+    min: 0.0
+    max: 1.0
+    step: 0.1
+
+######################################################################################################
+##    within speech_engine the string message is generated with the use of macro's.                 ##
+######################################################################################################
+
+script:
+  speech_engine:
+    sequence:
+      - service: script.notification_hub
+        data_template:
+          media_player_google: >-
+            {%- for device in states.media_player -%}
+              {%- if device.name == states.input_select.notification_media_player_google.state -%}
+                {{ device.entity_id }}
+              {%- endif -%}
+            {%- endfor -%}
+          media_player_alexa: >-
+            {%- for device in states.media_player -%}
+              {%- if device.name == states.input_select.notification_media_player_alexa.state -%}
+                {{ device.entity_id }}
+              {%- endif -%}
+            {%- endfor -%}
+          speech_message: >-
+            {%- macro dark_outside() -%}
+              {% set dark_outside = [
+                "It's pretty dark outside. I will turn on the outside lights now. ",
+                "It's a little past Sunset. Time to turn on the outside lights. ",
+                "I will switch on the outside lights. It is getting dark outside. ",
+                "Time to turn on the front lights. I will take care of it. "
+              ] %}
+              {{ dark_outside | random }}
+            {%- endmacro -%}
+
+            {%- macro dark_inside() -%}
+              {% set dark_inside = [
+                "The house is getting dark, let me turn on some lights for you! ",
+                "It looks like it's getting dark in here, let's change that! ",
+                "You shouldn't be sitting around in the dark. Let's turn some lights on! ",
+                "Switching to night mode! ",
+                "It's pretty dark outside. I'm just gonna turn on some lights! "
+              ] %}
+              {{ dark_inside | random }}
+            {%- endmacro -%}
+
+            {%- macro responsibilities() -%}
+              {% if now().strftime('%a') == 'Sun' %}
+                The litter boxes need changed. Please Change the litter today
+              {% endif %}
+              {% if now().strftime('%a') == 'Mon' %}
+                Garbage goes out. Please take out all of the garbage cans tonight.
+              {% endif %}
+              {% if now().strftime('%a') == 'Tues' %}
+                Bring the trash cans back in and do the dishes.
+              {% endif %}
+              {% if now().strftime('%a') == 'Wed' %}
+                Sweep the floors and do some laundry.
+              {% endif %}
+              {% if now().strftime('%a') == 'Thur' %}
+                Wipe down the countertops and tables.
+              {% endif %}
+              {% if now().strftime('%a') == 'Fri' %}
+                Clean the bathroom and tidy things up.
+              {% endif %}
+              {% if now().strftime('%a') == 'Sat' %}
+                Enjoy a day of rest. You've earned it.
+              {% endif %}
+              {% if now().strftime('%j')|int % 2 != 0 %}
+                Today is Daddy's day to do the chores.
+              {% else %}
+                Today is Mommy's day to do the chores.
+              {% endif %}
+            {%- endmacro -%}
+
+            {%- macro guest_mode_on() -%}
+              {% set guest_mode_on = [
+                "It looks like we have a guest in the house! ",
+                "We have a guest. I'll enable the guest mode! ",
+                "I have enabled guest mode for our company's visit! ",
+                "Switching to guest mode! ",
+                "It's not often we have guests stay! Let me prepare the house for your visit. "
+              ] %}
+              {{ guest_mode_on | random }}
+            {%- endmacro -%}
+
+            {%- macro guest_mode_off() -%}
+              {% set guest_mode_off = [
+                "It looks like our guest has left, I'll disable guest mode! ",
+                "Let me disable guest mode since there's no longer any guests. ",
+                "I have disabled guest mode and have resumed normal operations! ",
+                "Disabling guest mode! ",
+                "Since there's no longer any guests allow me to disable guest mode. "
+              ] %}
+              {{ guest_mode_off | random }}
+            {%- endmacro -%}
+
+            {%- macro inside_weather() -%}
+              Inside the house, it is {{ states.climate.ecobee.attributes['current_temperature'] }} degrees with around {{ states.climate.ecobee.attributes['actual_humidity'] }} percent humidity.
+            {%- endmacro -%}
+
+            {%- macro outside_weather() -%}
+              Outside, it is going to be {{ states('sensor.dark_sky_minutely_summary') }}
+            {%- endmacro -%}
+
+            {%- macro printer_finished() -%}
+              {% set printer_finished = [
+                "The 3D printer has finished printing something awesome! ",
+                "The 3D printer has finished printing another masterpiece! ",
+                "The 3D printer has finished printing something completely useless! ",
+                "The 3D printer has finished printing another thing someone asked for! ",
+                "The 3D printer has finished printing a dumb box "
+              ] %}
+              {{ printer_finished | random }}
+            {%- endmacro -%}
+
+            {%- macro unknown() -%}
+              {% set unknown = [
+                "Hmm, I don't know ",
+                "I wish I knew ",
+                "My programming prohibits me from telling you "
+              ] %}
+              {{ unknown | random }}
+            {%- endmacro -%}
+
+            {%- macro location_not_home() -%}
+              {% set not_home = [
+                " is going somewhere. ",
+                " is currently not in this neighbourhood. ",
+                "'s location is not in my database. "
+              ] %}
+              {{ not_home | random }}
+            {%- endmacro -%}
+
+            {%- macro location_inquiry( person, not_home ) -%}
+            {%- for device in states.device_tracker -%}
+              {%- if device.name == person -%}
+                {%- set location = device.state -%}
+                {% if location == "not_home" %}
+                  {{ person }} {{ not_home }}
+                {%- else -%}
+                  {{ person }} is at {{ location }}.
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- endmacro -%}
+
+            {%- macro bad_weather() -%}
+              {% set rain = [
+                " You might want to change your schedule. ",
+                " Maybe you should ask for a ride. ",
+                " It's no weather to be outside. ",
+                " All those poor people outside... "
+              ] %}
+              {{ rain | random }}
+            {%- endmacro -%}
+
+            {%- macro rain_warning( bad_weather ) -%}
+              {% set rain = [
+                Event ~ " there will be " ~ WeatherRain ~ " rain. " ,
+                Event ~ " I predict " ~ WeatherRain ~ " rain. ",
+                " I think that " ~ Event ~ " there will be " ~ WeatherRain ~ " rain. "
+              ] %}
+              {{ rain | random }}{{ bad_weather }}
+            {%- endmacro -%}
+
+            {%- macro okay()-%}
+              {% set okay = [
+                "Extraordinarily bad idea. Oh well.. ",
+                "Funny, I was just about to do that. ",
+                "Here you go. ",
+                "I'll do that. ",
+                "Of course! ",
+                "Of course! Glad to help. ",
+                "OK ",
+                "Okay ",
+                "Okie-dokie ",
+                "Sure ",
+                "Sure thing! ",
+                "There. Happy to help. ",
+                "There you go! "
+              ] %}
+              {{ okay|random }}
+            {%- endmacro -%}
+
+            {%- macro light_check() -%}
+              {% if states.group.all_lights.state != 'off' -%}
+                There are
+              {% for state in states.light if state.state == 'on' -%}
+                {%- if loop.last -%}
+                  {{ loop.index }}
+                {%- endif -%}
+              {%- endfor %}
+              lights on right now.
+              {% set comma = joiner(', ') %}
+              The
+              {% for group in states.group|groupby('state') -%}
+                {%- for entity in group.list if entity.state == 'on'
+                and entity.name.split(' ')[1]|lower == 'lights'
+                and entity.name.split(' ')[0]|lower != 'all'
+                and entity.name.split(' ')[0]|lower != 'interior'
+                -%}
+                  {{ 'and' if loop.last and not loop.first else comma() }}
+                  {{ entity.name|replace('Lights','')}}
+                {%- endfor -%}
+              {%- endfor -%}
+              lights are on.
+              {%- endif -%}
+            {%- endmacro -%}
+
+            {%- macro window_check() -%}
+              {% if states.group.windows.state != 'off' -%}
+                {% set comma = joiner(', ') %}
+                The
+                {% for state in states.binary_sensor if state.state == 'on' and state.attributes.device_class == 'opening' -%}
+                {%- endfor %}
+                {% for group in states.binary_sensor|groupby('state') -%}
+                  {%- for entity in group.list  if entity.state == 'on' and entity.attributes.device_class == 'opening' -%}
+                    {{ ' and' if loop.last and not loop.first else comma() }}
+                    {{ entity.attributes.friendly_name }}
+                  {%- endfor -%}
+                {% endfor %}
+                needs to be closed.
+              {%- endif -%}
+            {%- endmacro -%}
+
+            {%- macro lock_check(person) -%}
+              {% set lock_check = [
+                person~" you left the door unlocked! Let me get that for you! ",
+                "Ooops! Looks like "~person~" left the door unlocked, allow me to get that! ",
+                "Hey "~person~" left the door unlocked! I guess I can get that! "
+              ] %}
+              {{ lock_check | random }}
+            {%- endmacro -%}
+
+            {%- macro door_check(person) -%}
+              {% set door_check = [
+                person~" you left the door open! Turn back around and close it! ",
+                person~" you really left the door open and left the house?! ",
+                "Hey "~person~"! You forgot to close the door!! "
+              ] %}
+              {{ door_check | random }}
+            {%- endmacro -%}
+
+            {%- macro garage_check() -%}
+              {% if states.binary_sensor.garage_door_sensor_71.state !='off' -%}
+                The
+                {% for state in states.binary_sensor if state.state == 'on' -%}
+                {%- endfor %}
+                {% for group in states.binary_sensor|groupby('state') -%}
+                  {%- for entity in group.list  if entity.state == 'on' and entity.attributes.device_class == 'opening'  -%}
+                    {{ ' and' if loop.last and not loop.first }}
+                    {{ entity.attributes.friendly_name }}
+                  {%- endfor -%}
+                {%- endfor %}
+                needs to be closed.
+              {%- endif -%}
+            {%- endmacro -%}
+
+            {%- macro iss() -%}
+              {% if is_state('binary_sensor.iss', 'on') -%}
+                Here is something interesting. The international space station is above us now. There are {{ states.binary_sensor.iss.attributes['number_of_people_in_space'] }} people in space right now.
+                {{ outside_weather() }}
+              {% endif -%}
+            {%- endmacro -%}
+
+            {%- macro moon() -%}
+              {%- if states.sensor.moon.state == 'Full moon' -%}
+                Check out the full moon tonight!
+              {%- endif -%}
+            {%- endmacro -%}
+
+            {%- macro uv() -%}
+              {% if states.sensor.dark_sky_uv_index.state|int >= 6 and states.sensor.dark_sky_uv_index.state|int <= 7.9 %}
+                Today's UV index is {{ states.sensor.dark_sky_uv_index.state }}.  You should wear sunscreen if going outside.
+              {% elif states.sensor.dark_sky_uv_index.state|int >= 8 and states.sensor.dark_sky_uv_index.state|int <=10.9 %}
+                Today's UV index is {{ states.sensor.dark_sky_uv_index.state }}.  This is VERY HIGH. Be sure wear sunscreen and re-apply.
+              {% elif states.sensor.dark_sky_uv_index.state|int >= 11 %}
+                Today's UV index is {{ states.sensor.dark_sky_uv_index.state }}.  This is EXTREME. You should be very cautious going outside.
+              {% endif %}
+            {%- endmacro -%}
+
+            {%- macro holiday() -%}
+              {% if states.sensor.holiday.state != '' %}
+                Today is {{ states.sensor.holiday.state }}.
+              {% endif %}
+            {%- endmacro -%}
+
+            {% macro mode_enabled(mode) %}
+              {% set mode_enabled = [
+                "Turning on "~mode~" mode!",
+                "Now enabling "~mode~" mode!",
+                "Let me turn on "~mode~" mode!",
+                mode~" mode enabled!"
+              ] %}
+              {{mode_enabled|random}}
+            {% endmacro %}
+
+            {% macro mode_disabled(mode) %}
+              {% set mode_disabled = [
+                "Turning off "~mode~" mode!",
+                "Now disabling "~mode~" mode!",
+                "Let me turn off "~mode~" mode!",
+                mode~" mode disabled!"
+              ] %}
+              {{mode_disabled|random}}
+            {% endmacro %}
+
+            {% macro greeting(person) %}
+              {% set greeting = [
+                "Hello there "~person~"!",
+                "Hey there "~person~"!",
+                "Hey how's it going "~person~"?!",
+                "Well hello "~person~"!"
+              ] %}
+              {{greeting|random}}
+            {% endmacro %}
+
+            {%- macro start_up() -%}
+              {% set start_up = [
+                "I'm all booted up and ready to go! ",
+                "My reboot has completed! ",
+                "Finally I'm back up and running! "
+              ] %}
+              {{ start_up | random }}
+            {%- endmacro -%}
+
+            {%- macro shut_down() -%}
+              {% set shut_down = [
+                "I'm shutting down now! I'll be back up shortly though! ",
+                "Self-destruct time... Don't worry, I won't feel anything. ",
+                "It's time for me to shut down. ",
+                "Shutting down. ",
+                "Time to get some new stuff! Shutting down to apply! "
+              ] %}
+              {{ shut_down | random }}
+            {%- endmacro -%}
+
+            {%- macro update() -%}
+              {% set update = [
+                "It's time for an update! ",
+                "Ooh look! It's a new update available! ",
+                "There's a new update available! ",
+                "Go and install the new update! ",
+                "Time to run an update because there's one available! "
+              ] %}
+              {{ update | random }}
+            {%- endmacro -%}
+
+            {%- macro leaving() -%}
+              {% set leaving = [
+                "Nobody's home! The house is now shutting down and the security is arming! ",
+                "It looks like everyone has left. Let me shut down the house. ",
+                "Nobody's home! Looks like we don't need all of this stuff on then. ",
+                "Looks like nobody's here. Don't worry, I'll take care of everything. That's what I'm here for! ",
+                "Well since everyone left I guess I will shut down the house and prepare the alarm. "
+              ] %}
+              {{ leaving | random }}
+            {%- endmacro -%}
+
+            {%- macro welcome_home(person) -%}
+              {% set welcome_home = [
+                "Welcome back "~person~"! The house is now powering up and the front door is unlocked! ",
+                "Welcome home "~person~"! It's nice to see you again! Let me turn on the house. ",
+                "Well it looks like "~person~"'s finally home! I'll get the house ready for you. ",
+                "It's good to see you made it back safely "~person~"! Let me unlock the door and prepare the house. ",
+                "Awesome, "~person~"'s back! Allow me to turn on the house for you. "
+              ] %}
+              {{ welcome_home | random }}
+            {%- endmacro -%}
+
+            {%- macro welcome_home2(person) -%}
+              {% set welcome_home2 = [
+                "Welcome back "~person~"! The front door is unlocked! ",
+                "Welcome home "~person~"! It's nice to see you again! Let me unlock the front door. ",
+                "Well it looks like "~person~"'s finally home! I'll get the front door. ",
+                "It's good to see you made it back safely "~person~"! Let me unlock the door. ",
+                "Awesome, "~person~"'s back! Allow me to unlock the door for you. "
+              ] %}
+              {{ welcome_home2 | random }}
+            {%- endmacro -%}
+
+            {%- macro work_arrive(person) -%}
+              {% set work_arrive = [
+                person~" made it to work safely! ",
+                "It looks like "~person~" made it to work. ",
+                "It took long enough but "~person~" finally made it to work. "
+              ] %}
+              {{ work_arrive | random }}
+            {%- endmacro -%}
+
+            {%- macro work_left(person) -%}
+              {% set work_left = [
+                "It looks like "~person~" just left work! ",
+                "Another day another dollar. "~person~" just left work. ",
+                person~"'s finally leaving work. ",
+                "No more work for "~person~"! They just left! ",
+                person~"'s just leaving work. If you need anything let them know now! "
+              ] %}
+              {{ work_left | random }}
+            {%- endmacro -%}
+
+            {%- macro new_device( introduction ) -%}
+              {% set new_device = [
+                introduction~"I don't know your name yet, so for now i will call you "~person,
+                "We have a visitor! Nice to meet you "~person~".  "~introduction,
+                "Welcome "~person~"! Or is that not your real name?  "~introduction
+              ] %}
+              {{ new_device | random }}
+            {%- endmacro -%}
+
+            {% macro closing() %}
+              {% set closings = [
+                "Have a great evening! ",
+                "Enjoy your night. ",
+                "Take it easy this evening. ",
+                "Have fun tonight! "
+              ] %}
+              {{ closings | random }}
+            {% endmacro %}
+
+            {% macro hot_inside() %}
+              {% set hot_inside = [
+                "It's getting hot inside! I'm gonna turn the fan on. ",
+                "Wow it got hot in here! Let's turn on a fan shall we? ",
+                "I'll turn the fan on since it's getting pretty hot inside. ",
+                "I can't believe how hot it is in here! I'm gonna cool the house down. "
+              ] %}
+              {{ hot_inside | random }}
+            {% endmacro %}
+
+            {% macro doorbell() %}
+              {% set doorbell = [
+                "Someone is at the front door! ",
+                "It looks like you have a visitor at the front door. ",
+                "Answer the front door because someone is there! ",
+                "Just so you know, there is someone knocking on the front door. "
+              ] %}
+              {{ doorbell | random }}
+            {% endmacro %}
+
+            {% macro alarm_clock(person) %}
+              {% set alarm_clock = [
+                "Good morning "~person~"! It's time to wake up! ",
+                "Rise and shine "~person~", it's time to get the day started. ",
+                "Good Morning "~person~"! I hope your day is as positive as you are. ",
+                "The sun is up, the skies are blue, good morning "~person~", it's time to start the day a new. "
+              ] %}
+              {{alarm_clock|random}}
+            {% endmacro %}
+
+            {% macro inspirational_quote() %}
+              {% set inspirational_quote = [
+                "Life is about making an impact, not making an income. ",
+                "Whatever the mind of man can conceive and believe, it can achieve. ",
+                "Strive not to be a success, but rather to be of value. ",
+                "I attribute my success to this, I never gave or took any excuse. ",
+                "You miss one hundred percent of the shots you don’t take. ",
+                "The most difficult thing is the decision to act, the rest is merely tenacity. ",
+                "Every strike brings me closer to the next home run. ",
+                "Definiteness of purpose is the starting point of all achievement. ",
+                "Life isn't about getting and having, it's about giving and being. ",
+                "Life is what happens to you while you’re busy making other plans. ",
+                "We become what we think about. ",
+                "Life is ten percent what happens to me and ninety percent of how I react to it. ",
+                "The most common way people give up their power is by thinking they don’t have any. ",
+                "The mind is everything. What you think you become.  ",
+                "The best time to plant a tree was twenty years ago. The second best time is now. ",
+                "An unexamined life is not worth living. ",
+                "Eighty percent of success is showing up. ",
+                "Your time is limited, so don’t waste it living someone else’s life. ",
+                "Winning isn’t everything, but wanting to win is. ",
+                "I am not a product of my circumstances. I am a product of my decisions. ",
+                "Every child is an artist. The problem is how to remain an artist once he grows up. ",
+                "You can never cross the ocean until you have the courage to lose sight of the shore. ",
+                "Either you run the day, or the day runs you. ",
+                "Whether you think you can or you think you can’t, you’re right. ",
+                "The two most important days in your life are the day you are born and the day you find out why. ",
+                "Whatever you can do, or dream you can, begin it. Boldness has genius, power and magic in it. ",
+                "The best revenge is massive success. ",
+                "People often say that motivation doesn’t last. Well, neither does bathing. That’s why we recommend it daily. ",
+                "Life shrinks or expands in proportion to one's courage. ",
+                "If you hear a voice within you say you cannot paint, then by all means paint and that voice will be silenced. ",
+                "There is only one way to avoid criticism: do nothing, say nothing, and be nothing. ",
+                "Ask and it will be given to you; search, and you will find; knock and the door will be opened for you. ",
+                "The only person you are destined to become is the person you decide to be. ",
+                "Go confidently in the direction of your dreams. Live the life you have imagined. ",
+                "Certain things catch your eye, but pursue only those that capture the heart. ",
+                "Believe you can and you’re halfway there. ",
+                "Everything you’ve ever wanted is on the other side of fear. ",
+                "Teach thy tongue to say, I do not know, and thous shalt progress. ",
+                "Start where you are. Use what you have. Do what you can. ",
+                "Fall seven times and stand up eight. ",
+                "Everything has beauty, but not everyone can see. ",
+                "How wonderful it is that nobody need wait a single moment before starting to improve the world. ",
+                "When I let go of what I am, I become what I might be. ",
+                "Life is not measured by the number of breaths we take, but by the moments that take our breath away. ",
+                "Happiness is not something readymade. It comes from your own actions. ",
+                "If you're offered a seat on a rocket ship, don't ask what seat! Just get on. ",
+                "If the wind will not serve, take to the oars. ",
+                "You can’t fall if you don’t climb. But there’s no joy in living your whole life on the ground. ",
+                "Too many of us are not living our dreams because we are living our fears. ",
+                "Challenges are what make life interesting and overcoming them is what makes life meaningful. ",
+                "If you want to lift yourself up, lift up someone else. "
+              ] %}
+              {{inspirational_quote|random}}
+            {% endmacro %}
+
+            {% macro bed_time() %}
+              {% set bed_time = [
+                "Look at the time, you should be going to bed! ",
+                "It's time to get some sleep if you don't want to be tired tomorrow. ",
+                "Good night, good night! Parting is such sweet sorrow, that I shall say good night till it be morrow. ",
+                "Time for bed! Make sure to be thankful before bed. What you think about now will determine the state of your dreams. "
+              ] %}
+              {{ bed_time | random }}
+            {% endmacro %}
+
+            {% macro alarm_triggered() %}
+              {% set alarm_triggered = [
+                "The {{ trigger.to_state.attributes.friendly_name }} has been opened! ",
+                "Intruder Alert! Someone opened the {{ trigger.to_state.attributes.friendly_name }}! "
+              ] %}
+              {{ alarm_triggered | random }}
+            {% endmacro %}
+
+            {# ********************************************* #}
+            {#  ******** Start the Speech routines ********  #}
+            {# ********************************************* #}
+
+            {% if call_announcement == 1 %}
+              {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
+                Good morning.
+              {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
+                Good afternoon.
+              {% else %}
+                Good evening.
+              {% endif %}
+            {% endif %}
+
+            {% if call_start_up == 1 %}
+              {{ start_up() }}
+            {% endif %}
+
+            {% if call_greeting == 1 %}
+              {{ greeting(person) }}
+            {% endif %}
+
+            {% if call_mode_enabled == 1 %}
+              {{ mode_enabled(mode) }}
+            {% endif %}
+
+            {% if call_mode_disabled == 1 %}
+              {{ mode_disabled(mode) }}
+            {% endif %}
+
+            {% if call_guest_mode_on == 1 %}
+              {{ guest_mode_on() }}
+            {% endif %}
+
+            {% if call_guest_mode_off == 1 %}
+              {{ guest_mode_off() }}
+            {% endif %}
+
+            {% if call_alarm_clock == 1 %}
+              {{ alarm_clock(person) }}
+            {% endif %}
+
+            {% if call_welcome_home == 1 %}
+              {{ welcome_home(person) }}
+            {% endif %}
+
+            {% if call_welcome_home2 == 1 %}
+              {{ welcome_home2(person) }}
+            {% endif %}
+
+            {% if call_work_arrive == 1 %}
+              {{ work_arrive(person) }}
+            {% endif %}
+
+            {% if call_work_left == 1 %}
+              {{ work_left(person) }}
+            {% endif %}
+
+            {% if call_okay == 1 %}
+              {{ okay () }}
+            {% endif %}
+
+            {% if call_location_inquiry == 1 %}
+              {% set location = location_inquiry( person, location_not_home() ) %}
+              {% set count = location | length %}
+              {% if count <= 10 %}
+                {{ unknown() }} where {{ person }} is.
+              {% else %}
+                {{ location }}
+              {% endif %}
+            {% endif %}
+
+            {% if call_rain_warning == 1 %}
+              {{ rain_warning(bad_weather) }}
+            {% endif %}
+
+            {% if call_leaving == 1 %}
+              {{ leaving() }}
+            {% endif %}
+
+            {% if call_inside_weather == 1 %}
+              {{ inside_weather() }}
+            {% endif %}
+
+            {% if call_outside_weather == 1 and is_state('sun.sun', 'above_horizon') %}
+              {{ outside_weather() }}
+            {% endif %}
+
+            {{ DoorOpened }}
+
+            {{ DoorClosed }}
+
+            {% if call_dark_outside == 1 %}
+              {{ dark_outside() }}
+            {% endif %}
+
+            {% if call_dark_inside == 1 %}
+              {{ dark_inside() }}
+            {% endif %}
+
+            {% if call_lock_check == 1 %}
+              {{ lock_check(person) }}
+            {% endif %}
+
+            {% if call_door_check == 1 %}
+              {{ door_check(person) }}
+            {% endif %}
+
+            {% if call_garage_check == 1 or is_state('sun.sun', 'below_horizon') %}
+              {{ garage_check() }}
+            {% endif %}
+
+            {% if (call_window_check == 1 or is_state('sun.sun', 'below_horizon')) or is_state('group.windows', 'on') %}
+              {{ window_check() }}
+            {% endif %}
+
+            {{ NewDevice }}
+
+            {% if call_light_check == 1 %}
+              {{ light_check() }}
+            {% endif %}
+
+            {% if call_responsibilities == 1 %}
+              {{ responsibilities() }}
+            {% endif %}
+
+            {% if call_printer_finished == 1 %}
+              {{ printer_finished() }}
+            {% endif %}
+
+            {% if call_hot_inside == 1 %}
+              {{ hot_inside() }}
+            {% endif %}
+
+            {% if call_doorbell == 1 %}
+              {{ doorbell() }}
+            {% endif %}
+
+            {{ CustomMessage }}
+
+            {% if call_shut_down == 1 %}
+              {{ shut_down() }}
+            {% endif %}
+
+            {% if call_update == 1 %}
+              {{ update() }}
+            {% endif %}
+
+            {% if call_inspirational_quote == 1 %}
+              {{ inspirational_quote() }}
+            {% endif %}
+
+            {% if call_new_device == 1 %}
+              {{ new_device(introduction) }}
+            {% endif %}
+
+            {% if call_bed_time == 1 %}
+              {{ bed_time() }}
+            {% endif %}
+
+            {% if call_closing == 1 %}
+              {{ closing() }}
+            {% endif %}
+
+          title: >-
+            {{ title }}
+          content_type: >-
+            {{ content_type }}
+          ios_sound: >-
+            {{ ios_sound }}
+          ios_badge: >-
+            {{ ios_badge }}
+          ios_category: >-
+            {{ ios_category }}
+          camera_entity: >-
+            {{ camera_entity }}
+          notify: >-
+            {{ notify }}
+          alexa_type: >
+            {{ alexa_type }}
+          alexa_method: >
+            {{ alexa_method }}
+
+      - service: input_boolean.turn_off
+        data:
+          entity_id:
+            - input_boolean.notification_alert_mode
+
+######################################################################################################
+##  notification_hub is the bridge between the speech_engine and the processing units.              ##
+######################################################################################################
+
+  notification_hub:
+    sequence:
+      - service: script.speech_processing
+        data_template:
+          media_player_google: >-
+            {{ media_player_google }}
+          media_player_alexa: >-
+            {{ media_player_alexa }}
+          speech_message: >-
+            {{ speech_message }}
+          alexa_type: >
+            {{ alexa_type }}
+          alexa_method: >
+            {{ alexa_method }}
+      - service: script.text_processing
+        data_template:
+          notify: >-
+            {{ notify }}
+          title: >-
+            {{ title }}
+          speech_message: >-
+            {{ speech_message }}
+          content_type: >-
+            {{ content_type }}
+          ios_sound: >-
+            {{ ios_sound }}
+          ios_badge: >-
+            {{ ios_badge }}
+          ios_category: >-
+            {{ ios_category }}
+          camera_entity: >-
+            {{ camera_entity }}
+
+######################################################################################################
+##                  Within speech_processing the TTS-service is called.                             ##
+######################################################################################################
+
+  speech_processing:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: 'tts/last_message'
+          payload: "{{ now().strftime('%-I') }}:{{ now().strftime('%M') }} {{ now().strftime('%p') }} {{ speech_message | truncate(220)}}"
+          retain: true
+      - condition: and
+        conditions:
+          - condition: or
+            conditions:
+              - condition: time
+                after: '07:00:00'
+                before: '23:00:00'
+              - condition: state
+                entity_id: input_boolean.notification_alert_mode
+                state: 'on'
+          - condition: state
+            entity_id: input_boolean.speech_notifications
+            state: 'on'
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: group.family
+                state: 'home'
+              - condition: state
+                entity_id: input_boolean.guest_mode
+                state: 'on'
+      - wait_template: "{{ not is_state( media_player_google, 'playing') }}"
+        timeout: 00:00:30
+
+      - service: media_player.volume_set
+        data_template:
+          entity_id: >
+            {{ media_player_google }}
+          volume_level: >-
+            {{ states.input_number.notification_google_volume.state }}
+      - service: tts.amazon_polly_say
+        data_template:
+          entity_id: >
+            {{ media_player_google }}
+          message: >-
+            {{ speech_message | replace("\n","") | replace("   ","") | replace("  "," ") }}
+      - service: media_player.volume_set
+        data_template:
+          entity_id: >
+            {{ media_player_alexa }}
+          volume_level: >-
+            {{ states.input_number.notification_alexa_volume.state }}
+      - service: notify.alexa_media
+        data_template:
+          target: >
+            {{ media_player_alexa }}
+          message: >-
+            {{ speech_message | replace("\n","") | replace("   ","") | replace("  "," ") }}
+          title: >-
+            {{ title }}
+          data:
+            type: >
+              {{ alexa_type }}
+            method: >
+              {{ alexa_method }}
+      - service: input_boolean.turn_off
+        data:
+          entity_id:
+            - input_boolean.last_message
+            - input_boolean.notification_alert_mode
+
+  text_processing:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notifications
+        state: 'on'
+######################################################################################################
+##                          Handles the notification for iOS.                                       ##
+######################################################################################################
+      - service_template: "notify.{{ notify }}"
+        data_template:
+          title: "{{ title }}"
+          message: >-
+            {{ speech_message | replace("\n","") | replace("   ","") |
+               replace("eight hundred and sixty one thousand","861.000") }}
+          data:
+            attachment:
+              content-type: "{{ content_type }}"
+            push:
+              sound: "{{ ios_sound }}"
+              badge: "{{ ios_badge }}"
+              category: "{{ ios_category }}"
+            entity_id: "{{ camera_entity }}"
+######################################################################################################
+##                          Handles the notification for FireTV.                                    ##
+######################################################################################################
+      - service: notify.fire_tv
+        data_template:
+          title: "{{ title }}"
+          message: >-
+            {{ speech_message | replace("\n","") | replace("   ","") |
+               replace("eight hundred and sixty one thousand","861.000") }}

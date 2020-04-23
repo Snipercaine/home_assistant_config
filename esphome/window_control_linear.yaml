@@ -1,0 +1,91 @@
+esphome:
+  name: window_control_linear
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: DrZzs-NoT-low
+  password: !secret NoT
+  ap:
+    ssid: window_control_linear
+    password: "12345678"
+  manual_ip:
+    static_ip: 192.168.1.89
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0    
+captive_portal: 
+
+web_server:
+  port: 80
+  
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+output:
+  - platform: gpio
+    id: 'win_1'
+    pin: D1
+  - platform: gpio
+    id: 'win_2'
+    pin: D2
+
+switch:
+  - platform: output
+    name: "win1"
+    output: 'win_1'
+    id: win1
+  - platform: output
+    name: "win2"
+    output: 'win_2'
+    id: win2
+
+cover:
+  - platform: template
+    name: "Window Control"
+    id: win_open
+    optimistic: true
+    open_action:
+      - switch.turn_off: win2
+      - switch.turn_on: win1
+      - delay: 360s
+      - switch.turn_off: win1
+    close_action:
+      - switch.turn_off: win1
+      - switch.turn_on: win2
+      - delay: 360s
+      - switch.turn_off: win2
+    stop_action:
+      - switch.turn_off: win1
+      - switch.turn_off: win2
+     
+binary_sensor:
+  - platform: gpio
+    pin: D3
+    name: "Window Control Button"
+    filters:
+      invert:
+    on_press: 
+      then:
+        - lambda: |
+            if (id(win_open).state == cover::COVER_OPEN) {
+              if (id(win1).state){
+                // window is opening
+                id(win_open).stop();
+              } else {
+                // window is open and not moving
+                id(win_open).close();
+              }
+            } else {
+              if (id(win2).state){
+                // window is closing
+                id(win_open).stop();
+              } else {
+                // win is closed and not moving
+                id(win_open).open();
+              }
+            }

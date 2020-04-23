@@ -1,0 +1,44 @@
+konnected:
+  access_token: !secret konnected_token
+  api_host: http://192.168.1.71:8123
+  devices:
+    - id: dc4f220fb4c4
+      binary_sensors:
+        - zone: 1
+          type: door
+          name: Front Door
+        - zone: 2
+          type: door
+          name: Garage Entry
+        - zone: 3
+          type: door
+          name: Kitchen Door
+        - zone: 4
+          type: window
+          name: Kitchen Windows
+        - zone: 5
+          type: window
+          name: Front Windows
+        - zone: 6
+          type: window
+          name: Master Bath
+    - id: dc4f220fb350
+      binary_sensors:
+        - zone: 1
+          type: window
+          name: Master Bedroom
+        - zone: 2
+          type: window
+          name: Theater Windows
+        - zone: 3
+          type: door
+          name: Basement Doors
+        - zone: 4
+          type: window
+          name: Hafens Room
+        - zone: 5
+          type: window
+          name: Grandmas Room
+        - zone: 6
+          type: window
+          name: Gym Window

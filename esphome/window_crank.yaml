@@ -1,0 +1,102 @@
+esphome:
+  name: toyroom_window
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi
+  password: !secret wifi_pw
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+web_server:
+  port: 80
+  
+dallas:
+  - pin: D5
+
+sensor: 
+  - platform: dallas
+    address: 0x910218311D68FF28
+    name: Toyroom Temp
+    filters:
+      - lambda: return x * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+    
+output:
+  - platform: gpio
+    id: 'win_cr1'
+    pin: D1
+  - platform: gpio
+    id: 'win_cr2'
+    pin: D2
+
+switch:
+  - platform: output
+    name: "wincr1"
+    output: 'win_cr1'
+    id: wincr1
+  - platform: output
+    name: "wincr2"
+    output: 'win_cr2'
+    id: wincr2
+    
+cover:
+  - platform: template
+    name: "Toyroom Window"
+    id: tr_win_open
+    optimistic: true
+    open_action:
+      - switch.turn_off: wincr2
+      - switch.turn_on: wincr1
+      - delay: 30s
+      - switch.turn_off: wincr1
+    close_action:
+      - switch.turn_off: wincr1
+      - switch.turn_on: wincr2
+    stop_action:
+      - switch.turn_off: wincr1
+      - switch.turn_off: wincr2
+
+binary_sensor:
+  - platform: gpio
+    pin: D4
+    name: "Toyroom Window State"
+    id: tr_win_state
+    # filters:
+    #   invert:    
+    on_release:
+      then:
+        - switch.turn_off: wincr1
+        - switch.turn_off: wincr2
+        
+  - platform: gpio
+    pin: D3
+    name: "Toyroom Window Button"
+    filters:
+      invert:
+    on_press: 
+      then:
+        - lambda: |
+            if (id(tr_win_open).position == cover::COVER_OPEN) {
+              if (id(wincr1).state){
+                // window is opening
+                id(tr_win_open).stop();
+              } else {
+                // window is open and not moving
+                id(tr_win_open).close();
+              }
+            } else {
+              if (id(wincr2).state){
+                // window is closing
+                id(tr_win_open).stop();
+              } else {
+                // win is closed and not moving
+                id(tr_win_open).open();
+              }
+            }

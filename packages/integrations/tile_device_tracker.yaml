@@ -1,0 +1,4 @@
+device_tracker:
+  - platform: tile
+    username: !secret life360_user
+    password: !secret tile_pw

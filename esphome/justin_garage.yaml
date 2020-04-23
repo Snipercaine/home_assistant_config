@@ -1,0 +1,135 @@
+esphome:
+  name: justin_garage
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi
+  password: !secret wifi_pw
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO14 #D5
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Justin Garage Door"
+    device_class: garage_door
+    
+  - platform: gpio
+    pin: GPIO02 #D4
+    name: "Justin Garage Motion"
+    device_class: motion
+   
+  - platform: template
+    name: "Justin Car"
+    device_class: presence
+    lambda: |-
+      if (id(ultrasonic_sensor2).state < 2) {
+        return true;
+      } else {
+        return false;
+      }   
+      
+switch:
+  - platform: gpio
+    pin: GPIO05 #D1
+    id: relay
+    
+  - platform: template
+    icon: "mdi:arrow-up-down-bold-outline"
+    name: "Justin Garage Control"
+    turn_on_action:
+    - switch.turn_on: relay
+    - delay: 500ms
+    - switch.turn_off: relay
+
+dallas:
+  - pin: GPIO16
+    id: g_temp
+
+sensor:
+  - platform: ultrasonic
+    id: ultrasonic_sensor2
+    trigger_pin: GPIO12 #D6
+    echo_pin: GPIO04 #D2
+    name: "Justin US Car"
+    update_interval: 1s
+    filters:
+      - filter_out: nan
+      - calibrate_linear:
+          - 0.27 -> 0.00 #change 1.50 to the distane in meters when your car is in the exact parked spot 
+          - 1.67 -> 1.00 #change 3.00 to the distance in meters when there is no car in the spot
+    timeout: 9m
+    on_value:
+      - if:
+          condition:
+            sensor.in_range:
+              id: ultrasonic_sensor2
+              below: 1.67
+          then:
+            - light.turn_on:
+                id: justin_park_light
+                blue: 0.0
+                red: !lambda "return 100-x*100;"
+                green: !lambda "return x*100;"
+      - if:
+          condition:
+            sensor.in_range:
+              id: ultrasonic_sensor2
+              below: 0.27
+          then:
+            - light.turn_on:
+                id: justin_park_light
+                effect: strobe
+            - delay: 10s
+            - light.turn_off:
+                id: justin_park_light
+      - if:
+          condition:
+            sensor.in_range:
+              id: ultrasonic_sensor2
+              above: 2.00
+          then:
+            - light.turn_off:
+                id: justin_park_light
+    
+  - platform: wifi_signal
+    name: "Justin Garage WiFi Strength"
+    update_interval: 300s
+
+  - platform: uptime
+    name: Justin Garage Uptime
+
+  - platform: dallas
+    address: 0xBE021831187DFF28
+    name: "Garage Temp"
+    filters:
+      - lambda: return x * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+
+light:
+  - platform: neopixelbus
+    type: GRB
+    pin: GPIO03 #Rx
+    num_leds: 1
+    name: "Justin Parking Light"
+    id: justin_park_light
+    effects:
+      - strobe:
+          colors:
+            - state: True
+              red: 100%
+              green: 0%
+              blue: 0%
+              duration: 500ms
+            - state: False
+              duration: 500ms

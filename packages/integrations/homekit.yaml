@@ -1,0 +1,26 @@
+homekit:
+  auto_start: false
+  filter:
+    exclude_domains:
+      - automation
+      - input_boolean
+      - script
+    exclude_entities:
+      - sensor.octoprint_actual_bed_temp
+      - sensor.octoprint_actual_tool0_temp
+      - sensor.octoprint_job_percentage
+      - sensor.octoprint_target_bed_temp
+      - sensor.octoprint_target_tool0_temp
+    include_entities:
+      - binary_sensor.octoprint_printing
+  entity_config:
+    media_player.volumio_volumiohomelocal:
+      feature_list:
+        - feature: on_off
+        - feature: play_pause
+        - feature: play_stop
+        - feature: toggle_mute
+    switch.taz_5:
+      type: outlet 
+    switch.garage_lights:
+      name: Garage LEDs

@@ -1,0 +1,43 @@
+esphome:
+  name: steppers
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: "ADEN"
+  password: !secret wifi_pw
+  manual_ip:
+    static_ip: 192.168.1.232
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: "Steppers Fallback Hotspot"
+    password: "dgUMXW0r9pA3"
+
+captive_portal:
+
+logger:
+
+ota:
+
+web_server:
+  port: 80
+
+api:
+  services:
+    - service: control_stepper
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: my_stepper
+            target: !lambda 'return target;'
+
+stepper:
+  - platform: a4988
+    id: my_stepper
+    step_pin: GPIO22
+    dir_pin: GPIO23
+    sleep_pin: GPIO21
+    max_speed: 500 steps/s
+    

@@ -1,0 +1,9 @@
+panel_iframe:
+  tasmoadmin:
+    title: 'TasmoAdmin'
+    icon: 'mdi:robot'
+    url: 'http://192.168.1.71:9541/'
+  nodered_ui:
+    title: "Node-RED Dashboard"
+    icon: mdi:nodejs
+    url: http://192.168.1.71:1880/endpoint/ui/

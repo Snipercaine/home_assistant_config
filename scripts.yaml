@@ -1,0 +1,6 @@
+browser_tablet:
+  sequence:
+    - event: browser_command
+      event_data:
+        command: navigate
+        navigation_path: /lovelace/11

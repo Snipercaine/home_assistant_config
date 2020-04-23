@@ -1,0 +1,11 @@
+cover:
+  - platform: mqtt
+    name: "test"
+    state_topic: "cmnd/2/POWER2"
+    command_topic: "cmnd/sonoffSV04/POWER"
+    payload_open: "ON"
+    payload_close: "ON"
+    payload_stop: "ON"
+    state_open: "ON"
+    state_closed: "OFF"
+    retain: false

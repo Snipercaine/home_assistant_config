@@ -1,0 +1,43 @@
+##############################################################################
+# Automations and required components to configure colors on the HASP panel
+#
+# Check out this site for easy color code selection and conversion:
+# https://nodtem66.github.io/nextion-hmi-color-convert/index.html
+
+input_number:
+  hasp_tower_selectedforegroundcolor:
+    name: tower Selected Foreground Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_tower_selectedbackgroundcolor:
+    name: tower Selected Background Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_tower_unselectedforegroundcolor:
+    name: tower Unselected Foreground Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_tower_unselectedbackgroundcolor:
+    name: tower Unselected Background Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+group:
+  tower_colors:
+    name: tower Colors
+    entities:
+      - input_number.hasp_tower_selectedforegroundcolor
+      - input_number.hasp_tower_selectedbackgroundcolor
+      - input_number.hasp_tower_unselectedforegroundcolor
+      - input_number.hasp_tower_unselectedbackgroundcolor

@@ -1,0 +1,125 @@
+esphome:
+  name: shade
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: DrZzs-NoT-main
+  password: !secret NoT
+  manual_ip:
+    static_ip: 192.168.1.83
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: kitchen_shade
+    password: "12345678"
+web_server:
+  port: 80
+captive_portal:
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+output:
+  - platform: gpio
+    id: 'shade1'
+    pin: D1
+  - platform: gpio
+    id: 'shade2'
+    pin: D2
+
+switch:
+  - platform: output
+    name: "shade1"
+    output: 'shade1'
+    id: shade_s1
+  - platform: output
+    name: "shade2"
+    output: 'shade2'
+    id: shade_s2
+
+binary_sensor:
+  - platform: gpio
+    pin: D3
+    name: "Button"
+    filters:
+      invert:
+    on_press:
+      then:
+        - lambda: |
+            if (id(kitchen_window).state == cover::COVER_OPEN) {
+              if (id(shade_s1).state){
+                // shade is opening
+                id(kitchen_window).stop();
+              } else {
+                // shade is open and not moving
+                id(kitchen_window).close();
+              }
+            } else {
+              if (id(shade_s2).state){
+                // shade is closing
+                id(kitchen_window).stop();
+              } else {
+                // shade is closed and not moving
+                id(kitchen_window).open();
+              }
+            }
+  - platform: gpio
+    pin:
+      number: D7
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Kitchen Shade Open"
+    id: ks_closed
+    on_press:
+      then:
+        - switch.turn_off: shade_s1
+        - switch.turn_off: shade_s2
+  - platform: gpio
+    pin: 
+      number: D5
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Kitchen Shade Closed"
+    id: ks_open
+    on_press:
+      then:
+        - switch.turn_off: shade_s1
+        - switch.turn_off: shade_s2
+
+cover:
+  - platform: template
+    name: "Kitchen Window Full"
+    id: kitchen_window
+    optimistic: true
+    open_action:
+      - switch.turn_off: shade_s2
+      - switch.turn_on: shade_s1
+      - delay: 60s
+      - switch.turn_off: shade_s1
+    close_action:
+      - switch.turn_off: shade_s1
+      - switch.turn_on: shade_s2
+      - delay: 60s
+      - switch.turn_off: shade_s2
+    stop_action:
+      - switch.turn_off: shade_s1
+      - switch.turn_off: shade_s2
+      
+  - platform: template
+    name: "Kitchen Window Control"
+    id: kitchen_control
+    assumed_state: true
+    open_action:
+      - switch.turn_off: shade_s2
+      - switch.turn_on: shade_s1
+    close_action:
+      - switch.turn_off: shade_s1
+      - switch.turn_on: shade_s2
+    stop_action:
+      - switch.turn_off: shade_s1
+      - switch.turn_off: shade_s2

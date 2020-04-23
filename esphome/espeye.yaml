@@ -1,0 +1,35 @@
+esphome:
+  name: espeye
+  platform: ESP32
+  board: esp32dev
+  includes:
+    - esp32camera.h
+wifi:
+  ssid: !secret wifi
+  password: !secret wifi_pw
+# Enable logging
+logger:
+# Enable Home Assistant API
+api:
+
+ota:
+
+custom_component:
+- lambda: |-
+    auto my_custom = new MyCustomComponent();
+    return {my_custom};  
+esp32_camera:
+  external_clock:
+    pin: GPIO4
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO18
+    scl: GPIO23
+  data_pins: [GPIO34, GPIO13, GPIO14, GPIO35, GPIO39, GPIO38, GPIO37, GPIO36]
+  vsync_pin: GPIO5
+  href_pin: GPIO27
+  pixel_clock_pin: GPIO25
+  reset_pin: GPIO15
+
+  # Image settings
+  name: ESP Eye

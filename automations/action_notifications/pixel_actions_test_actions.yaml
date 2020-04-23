@@ -1,0 +1,11 @@
+alias: test_actions_stream_off
+id: iurjtknvisfnwrlkuvsklmgv
+trigger: 
+  platform: event
+  event_type: mobile_app_notification_action
+  event_data:
+    action: turn off office_lamp
+action:
+  - service: light.turn_off
+    data:
+      entity_id: light.677883783c71bf30d1f5

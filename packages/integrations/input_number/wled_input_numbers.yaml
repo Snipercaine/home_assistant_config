@@ -1,0 +1,13 @@
+input_number:
+  ledspeed:
+    name: Speed
+    initial: 0
+    min: 0
+    max: 255
+    step: 1
+  ledintensity:
+    name: Intensity
+    initial: 0
+    min: 0
+    max: 255
+    step: 1

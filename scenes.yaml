@@ -1,0 +1,551 @@
+- id: ru3489ihj5rjwekfgsd
+  name: All Lights Off
+  entities:
+    switch.back_porch:
+      alexa_description: the lights behind the house silly
+      alexa_name: Patio
+      friendly_name: Back Porch
+      icon: mdi:candle
+      state: 'off'
+    switch.basement_playroom:
+      friendly_name: Basement Playroom
+      state: 'off'
+    switch.boys_bathroom:
+      friendly_name: Boys Bathroom
+      icon: mdi:water-pump
+      state: 'off'
+    switch.boys_lights:
+      friendly_name: Boys Lights
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.boys_shower:
+      friendly_name: Boys Shower
+      icon: mdi:nuke
+      state: 'off'
+    switch.boys_sun:
+      friendly_name: Boys Sun
+      icon: mdi:weather-sunny
+      state: 'off'
+    switch.front_porch:
+      friendly_name: Front Porch
+      icon: mdi:candle
+      state: 'off'
+    switch.garage_lights:
+      friendly_name: Garage_Lights
+      icon: mdi:car
+      state: 'off'
+    switch.girls_lights:
+      friendly_name: Girls Lights
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.girls_sun:
+      friendly_name: Girls Sun
+      icon: mdi:weather-sunny
+      state: 'off'
+    switch.main_bathroom_fan:
+      friendly_name: Main Bathroom Fan
+      icon: ''
+      state: 'off'
+    switch.main_bathroom_light:
+      friendly_name: Main Bathroom Light
+      icon: ''
+      state: 'off'
+    switch.master_crown:
+      friendly_name: Master Crown
+      icon: mdi:crown
+      state: 'off'
+    switch.office_closet:
+      friendly_name: Office Closet
+      icon: mdi:nas
+      state: 'off'
+    switch.office_crown:
+      friendly_name: Office Crown
+      icon: mdi:crown
+      state: 'off'
+    switch.office_light:
+      friendly_name: Office Light
+      icon: mdi:white-balance-incandescent
+      state: 'off'
+    switch.side_porch:
+      friendly_name: Side Porch
+      icon: mdi:candle
+      state: 'off'
+    switch.theater:
+      friendly_name: Theater
+      icon: mdi:theater
+      state: 'off'
+    switch.toy_room:
+      friendly_name: Toy Room
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.upstairs_hall:
+      friendly_name: Upstairs Hall
+      icon: mdi:ceiling-light
+      state: 'off'
+- name: Dinning Shade Open
+  id: 945809h5n9483u5rh43jnff
+  entities:
+    switch.in1: true
+    switch.in2: false
+- name: Dinning Shade Close
+  id: 9ioenfdsjkvhwerjk4rjh3or32d
+  entities:
+    switch.in1: false
+    switch.in2: true
+- name: Office Bedtime
+  id: mnwiefnwenfawewdasfvvs
+  entities:
+    switch.office_fan: false
+    switch.office_light: false
+    switch.office_crown: false
+    light.office_west: false
+    light.office_east: false
+- name: Office Occupied
+  id: 32432423irnekfnwerwedf
+  entities:
+    switch.office_fan: true
+    switch.office_light: true
+    switch.office_crown: true
+- name: Game Time
+  id: vertjhn34jrn234jk32jk4k23lj4kl23n4kl23n
+  entities:
+    switch.office_crown: false
+    switch.office_light: false
+    switch.office_fan: true
+- id: '1576435972930'
+  name: Romantic
+  entities:
+    light.windows_2:
+      brightness: 85
+      effect: Lake
+      effect_list:
+      - Android
+      - BPM
+      - Blink
+      - Blink Rainbow
+      - Breathe
+      - Chase
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dark Sparkle
+      - Dissolve
+      - Dissolve Rnd
+      - Dual Scan
+      - Dual Scanner
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - ICU
+      - In In
+      - In Out
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Mega Strobe
+      - Merry Christmas
+      - Meteor
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Out In
+      - Out Out
+      - Palette
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scanner
+      - Smooth Meteor
+      - Solid
+      - Sparkle
+      - Sparkle+
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Wipe
+      - Wipe Random
+      friendly_name: Windows
+      hs_color:
+      - 120
+      - 100
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      rgb_color:
+      - 0
+      - 255
+      - 0
+      speed: 75
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.172
+      - 0.747
+    media_player.googlehome7032:
+      app_id: 211CD751
+      app_name: Pandora
+      entity_picture: http://mediaserver-cont-usc-mp1-2-v4v6.pandora.com/images/public/int/5/5/7/6/886446656755_500W_500H.jpg
+      friendly_name: Master bedroom Speaker
+      is_volume_muted: false
+      media_album_artist: Pentatonix (Holiday)
+      media_album_name: A Pentatonix Christmas Deluxe
+      media_artist: Pentatonix (Holiday)
+      media_content_id: http://audio-dc6-t1-2-v4v6.pandora.com/access/8516724261611269120.mp4?version=5&lid=56737856&token=zB%2B0oDVyqwOCIlnBNuTgOVwGbscV%2FI%2BPc6%2F3OFD7HKqGhyHCG5ED%2Br6Qyj1T61zHyyFJWi91tr5WGxF4GsE1N7JRVmmt3fgd7b2LrSRSI8crY6DnHjtfxUNGgZYD1hFsnCPQ6KBkj7CLFrhpLq%2Bl4ptoApsLd40dJV%2FRYdz4WknWtZbRVCHIR6Xl0FKxu40mtOKCFxYGPY5ht5fXH3%2FjUb7U87KBtOoVC%2FU6DVapNOpeEynL2YLDOr2bgpVIW%2FaHqHY9HoY1TfA30DqN%2Fh9chkaFmnJBxk%2FiKxATrJpETgDxQFYlEWUd5o8zEtOVOznZyT5ltriTAaEsAowac0u7EigMkCV4J6kN
+      media_content_type: music
+      media_duration: 215
+      media_position: 119
+      media_position_updated_at: '2019-12-15T18:52:06.366388+00:00'
+      media_title: O Come, All Ye Faithful
+      state: playing
+      supported_features: 21437
+      volume_level: 0.4300000071525574
+    switch.master_crown:
+      friendly_name: Master Crown
+      icon: mdi:crown
+      state: 'off'
+    switch.master_fan:
+      friendly_name: Master Fan
+      icon: mdi:fan
+      state: 'on'
+    switch.master_fire:
+      friendly_name: Master Fire
+      state: 'on'
+    switch.master_lights:
+      friendly_name: Master Lights
+      icon: mdi:white-balance-sunny
+      state: 'off'
+- id: '1576436600398'
+  name: Bedtime
+  entities:
+    light.grace:
+      assumed_state: true
+      brightness: 18
+      effect: '[FX=61] Stream 2'
+      effect_list:
+      - '[FX=00] Solid'
+      - '[FX=01] Blink'
+      - '[FX=02] Breathe'
+      - '[FX=03] Wipe'
+      - '[FX=04] Wipe Random'
+      - '[FX=05] Random Colors'
+      - '[FX=06] Sweep'
+      - '[FX=07] Dynamic'
+      - '[FX=08] Colorloop'
+      - '[FX=09] Rainbow'
+      - '[FX=10] Scan'
+      - '[FX=11] Dual Scan'
+      - '[FX=12] Fade'
+      - '[FX=13] Chase'
+      - '[FX=14] Chase Rainbow'
+      - '[FX=15] Running'
+      - '[FX=16] Saw'
+      - '[FX=17] Twinkle'
+      - '[FX=18] Dissolve'
+      - '[FX=19] Dissolve Rnd'
+      - '[FX=20] Sparkle'
+      - '[FX=21] Dark Sparkle'
+      - '[FX=22] Sparkle+'
+      - '[FX=23] Strobe'
+      - '[FX=24] Strobe Rainbow'
+      - '[FX=25] Mega Strobe'
+      - '[FX=26] Blink Rainbow'
+      - '[FX=27] Android'
+      - '[FX=28] Chase'
+      - '[FX=29] Chase Random'
+      - '[FX=30] Chase Rainbow'
+      - '[FX=31] Chase Flash'
+      - '[FX=32] Chase Flash Rnd'
+      - '[FX=33] Rainbow Runner'
+      - '[FX=34] Colorful'
+      - '[FX=35] Traffic Light'
+      - '[FX=36] Sweep Random'
+      - '[FX=37] Running 2'
+      - '[FX=38] Red & Blue'
+      - '[FX=39] Stream'
+      - '[FX=40] Scanner'
+      - '[FX=41] Lighthouse'
+      - '[FX=42] Fireworks'
+      - '[FX=43] Rain'
+      - '[FX=44] Merry Christmas'
+      - '[FX=45] Fire Flicker'
+      - '[FX=46] Gradient'
+      - '[FX=47] Loading'
+      - '[FX=48] In Out'
+      - '[FX=49] In In'
+      - '[FX=50] Out Out'
+      - '[FX=51] Out In'
+      - '[FX=52] Circus'
+      - '[FX=53] Halloween'
+      - '[FX=54] Tri Chase'
+      - '[FX=55] Tri Wipe'
+      - '[FX=56] Tri Fade'
+      - '[FX=57] Lightning'
+      - '[FX=58] ICU'
+      - '[FX=59] Multi Comet'
+      - '[FX=60] Dual Scanner'
+      - '[FX=61] Stream 2'
+      - '[FX=62] Oscillate'
+      - '[FX=63] Pride 2015'
+      - '[FX=64] Juggle'
+      - '[FX=65] Palette'
+      - '[FX=66] Fire 2012'
+      - '[FX=67] Colorwaves'
+      - '[FX=68] BPM'
+      - '[FX=69] Fill Noise'
+      - '[FX=70] Noise 1'
+      - '[FX=71] Noise 2'
+      - '[FX=72] Noise 3'
+      - '[FX=73] Noise 4'
+      - '[FX=74] Colortwinkles'
+      - '[FX=75] Lake'
+      - '[FX=76] Meteor'
+      - '[FX=77] Smooth Meteor'
+      - '[FX=78] Railway'
+      - '[FX=79] Ripple'
+      - '[FX=80] Twinklefox'
+      - '[FX=81] Twinklecat'
+      - '[FX=82] Halloween Eyes'
+      friendly_name: Grace
+      hs_color:
+      - 37.412
+      - 100
+      rgb_color:
+      - 255
+      - 159
+      - 0
+      state: 'on'
+      supported_features: 21
+      xy_color:
+      - 0.57
+      - 0.41
+    light.holly_2:
+      assumed_state: true
+      brightness: 20
+      effect: '[FX=09] Rainbow'
+      effect_list:
+      - '[FX=00] Solid'
+      - '[FX=01] Blink'
+      - '[FX=02] Breathe'
+      - '[FX=03] Wipe'
+      - '[FX=04] Wipe Random'
+      - '[FX=05] Random Colors'
+      - '[FX=06] Sweep'
+      - '[FX=07] Dynamic'
+      - '[FX=08] Colorloop'
+      - '[FX=09] Rainbow'
+      - '[FX=10] Scan'
+      - '[FX=11] Dual Scan'
+      - '[FX=12] Fade'
+      - '[FX=13] Chase'
+      - '[FX=14] Chase Rainbow'
+      - '[FX=15] Running'
+      - '[FX=16] Saw'
+      - '[FX=17] Twinkle'
+      - '[FX=18] Dissolve'
+      - '[FX=19] Dissolve Rnd'
+      - '[FX=20] Sparkle'
+      - '[FX=21] Dark Sparkle'
+      - '[FX=22] Sparkle+'
+      - '[FX=23] Strobe'
+      - '[FX=24] Strobe Rainbow'
+      - '[FX=25] Mega Strobe'
+      - '[FX=26] Blink Rainbow'
+      - '[FX=27] Android'
+      - '[FX=28] Chase'
+      - '[FX=29] Chase Random'
+      - '[FX=30] Chase Rainbow'
+      - '[FX=31] Chase Flash'
+      - '[FX=32] Chase Flash Rnd'
+      - '[FX=33] Rainbow Runner'
+      - '[FX=34] Colorful'
+      - '[FX=35] Traffic Light'
+      - '[FX=36] Sweep Random'
+      - '[FX=37] Running 2'
+      - '[FX=38] Red & Blue'
+      - '[FX=39] Stream'
+      - '[FX=40] Scanner'
+      - '[FX=41] Lighthouse'
+      - '[FX=42] Fireworks'
+      - '[FX=43] Rain'
+      - '[FX=44] Merry Christmas'
+      - '[FX=45] Fire Flicker'
+      - '[FX=46] Gradient'
+      - '[FX=47] Loading'
+      - '[FX=48] In Out'
+      - '[FX=49] In In'
+      - '[FX=50] Out Out'
+      - '[FX=51] Out In'
+      - '[FX=52] Circus'
+      - '[FX=53] Halloween'
+      - '[FX=54] Tri Chase'
+      - '[FX=55] Tri Wipe'
+      - '[FX=56] Tri Fade'
+      - '[FX=57] Lightning'
+      - '[FX=58] ICU'
+      - '[FX=59] Multi Comet'
+      - '[FX=60] Dual Scanner'
+      - '[FX=61] Stream 2'
+      - '[FX=62] Oscillate'
+      - '[FX=63] Pride 2015'
+      - '[FX=64] Juggle'
+      - '[FX=65] Palette'
+      - '[FX=66] Fire 2012'
+      - '[FX=67] Colorwaves'
+      - '[FX=68] BPM'
+      - '[FX=69] Fill Noise'
+      - '[FX=70] Noise 1'
+      - '[FX=71] Noise 2'
+      - '[FX=72] Noise 3'
+      - '[FX=73] Noise 4'
+      - '[FX=74] Colortwinkles'
+      - '[FX=75] Lake'
+      - '[FX=76] Meteor'
+      - '[FX=77] Smooth Meteor'
+      - '[FX=78] Railway'
+      - '[FX=79] Ripple'
+      - '[FX=80] Twinklefox'
+      - '[FX=81] Twinklecat'
+      - '[FX=82] Halloween Eyes'
+      friendly_name: Holly
+      hs_color:
+      - 37.412
+      - 100
+      rgb_color:
+      - 255
+      - 159
+      - 0
+      state: 'on'
+      supported_features: 21
+      xy_color:
+      - 0.57
+      - 0.41
+    switch.basement_playroom:
+      friendly_name: Basement Playroom
+      state: 'off'
+    switch.boys_bathroom:
+      friendly_name: Boys Bathroom
+      icon: mdi:water-pump
+      state: 'off'
+    switch.boys_fan:
+      friendly_name: Boys Fan
+      icon: mdi:fan
+      state: 'on'
+    switch.boys_lights:
+      friendly_name: Boys Lights
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.boys_shower:
+      friendly_name: Boys Shower
+      icon: mdi:nuke
+      state: 'off'
+    switch.boys_sun:
+      friendly_name: Boys Sun
+      icon: mdi:weather-sunny
+      state: 'off'
+    switch.front_porch:
+      friendly_name: Front Porch
+      icon: mdi:candle
+      state: 'on'
+    switch.girls_fan:
+      friendly_name: Girls Fan
+      icon: mdi:fan
+      state: 'on'
+    switch.girls_lights:
+      friendly_name: Girls Lights
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.girls_sun:
+      friendly_name: Girls Sun
+      icon: mdi:weather-sunny
+      state: 'off'
+    switch.main_bathroom_fan:
+      friendly_name: Main Bathroom Fan
+      icon: ''
+      state: 'off'
+    switch.main_bathroom_light:
+      friendly_name: Main Bathroom Light
+      icon: ''
+      state: 'off'
+    switch.master_crown:
+      friendly_name: Master Crown
+      icon: mdi:crown
+      state: 'off'
+    switch.master_fan:
+      friendly_name: Master Fan
+      icon: mdi:fan
+      state: 'off'
+    switch.master_fire:
+      friendly_name: Master Fire
+      state: 'off'
+    switch.master_lights:
+      friendly_name: Master Lights
+      icon: mdi:white-balance-sunny
+      state: 'off'
+    switch.theater:
+      friendly_name: Theater
+      icon: mdi:theater
+      state: 'off'
+    switch.toy_room:
+      friendly_name: Toy Room
+      icon: mdi:lightbulb
+      state: 'off'
+    switch.upstairs_hall:
+      friendly_name: Upstairs Hall
+      icon: mdi:ceiling-light
+      state: 'off'
+- id: '1576436767438'
+  name: inception
+  entities:
+    scene.romantic:
+      entity_id:
+      - light.windows_2
+      - media_player.googlehome7032
+      - switch.master_crown
+      - switch.master_fan
+      - switch.master_fire
+      - switch.master_lights
+      friendly_name: Romantic
+      id: '1576435972930'
+      state: scening

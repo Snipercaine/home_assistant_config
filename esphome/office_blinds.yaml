@@ -1,0 +1,184 @@
+esphome:
+  name: office_blinds
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: DrZzs-NoT-up
+  password: !secret NoT
+  manual_ip:
+    static_ip: 192.168.1.231
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+web_server:
+  port: 80
+  
+debug: 
+# Enable logging
+logger:
+  level: debug
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: control_servo
+      variables:
+        level: float
+      then:
+        - servo.write:
+            id: ob_tilt
+            level: !lambda 'return level / 100.0;'
+ota:
+
+output:
+  - platform: gpio
+    id: 'ob_1'
+    pin: D1
+  - platform: gpio
+    id: 'ob_2'
+    pin: D2
+  - platform: gpio
+    id: 'ob_3'
+    pin: D7
+  - platform: gpio
+    id: 'ob_4'
+    pin: D8
+  - platform: esp8266_pwm
+    id: 'ob_t'
+    pin: D0
+    frequency: 50 Hz
+
+switch:
+  - platform: output
+    name: "ob1"
+    output: 'ob_1'
+    id: ob1
+  - platform: output
+    name: "ob2"
+    output: 'ob_2'
+    id: ob2
+  - platform: output
+    name: "ob3"
+    output: 'ob_3'
+    id: ob3
+  - platform: output
+    name: "ob4"
+    output: 'ob_4'
+    id: ob4
+servo:
+  - output: 'ob_t'
+    id: ob_tilt
+    
+binary_sensor:
+  - platform: gpio
+    pin: D5
+    name: "Office Blinds End Stop"
+    filters:
+      invert:
+    on_press:
+      then:
+        - switch.turn_off: ob1
+        - switch.turn_off: ob2
+    id: ob_end_stop
+  - platform: gpio
+    pin: D3
+    name: "OB Button"
+    filters:
+      invert:
+    on_multi_click:
+    - timing:
+        - ON for 1s to 3s
+        - OFF for at least 1s
+      then:
+        - lambda: |
+            if (id(ob_open).state == cover::COVER_OPEN) {
+              if (id(ob1).state){
+                // shade is opening
+                id(ob_open).stop();
+              } else {
+                // shade is open and not moving
+                id(ob_open).close();
+              }
+            } else {
+              if (id(ob2).state){
+                // shade is closing
+                id(ob_open).stop();
+              } else {
+                // shade is closed and not moving
+                id(ob_open).open();
+              }
+            }
+    - timing:
+        - ON for at most 0.5s
+        - OFF for at most 0.5s
+        - ON for at most 0.5s
+        - OFF for at least 0.5s
+      then:
+        - lambda: |
+            if (id(ob_tilt_control).state == cover::COVER_OPEN) {
+                id(ob_tilt_control).close();
+            } else {
+                id(ob_tilt_control).open();
+              }     
+cover:
+  - platform: template
+    name: "Office Blinds Full"
+    id: ob_open
+    optimistic: true
+    open_action:
+      - switch.turn_off: ob2
+      - switch.turn_on: ob1
+  ## customize this time delay based on how long it takes your blinds to fully lift
+      - delay: 190s
+      - switch.turn_off: ob1
+    close_action:
+      - switch.turn_off: ob1
+      - switch.turn_on: ob2
+ ## customize this time delay based on how long it takes your blinds to fully descend
+      - delay: 175s
+      - switch.turn_off: ob2
+    stop_action:
+      - switch.turn_off: ob1
+      - switch.turn_off: ob2
+  
+  - platform: template
+    name: "Office Blinds Control"
+    id: ob_open_control
+    assumed_state: true
+    open_action:
+      - switch.turn_off: ob2
+      - switch.turn_on: ob1
+    close_action:
+      - switch.turn_off: ob1
+      - switch.turn_on: ob2
+    stop_action:
+      - switch.turn_off: ob1
+      - switch.turn_off: ob2
+
+  - platform: template
+    name: "Office Blinds Tilt"
+    id: ob_tilt_control
+    optimistic: true
+    open_action:
+      - switch.turn_off: ob4
+      - switch.turn_on: ob3
+      - delay: 500ms
+      - servo.write:
+          id: ob_tilt
+          level: -100.0%
+      - delay: 5s
+      - switch.turn_off: ob3
+    close_action:
+      - switch.turn_off: ob4
+      - switch.turn_on: ob3
+      - delay: 500ms
+      - servo.write:
+          id: ob_tilt
+          level: 75.0%
+      - delay: 5s
+      - switch.turn_off: ob3
+    stop_action:
+      - switch.turn_off: ob3
+      - switch.turn_off: ob4
+  

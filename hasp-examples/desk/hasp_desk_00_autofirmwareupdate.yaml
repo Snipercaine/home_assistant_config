@@ -1,0 +1,18 @@
+automation:
+##############################################################################
+# Auto update firmware at 3:00am every day if a new version is available
+  - alias: hasp_desk_00_AutoFirmwareUpdate
+    trigger:
+      - platform: time
+        at: '3:00:00'
+    condition:
+    - condition: template
+      value_template: '{{ states.sensor.desk_status.attributes.updateESPAvailable == true }}'
+    - condition: state
+      entity_id: 'binary_sensor.desk_connected'
+      state: 'on'
+    action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/desk/command/espupdate'
+        payload: ''

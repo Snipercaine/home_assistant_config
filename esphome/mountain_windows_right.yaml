@@ -1,0 +1,219 @@
+esphome:
+  name: mountain_windows_right
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: DrZzs-NoT-main
+  password: !secret NoT
+
+  ap:
+    ssid: mountain_windows_right
+    password: "12345678"
+    
+captive_portal: 
+
+web_server:
+  port: 80
+  
+# Enable logging
+logger:
+  baud_rate: 0
+# Enable Home Assistant API
+api:
+
+ota:
+
+output:
+  - platform: gpio
+    id: 'mwr_1'
+    pin: D1
+  - platform: gpio
+    id: 'mwr_2'
+    pin: D2
+  - platform: gpio
+    id: 'mwr_3'
+    pin: D5
+  - platform: gpio
+    id: 'mwr_4'
+    pin: D6
+
+switch:
+  - platform: output
+    name: "mwr1"
+    output: 'mwr_1'
+    id: mwr1
+  - platform: output
+    name: "mwr2"
+    output: 'mwr_2'
+    id: mwr2
+  - platform: output
+    name: "mwr3"
+    output: 'mwr_3'
+    id: mwr3
+  - platform: output
+    name: "mwr4"
+    output: 'mwr_4'
+    id: mwr4
+
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: RX
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Right Bottom Shade Closed"
+    id: rb_closed
+    on_press:
+      then:
+        - switch.turn_off: mwr3
+        - switch.turn_off: mwr4
+  - platform: gpio
+    pin:
+      number: D7
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Right Bottom Shade Open"
+    id: rb_open
+    on_press:
+      then:
+        - switch.turn_off: mwr3
+        - switch.turn_off: mwr4
+  - platform: gpio
+    pin: 
+      number: D3
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Right Upper Shade Closed"
+    id: ru_closed
+    on_press:
+      then:
+        - switch.turn_off: mwr1
+        - switch.turn_off: mwr2
+  - platform: gpio
+    pin: 
+      number: D4
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Right Upper Shade Open"
+    id: ru_open
+    on_press:
+      then:
+        - switch.turn_off: mwr1
+        - switch.turn_off: mwr2
+  # - platform: gpio
+  #   pin: D3
+  #   name: "MWR Upper Button"
+  #   filters:
+  #     invert:
+  #   on_press:
+  #     then:
+  #       - lambda: |
+  #           if (id(mw_right_upper).position == cover::COVER_OPEN) {
+  #             if (id(mwr1).state){
+  #               // shade is opening
+  #               id(mw_right_upper).stop();
+  #             } else {
+  #               // shade is open and not moving
+  #               id(mw_right_upper).close();
+  #             }
+  #           } else {
+  #             if (id(mwr2).state){
+  #               // shade is closing
+  #               id(mw_right_upper).stop();
+  #             } else {
+  #               // shade is closed and not moving
+  #               id(mw_right_upper).open();
+  #             }
+  #           }
+
+  # - platform: gpio
+  #   pin: D4
+  #   name: "MWR Lower Button"
+  #   filters:
+  #     invert:
+  #   on_press:
+  #     then:
+  #       - lambda: |
+  #           if (id(mw_right_lower).position == cover::COVER_OPEN) {
+  #             if (id(mwr3).state){
+  #               // shade is opening
+  #               id(mw_right_lower).stop();
+  #             } else {
+  #               // shade is open and not moving
+  #               id(mw_right_lower).close();
+  #             }
+  #           } else {
+  #             if (id(mwr4).state){
+  #               // shade is closing
+  #               id(mw_right_lower).stop();
+  #             } else {
+  #               // shade is closed and not moving
+  #               id(mw_right_lower).open();
+  #             }
+  #           }
+
+cover:
+  - platform: template
+    name: "MW Right Upper"
+    id: mw_right_upper
+    optimistic: true
+    open_action:
+      - switch.turn_off: mwr2
+      - switch.turn_on: mwr1
+      - delay: 93s
+      - switch.turn_off: mwr1
+    close_action:
+      - switch.turn_off: mwr1
+      - switch.turn_on: mwr2
+      - delay: 93s
+      - switch.turn_off: mwr2
+    stop_action:
+      - switch.turn_off: mwr1
+      - switch.turn_off: mwr2
+  
+  - platform: template
+    name: "MW Right Lower"
+    id: mw_right_lower
+    optimistic: true
+    open_action:
+      - switch.turn_off: mwr4
+      - switch.turn_on: mwr3
+      - delay: 93s
+      - switch.turn_off: mwr3
+    close_action:
+      - switch.turn_off: mwr3
+      - switch.turn_on: mwr4
+      - delay: 93s
+      - switch.turn_off: mwr4
+    stop_action:
+      - switch.turn_off: mwr3
+      - switch.turn_off: mwr4
+
+  - platform: template
+    name: "MWR Upper Control"
+    id: mwr_upper_control
+    assumed_state: true
+    open_action:
+      - switch.turn_off: mwr2
+      - switch.turn_on: mwr1
+    close_action:
+      - switch.turn_off: mwr1
+      - switch.turn_on: mwr2
+    stop_action:
+      - switch.turn_off: mwr1
+      - switch.turn_off: mwr2
+  
+  - platform: template
+    name: "MWR Lower Control"
+    id: mwr_lower_control
+    assumed_state: true
+    open_action:
+      - switch.turn_off: mwr4
+      - switch.turn_on: mwr3
+    close_action:
+      - switch.turn_off: mwr3
+      - switch.turn_on: mwr4
+    stop_action:
+      - switch.turn_off: mwr3
+      - switch.turn_off: mwr4

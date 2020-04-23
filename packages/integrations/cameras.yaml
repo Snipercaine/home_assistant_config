@@ -1,0 +1,71 @@
+camera:
+  # - platform: generic
+  #   still_image_url: http://192.168.1.100/mjpegstream.cgi
+  #   stream_source: rtsp://192.168.1.100:554/11
+  #   name: Backyard
+  #   username: admin 
+  #   password: !secret bi_password
+  #   authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/toyroom
+    name: Toyroom
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/upstairs
+    name: Upstairs
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/backyard
+    name: Patio
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/driveway
+    name: Cars
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/basement
+    name: Basement
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/frontdoor
+    name: Front Door
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/office
+    name: Office
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/garage
+    name: Garage
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/theater
+    name: Theater
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/kitchen
+    name: Kitchen
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.17:8080/?action=stream/
+    name: OctoPrint

@@ -1,0 +1,2 @@
+juicenet:
+    access_token: !secret juicenet_token

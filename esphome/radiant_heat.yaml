@@ -1,0 +1,56 @@
+esphome:
+  name: radiant_heat
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: DrZzs-NoT-low
+  password: !secret NoT
+  manual_ip:
+    static_ip: 192.168.1.156
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: radiant_heat
+    password: "12345678"
+web_server:
+  port: 80
+captive_portal: 
+
+# Enable logging
+logger:
+  baud_rate: 0
+# Enable Home Assistant API
+api:
+
+ota:
+
+switch:
+- platform: gpio
+  name: "Kitchen Floor Heat"
+  pin: D1
+  id: relay_1
+- platform: gpio
+  name: "Master Bedroom Floor Heat"
+  pin: D6
+  id: relay_2
+- platform: gpio
+  name: "Piano Room Heat"
+  pin: D8
+  id: relay_3
+- platform: gpio
+  name: "Basement Bedrooms Heat"
+  pin: D0
+  id: relay_4
+- platform: gpio
+  name: "Theater Heat"
+  pin: D5
+  id: relay_5
+- platform: gpio
+  name: "Toyroom Heat"
+  pin: D2
+  id: relay_6
+- platform: gpio
+  name: "Office Heat"
+  pin: D7
+  id: relay_7

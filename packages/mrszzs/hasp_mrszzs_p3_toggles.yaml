@@ -1,0 +1,246 @@
+##############################################################################
+# Automations for handling toggle state buttons on page 3
+automation:
+  # Set font and text for toggle buttons on device connection
+  - alias: hasp_mrszzs_p3_ToggleInit
+    trigger:
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[4].font'
+        payload: '3'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[4].txt'
+        payload: '"Light"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[5].font'
+        payload: '3'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[5].txt'
+        payload: '"Fan"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[6].font'
+        payload: '3'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[6].txt'
+        payload: '"Crown"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[7].font'
+        payload: '2'
+
+  # Toggle light1 when p[3].b[4] pressed
+  - alias: hasp_mrszzs_p3_ToggleLight1
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/mrszzs/state/p[3].b[4]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.master_lights
+      
+  # Toggle light2 when p[3].b[5] pressed
+  - alias: hasp_mrszzs_p3_ToggleLight2
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/mrszzs/state/p[3].b[5]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.master_fan
+
+  # Toggle light3 when p[3].b[6] pressed
+  - alias: hasp_mrszzs_p3_ToggleLight3
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/mrszzs/state/p[3].b[6]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.master_crown
+
+  # Toggle all light_toggle_group when p[3].b[7] pressed
+  - alias: hasp_mrszzs_p3_ToggleAll
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/mrszzs/state/p[3].b[7]'
+      payload: 'ON'
+    action:
+    - service_template: >
+          {% if states.group.light_toggle_group.state == "on" -%}
+            homeassistant.turn_off
+          {%- else -%}
+            homeassistant.turn_on
+          {%- endif %}
+      entity_id: group.light_toggle_group
+      
+  # Toggle colors on p[3].b[4] when light1 changes
+  - alias: hasp_mrszzs_p3_ToggleColor1
+    trigger:
+    - platform: state
+      entity_id: switch.master_lights
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[4].bco'
+        payload_template: >-
+          {% if states.switch.master_lights.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/mrszzs/command/p[3].b[4].pco'
+        payload_template: >-
+          {% if states.switch.master_lights.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[3].b[5] when light1 changes
+  - alias: hasp_mrszzs_p3_ToggleColor2
+    trigger:
+    - platform: state
+      entity_id: switch.master_fan
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[5].bco'
+        payload_template: >-
+          {% if states.switch.master_fan.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/mrszzs/command/p[3].b[5].pco'
+        payload_template: >-
+          {% if states.switch.master_fan.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[3].b[6] when light1 changes
+  - alias: hasp_mrszzs_p3_ToggleColor3
+    trigger:
+    - platform: state
+      entity_id: switch.master_crown
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[6].bco'
+        payload_template: >-
+          {% if states.switch.master_crown.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/mrszzs/command/p[3].b[6].pco'
+        payload_template: >-
+          {% if states.switch.master_crown.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Set button 4 to "All Off" if any lights are on, otherwise set to "All On"
+  - alias: hasp_mrszzs_p3_ToggleColorAll
+    trigger:
+    - platform: state
+      entity_id: group.light_toggle_group
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/p[3].b[7].bco'
+        payload_template: >-
+          {% if states.group.light_toggle_group.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_selectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/mrszzs/command/p[3].b[7].pco'
+        payload_template: >-
+          {% if states.group.light_toggle_group.state == "on" -%}
+            {{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_mrszzs_selectedforegroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/mrszzs/command/p[3].b[7].txt'
+        payload_template: >-
+          {% if states.group.light_toggle_group.state == "on" -%}
+           "Lights Off"
+          {%- else -%}
+           "Lights On"
+          {%- endif %}

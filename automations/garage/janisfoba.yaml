@@ -1,0 +1,10 @@
+id: JanisFOBbuttonA
+alias: JanisFOBbuttonA
+trigger:
+- entity_id: binary_sensor.janis_fob_a
+  platform: state
+  to: 'on'
+condition: []
+action:
+  service: switch.toggle
+  entity_id: switch.janis_garage_control_2

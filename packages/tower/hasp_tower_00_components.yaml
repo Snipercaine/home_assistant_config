@@ -1,0 +1,222 @@
+##############################################################################
+# The devices created below are essential to the page control automations
+# and you'll probably want to carry them over to your own configuration
+homeassistant:
+  customize:
+    input_number.hasp_tower_alarmcode1:
+      hidden: true
+    input_number.hasp_tower_alarmcode2:
+      hidden: true
+    input_number.hasp_tower_alarmcode3:
+      hidden: true
+    input_number.hasp_tower_alarmcode4:
+      hidden: true
+
+# Enable this iframe to integrate the HASP web admin panel in Hass.
+# This will not work if you have SSL enabled, see details here:
+# https://www.home-assistant.io/components/panel_iframe/
+#
+# panel_iframe:
+#   tower:
+#     title: "tower"
+#     url: "http://tower"
+#     icon: "mdi:cellphone-text"
+
+light:
+  - platform: mqtt
+    name: tower Backlight
+    command_topic: "hasp/tower/light/switch"
+    state_topic: "hasp/tower/light/state"
+    brightness_state_topic: "hasp/tower/brightness/state"
+    brightness_command_topic: "hasp/tower/brightness/set"
+    availability_topic: "hasp/tower/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+binary_sensor:
+  - platform: mqtt
+    name: tower Connected
+    device_class: connectivity
+    state_topic: "hasp/tower/status"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "hasp/tower/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+sensor:
+  - platform: mqtt
+    name: tower Sensor
+    state_topic: "hasp/tower/sensor"
+    json_attributes_template: '{{ value_json.status }}'
+    # json_attributes:
+    #   - espVersion
+    #   - updateESPAvailable
+    #   - lcdVersion
+    #   - updateLcdAvailable
+    #   - espUptime
+    #   - signalStrength
+    #   - haspIP
+
+input_text:
+  hasp_tower_pagebutton1label:
+    name: tower Page 1 Label
+    icon: mdi:book-open-page-variant
+  hasp_tower_pagebutton2label:
+    name: tower Page 2 Label
+    icon: mdi:book-open-page-variant
+  hasp_tower_pagebutton3label:
+    name: tower Page 3 Label
+    icon: mdi:book-open-page-variant
+
+input_number:
+  hasp_tower_pagebutton1page:
+    name: tower Page 1 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_tower_pagebutton2page:
+    name: tower Page 2 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_tower_pagebutton3page:
+    name: tower Page 3 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_tower_activepage:
+    name: tower Active Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_tower_alarmcode1:
+    name: tower AlarmCode1
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_tower_alarmcode2:
+    name: tower AlarmCode2
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_tower_alarmcode3:
+    name: tower AlarmCode3
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_tower_alarmcode4:
+    name: tower AlarmCode4
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+
+group:
+  tower:
+    name: tower
+    entities:
+      - binary_sensor.tower_connected
+      - sensor.tower_sensor
+      - light.tower_backlight
+      - group.tower_pageselect
+      - group.tower_colors
+      - group.tower_automations
+  tower_pageselect:
+    name: tower Page Selection
+    entities:
+      - input_number.hasp_tower_activepage
+      - input_number.hasp_tower_pagebutton1page
+      - input_text.hasp_tower_pagebutton1label
+      - input_number.hasp_tower_pagebutton2page
+      - input_text.hasp_tower_pagebutton2label
+      - input_number.hasp_tower_pagebutton3page
+      - input_text.hasp_tower_pagebutton3label
+  tower_automations:
+    name: tower automations
+    entities:
+      - automation.hasp_tower_00_firsttimesetup
+
+automation:
+##############################################################################
+# Run first time setup commands
+  - alias: hasp_tower_00_FirstTimeSetup
+    trigger: []
+    action:
+      - service: automation.trigger
+        data:
+          entity_id: 'automation.hasp_tower_00_automationgroupupdate'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: 'group.tower_automations'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_tower_pagebutton1label'
+          value: 'scenes'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_tower_pagebutton2label'
+          value: 'status'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_tower_pagebutton3label'
+          value: 'lights'
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_pagebutton1page'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_pagebutton2page'
+          value: 2
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_pagebutton3page'
+          value: 3
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_activepage'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_selectedforegroundcolor'
+          value: 0
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_selectedbackgroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_unselectedforegroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_tower_unselectedbackgroundcolor'
+          value: 25388
+
+##############################################################################
+# Set automation group members on start - Thanks @Nightcat!
+  - alias: hasp_tower_00_AutomationGroupUpdate
+    trigger:
+    - platform: homeassistant
+      event: start
+    action:
+    - service: group.set
+      data_template:
+        object_id: "tower_automations"
+        entities: >-
+          {%- for item in states.automation if ((item.entity_id | lower).startswith('automation.hasp_tower_')) -%}
+          {{ item.entity_id }}
+          {% if not loop.last %}, {% endif %}
+          {%- endfor -%}

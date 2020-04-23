@@ -1,0 +1,10 @@
+iqvia:
+  zip_code: "84004"
+  monitored_conditions:
+    - allergy_average_forecasted
+    - allergy_index_today
+    - allergy_index_tomorrow
+    - asthma_average_forecasted
+    - asthma_index_today
+    - asthma_index_tomorrow
+    - disease_average_forecasted

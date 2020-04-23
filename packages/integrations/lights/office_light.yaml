@@ -1,0 +1,29 @@
+light:    
+  - platform: mqtt
+    name: "Office West"
+    command_topic: "cmnd/office_west/power"
+    state_topic: "stat/office_west/POWER"
+    rgb_state_topic: "stat/office_west/color"
+    rgb_command_topic: "cmnd/office_west/color"
+    brightness_state_topic: "stat/office_west/dimmer"
+    brightness_command_topic: "cmnd/office_west/dimmer"
+    color_temp_state_topic: "stat/office_west/CT"
+    color_temp_command_topic: "cmnd/office_west/CT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Boys Closet" 
+    command_topic: "cmnd/Boys_Closet/power"
+    state_topic: "stat/Boys_Closet/POWER"
+    rgb_state_topic: "stat/Boys_Closet/color"
+    rgb_command_topic: "cmnd/Boys_Closet/color"
+    brightness_state_topic: "stat/Boys_Closet/dimmer"
+    brightness_command_topic: "cmnd/Boys_Closet/dimmer"
+    color_temp_state_topic: "stat/Boys_Closet/CT"
+    color_temp_command_topic: "cmnd/Boys_Closet/CT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false  

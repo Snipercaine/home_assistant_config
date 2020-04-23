@@ -1,0 +1,100 @@
+#
+#############################################################################
+# The following devices are used by the demo automations, feel free to remove
+# these and/or replace with your own devices
+
+weather:
+  - platform: met
+
+alarm_control_panel:
+  - platform: manual
+    code: 1234
+
+light:
+  - platform: mqtt
+    name: "Light 1"
+    command_topic: "homeassistant/light/light1"
+    state_topic: "homeassistant/light/light1"
+    brightness_command_topic: "homeassistant/light/light1/bright"
+    brightness_state_topic: "homeassistant/light/light1/bright"
+  - platform: mqtt
+    name: "Light 2"
+    command_topic: "homeassistant/light/light2"
+    state_topic: "homeassistant/light/light2"
+    brightness_command_topic: "homeassistant/light/light2/bright"
+    brightness_state_topic: "homeassistant/light/light2/bright"
+  - platform: mqtt
+    name: "Light 3"
+    command_topic: "homeassistant/light/light3"
+    state_topic: "homeassistant/light/light3"
+    brightness_command_topic: "homeassistant/light/light3/bright"
+    brightness_state_topic: "homeassistant/light/light3/bright"
+
+##############################################################################
+# Create a group for the lights
+group:
+  light_toggle_group_office:
+    name: Light Toggle Group
+    entities:
+      - switch.office_light
+      - switch.office_crown
+      - switch.office_fan
+      - switch.desk_leds
+
+scene:
+- name: Lights On
+  entities:
+    light.light_1:
+      state: on
+      brightness: 255
+    light.light_2:
+      state: on
+      brightness: 255
+    light.light_3:
+      state: on
+      brightness: 255
+    light.plate01_backlight:
+      state: on
+      brightness: 255
+
+- name: Daylight
+  entities:
+    light.light_1:
+      state: on
+      brightness: 150
+    light.light_2:
+      state: on
+      brightness: 150
+    light.light_3:
+      state: on
+      brightness: 150
+    light.plate01_backlight:
+      state: on
+      brightness: 150
+
+- name: Night
+  entities:
+    light.light_1:
+      state: on
+      brightness: 50
+    light.light_2:
+      state: on
+      brightness: 50
+    light.light_3:
+      state: on
+      brightness: 50
+    light.plate01_backlight:
+      state: on
+      brightness: 50
+
+- name: Lights Off
+  entities:
+    light.light_1:
+      state: off
+    light.light_2:
+      state: off
+    light.light_3:
+      state: off
+    light.plate01_backlight:
+      state: on
+      brightness: 20

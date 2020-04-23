@@ -1,0 +1,39 @@
+esphome:
+  name: bedroom_switches
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: ADEN
+  password: !secret wifi_pw
+  ap:
+    ssid: bedroom_switches
+    password: "12345678"
+    
+captive_portal: 
+
+web_server:
+  port: 80
+  
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: control_stepper
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: my_stepper
+            target: !lambda 'return target;'
+ota:
+
+stepper:
+  - platform: a4988
+    id: my_stepper
+    step_pin: GPIO22
+    dir_pin: GPIO23
+    max_speed: 250 steps/s
+    

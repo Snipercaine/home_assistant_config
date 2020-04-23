@@ -1,0 +1,217 @@
+##############################################################################
+# The devices created below are essential to the page control automations
+# and you'll probably want to carry them over to your own configuration
+homeassistant:
+  customize:
+    input_number.hasp_entryway_alarmcode1:
+      hidden: true
+    input_number.hasp_entryway_alarmcode2:
+      hidden: true
+    input_number.hasp_entryway_alarmcode3:
+      hidden: true
+    input_number.hasp_entryway_alarmcode4:
+      hidden: true
+
+# Enable this iframe to integrate the HASP web admin panel in Hass.
+# This will not work if you have SSL enabled, see details here:
+# https://www.home-assistant.io/components/panel_iframe/
+#
+# panel_iframe:
+#   entryway:
+#     title: "entryway"
+#     url: "http://entryway"
+#     icon: "mdi:cellphone-text"
+
+light:
+  - platform: mqtt
+    name: entryway Backlight
+    command_topic: "hasp/entryway/light/switch"
+    state_topic: "hasp/entryway/light/state"
+    brightness_state_topic: "hasp/entryway/brightness/state"
+    brightness_command_topic: "hasp/entryway/brightness/set"
+    availability_topic: "hasp/entryway/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+binary_sensor:
+  - platform: mqtt
+    name: entryway Connected
+    device_class: connectivity
+    state_topic: "hasp/entryway/status"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "hasp/entryway/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+sensor:
+  - platform: mqtt
+    name: entryway Sensor
+    state_topic: "hasp/entryway/status"
+    availability_topic: "hasp/entryway/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    json_attributes_topic:  "hasp/entryway/sensor"
+
+input_text:
+  hasp_entryway_pagebutton1label:
+    name: entryway Page 1 Label
+    icon: mdi:book-open-page-variant
+  hasp_entryway_pagebutton2label:
+    name: entryway Page 2 Label
+    icon: mdi:book-open-page-variant
+  hasp_entryway_pagebutton3label:
+    name: entryway Page 3 Label
+    icon: mdi:book-open-page-variant
+
+input_number:
+  hasp_entryway_pagebutton1page:
+    name: entryway Page 1 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_entryway_pagebutton2page:
+    name: entryway Page 2 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_entryway_pagebutton3page:
+    name: entryway Page 3 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_entryway_activepage:
+    name: entryway Active Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_entryway_alarmcode1:
+    name: entryway AlarmCode1
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_entryway_alarmcode2:
+    name: entryway AlarmCode2
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_entryway_alarmcode3:
+    name: entryway AlarmCode3
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_entryway_alarmcode4:
+    name: entryway AlarmCode4
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+
+group:
+  entryway:
+    name: entryway
+    entities:
+      - binary_sensor.entryway_connected
+      - sensor.entryway_sensor
+      - light.entryway_backlight
+      - group.entryway_pageselect
+      - group.entryway_colors
+      - group.entryway_automations
+  entryway_pageselect:
+    name: entryway Page Selection
+    entities:
+      - input_number.hasp_entryway_activepage
+      - input_number.hasp_entryway_pagebutton1page
+      - input_text.hasp_entryway_pagebutton1label
+      - input_number.hasp_entryway_pagebutton2page
+      - input_text.hasp_entryway_pagebutton2label
+      - input_number.hasp_entryway_pagebutton3page
+      - input_text.hasp_entryway_pagebutton3label
+  entryway_automations:
+    name: entryway automations
+    entities:
+      - automation.hasp_entryway_00_firsttimesetup
+
+automation:
+##############################################################################
+# Run first time setup commands
+  - alias: hasp_entryway_00_FirstTimeSetup
+    trigger: []
+    action:
+      - service: automation.trigger
+        data:
+          entity_id: 'automation.hasp_entryway_00_automationgroupupdate'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: 'group.entryway_automations'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_entryway_pagebutton1label'
+          value: 'scenes'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_entryway_pagebutton2label'
+          value: 'status'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_entryway_pagebutton3label'
+          value: 'lights'
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_pagebutton1page'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_pagebutton2page'
+          value: 2
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_pagebutton3page'
+          value: 3
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_activepage'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_selectedforegroundcolor'
+          value: 0
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_selectedbackgroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_unselectedforegroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_entryway_unselectedbackgroundcolor'
+          value: 25388
+
+##############################################################################
+# Set automation group members on start - Thanks @Nightcat!
+  - alias: hasp_entryway_00_AutomationGroupUpdate
+    trigger:
+    - platform: homeassistant
+      event: start
+    action:
+    - service: group.set
+      data_template:
+        object_id: "entryway_automations"
+        entities: >-
+          {%- for item in states.automation if ((item.entity_id | lower).startswith('automation.hasp_entryway_')) -%}
+          {{ item.entity_id }}
+          {% if not loop.last %}, {% endif %}
+          {%- endfor -%}

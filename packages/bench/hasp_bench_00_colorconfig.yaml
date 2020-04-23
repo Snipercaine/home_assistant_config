@@ -1,0 +1,43 @@
+##############################################################################
+# Automations and required components to configure colors on the HASP panel
+#
+# Check out this site for easy color code selection and conversion:
+# https://nodtem66.github.io/nextion-hmi-color-convert/index.html
+
+input_number:
+  hasp_bench_selectedforegroundcolor:
+    name: bench Selected Foreground Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_bench_selectedbackgroundcolor:
+    name: bench Selected Background Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_bench_unselectedforegroundcolor:
+    name: bench Unselected Foreground Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+  hasp_bench_unselectedbackgroundcolor:
+    name: bench Unselected Background Color
+    icon: mdi:palette
+    min: 0
+    max: 65535
+    step: 1
+    mode: box
+group:
+  bench_colors:
+    name: bench Colors
+    entities:
+      - input_number.hasp_bench_selectedforegroundcolor
+      - input_number.hasp_bench_selectedbackgroundcolor
+      - input_number.hasp_bench_unselectedforegroundcolor
+      - input_number.hasp_bench_unselectedbackgroundcolor

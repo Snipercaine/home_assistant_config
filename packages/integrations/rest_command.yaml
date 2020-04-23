@@ -1,0 +1,21 @@
+rest_command:
+  google_backup:
+    url: 'http://192.168.1.71:8055/gb/doBackup'
+    timeout: '300'
+  xsched_goblue:
+    url: 'http://192.168.1.28/xScheduleCommand?Command=Play%20specified%20playlist&Parameters=GoBlue'
+  office_hyperion_on:
+    url: 'http://192.168.1.218/win&RD=1'
+  office_hyperion_off:
+    url: 'http://192.168.1.218/win&RD=0'
+  # - name: Drzzs xbox
+  #   platform: rest
+  #   resource: https://xboxapi.com/v2/messages
+  #   method: POST_JSON
+  #   headers:
+  #     Content-Type: application/json
+  #     X-Auth: !secret xboxapi_token
+  #   data:
+  #     to:
+  #       - !secret DrZzs   
+ 

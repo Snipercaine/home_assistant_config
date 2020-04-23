@@ -1,0 +1,15 @@
+alarm_control_panel:
+  - platform: manual
+    name: Alarm
+    code: !secret alarm_code
+    trigger_time: 300
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      delay_time: 0
+      pending_time: 0
+    armed_away:
+      delay_time: 60
+      pending_time: 30
+    triggered:
+      pending_time: 0

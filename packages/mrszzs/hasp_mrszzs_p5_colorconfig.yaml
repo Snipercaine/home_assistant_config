@@ -1,0 +1,37 @@
+##############################################################################
+# Automations to set colors on HASP Page 5
+#
+# Here we've swapped selected/unselected as these buttons will always be
+# unselected (unless actively being pressed), and sliders do not have a
+# selected/unselected state.
+automation:
+  - alias: hasp_mrszzs_p5_ColorConfig
+    trigger:
+    - platform: state
+      entity_id: 'binary_sensor.mrszzs_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_mrszzs_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/json'
+        payload_template: >-
+          [{%- for i in range(4,7) -%}"p[5].b[{{i}}].pco={{ states.input_number.hasp_mrszzs_selectedforegroundcolor.state|int }}",{%- endfor -%}
+          {%- for i in range(4,7) -%}"p[5].b[{{i}}].bco={{ states.input_number.hasp_mrszzs_selectedbackgroundcolor.state|int }}",{%- endfor -%}
+          {%- for i in range(4,7) -%}"p[5].b[{{i}}].pco2={{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state|int }}",{%- endfor -%}
+          {%- for i in range(4,7) -%}"p[5].b[{{i}}].bco2={{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state|int }}",{%- endfor -%}]
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/mrszzs/command/json'
+        payload_template: >-
+          [{%- for i in range(7,10) -%}"p[5].b[{{i}}].pco={{ states.input_number.hasp_mrszzs_unselectedforegroundcolor.state|int }}",{%- endfor -%}
+          {%- for i in range(7,10) -%}"p[5].b[{{i}}].bco={{ states.input_number.hasp_mrszzs_unselectedbackgroundcolor.state|int }}",{%- endfor -%}]

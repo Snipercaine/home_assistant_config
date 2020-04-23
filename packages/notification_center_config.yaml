@@ -1,0 +1,48 @@
+input_select:
+  notification_media_player_google:
+    name: Source Google
+    icon: mdi:speaker
+    options:
+      - All Cast
+      - Office Speaker
+
+  notification_media_player_alexa:
+    name: Source Alexa
+    icon: mdi:speaker
+    options:
+      - Whole House
+      - Kitchen
+      - Workbench
+      - Toy Room
+      - Kids Office
+      - Theater Room
+      - Jackson's Echo Dot
+      - Zoe's Echo Dot
+      - Mom and Dads Room
+      - Garage
+
+sensor:
+  - platform: template
+    sensors:
+      low_battery:
+        friendly_name: 'Low Battery'
+        entity_id:
+          - device_tracker.drzzs
+          - device_tracker.jackson_aden
+          - device_tracker.mom
+        value_template: >
+          {%- set threshold = 25 -%}
+          {%- set domains = ['light', 'switch', 'sensor', 'lock', 'binary_sensor'] -%}
+          {%- for domain in domains -%}
+            {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold) or ("battery" in item.name | lower and ((item.state | int < threshold and item.state|int != 0) or item.state | lower == "low"))) -%}
+              {{ item.attributes.friendly_name }} (
+              {%- if item.attributes.battery_level is defined -%}
+                {{ item.attributes.battery_level}}
+              {%- else -%}
+                {{item.state}}
+              {%- endif -%}%)
+              {%- if not loop.last -%}
+                {{', '}}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}

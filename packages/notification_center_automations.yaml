@@ -1,0 +1,199 @@
+automation:
+  - alias: Notification New Device Connected
+    trigger:
+      - platform: event
+        event_type: device_tracker_new_device
+
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.notification_alert_mode
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          call_greeting: 1
+          call_new_device: 1
+          alexa_type: "announce"
+          alexa_method: "all"
+        data_template:
+          person: >-
+            {{ trigger.event.data.name }}
+
+  - alias: Notification Shut Down
+    trigger:
+      - event: shutdown
+        platform: homeassistant
+      - event_type: homeassistant.restart
+        platform: event
+    action:
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          call_bye: 1
+          call_shut_down: 1
+          alexa_type: "tts"
+
+  - alias: Notification Start Up
+
+    trigger:
+      - event: start
+        platform: homeassistant
+
+    action:
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          call_greeting: 1
+          call_introduction: 1
+          alexa_type: "tts"
+
+  - alias: Notification Update Available
+
+    trigger:
+      - platform: state
+        entity_id: sensor.up_to_date
+        from: 'true'
+        to: 'false'
+
+    action:
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          call_greeting: 1
+          call_update: 1
+          alexa_type: "tts"
+
+  - id: notification_repeat_last_message
+    alias: Notification Repeat Last Message
+    trigger:
+      - platform: state
+        entity_id: input_boolean.last_message
+        to: 'on'
+
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.notification_alert_mode
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          title: "Repeating The Last Message"
+          alexa_type: "tts"
+        data_template:
+          CustomMessage: "{{ states('sensor.last_message') }}"
+
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.last_message
+
+  - id: notification_left_something_open
+    alias: Notification Left Something Open
+    trigger:
+      - platform: state
+        entity_id:
+          - device_tracker.drzzs
+        to: 'away'
+        from: 'home'
+
+    action:
+      - service: script.speech_engine
+        data:
+          notify: "ios_family"
+          title: "Attention!"
+        data_template:
+          CustomMessage: >
+            {% if is_state("binary_sensor.front_door", "on") %}
+            The Front Door Is Open
+            {% elif is_state("binary_sensor.kitchen_door", "on") %}
+            The Kitchen Door Is Open
+            {% elif is_state("binary_sensor.kitchen_windows", "on") %}
+            The Kitchen Windows Are Open
+            {% elif is_state("binary_sensor.hafens_room", "on") %}
+            The Hafens Room Window Is Open
+            {% elif is_state("binary_sensor.gym_window", "on") %}
+            The Gym Window Is Open
+            {% elif is_state("binary_sensor.grandmas_room", "on") %}
+            Grandmas Room Window Is Open
+            {% elif is_state("binary_sensor.garage_entry", "on") %}
+            The Garage Entry Door Is Open
+            {% elif is_state("binary_sensor.front_windows", "on") %}
+            The Front Room Window Is Open
+            {% elif is_state("binary_sensor.basement_doors", "on") %}
+            The Basement Doors Are Open
+            {% elif is_state("binary_sensor.master_bath", "on") %}
+            The Master Bathroom Window Is Open
+            {% elif is_state("binary_sensor.master_bedroom", "on") %}
+            The Master Bedroom Windows Are Open
+            {% elif is_state("binary_sensor.shop_door", "on") %}
+            The Shop Door Is Open
+            {% elif is_state("binary_sensor.theater_windows", "on") %}
+            The Theater Room Windows Are Open
+            {% endif %}
+
+  - alias: 'Notification Battery Alert'
+    id: notification_battery_alert
+    initial_state: 'on'
+    trigger:
+      - platform: time
+        at: '22:00:00'
+    condition:
+      condition: template
+      value_template: "{% if states('sensor.low_battery') %}true{% endif %}"
+    action:
+      - service: persistent_notification.create
+        data_template:
+          title: Low Battery
+          message: "{{ states('sensor.low_battery') }}"
+          notification_id: low-battery-alert
+      - service: script.speech_engine
+        data_template:
+          notify: "ios_family"
+          title: Low Battery
+          CustomMessage: "Low battery levels: {{ states('sensor.low_battery') }}"
+
+  - alias: Notification Presence Detection
+    id: notification_presence_detection
+    trigger:
+      platform: state
+      entity_id:
+        - binary_sensor.garage_motion
+        - binary_sensor.office_pir
+        - binary_sensor.blink_piano_room_motion_detected
+        - binary_sensor.blink_front_yard_motion_detected
+        - binary_sensor.blink_basement_motion_detected
+        - binary_sensor.blink_back_yard_motion_detected
+        - binary_sensor.blink_mountain_room_motion_detected
+        - binary_sensor.blink_garage_motion_detected
+      to: "on"
+      from: "off"
+
+    action:
+      - service: input_select.select_option
+        entity_id: input_select.notification_media_player_alexa
+        data_template:
+          option: >-
+            {% if is_state("binary_sensor.garage_motion", "on") %}
+            Garage
+            {% elif is_state("binary_sensor.blink_mountain_room_motion_detected", "on") %}
+            Kitchen
+            {% elif is_state("binary_sensor.office_pir", "on") %}
+            Workbench
+            {% elif is_state("binary_sensor.blink_basement_motion_detected", "on") %}
+            Theater Room
+            {% elif is_state("blink_front_yard_motion_detected", "on") %}
+            Kitchen
+            {% elif is_state("binary_sensor.blink_back_yard_motion_detected", "on") %}
+            Kitchen
+            {% elif is_state("binary_sensor.blink_piano_room_motion_detected", "on") %}
+            Kids Office
+            {% endif %}
+
+      - service: input_select.select_option
+        entity_id: input_select.notification_media_player_google
+        data_template:
+          option: >-
+            {% if is_state("binary_sensor.office_pir", "on") %}
+            Office Speaker
+            {% elif is_state("binary_sensor.blink_back_yard_motion_detected", "on") %}
+            Office Speaker
+            {% endif %}

@@ -1,0 +1,70 @@
+esphome:
+  name: janis_garage
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: DrZzs-NoT-main
+  password: !secret NoT
+  manual_ip:
+    static_ip: 192.168.1.230
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: janis_garage
+    password: "12345678"
+web_server:
+  port: 80
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Janis Garage Door"
+    device_class: garage_door
+    
+  - platform: template
+    name: "Janis Car"
+    device_class: presence
+    lambda: |-
+      if (id(ultrasonic_sensor1).state < 1.5) {
+        // car is in the garage
+        return true;
+      } else {
+        // no car
+        return false;
+      }   
+      
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+  - platform: template
+    icon: "mdi:arrow-up-down-bold-outline"
+    name: "Janis Garage Control"
+    turn_on_action:
+    - switch.turn_on: relay
+    - delay: 500ms
+    - switch.turn_off: relay
+
+sensor:
+  - platform: ultrasonic
+    id: ultrasonic_sensor1
+    trigger_pin: GPIO05
+    echo_pin: GPIO04
+    name: "Janis US Car"
+    update_interval: 60s
+    filters:
+      filter_out: nan
+    timeout: 9m

@@ -1,0 +1,3 @@
+blink:
+  username: !secret blink_user
+  password: !secret blink_pw

@@ -1,0 +1,85 @@
+##############################################################################
+# Automations for handling Scene select buttons on page 1
+
+automation:
+  # Set font and text labels for scene buttons on device connection
+  - alias: hasp_bench_p1_ScenesInit
+    trigger:
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[4].font'
+        payload: '2'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[4].txt'
+        payload: '"Lights On"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[5].font'
+        payload: '2'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[5].txt'
+        payload: '"Daylight"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[6].font'
+        payload: '2'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[6].txt'
+        payload: '"Night"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[7].font'
+        payload: '2'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[1].b[7].txt'
+        payload: '"Lights Off"'
+
+  # Trigger scene.lights_on when p[1].b[4] pressed
+  - alias: hasp_bench_p1_SceneButton4
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[1].b[4]'
+      payload: 'ON'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.lights_on
+      
+  # Trigger scene.daylight when p[1].b[5] pressed
+  - alias: hasp_bench_p1_SceneButton5
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[1].b[5]'
+      payload: 'ON'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.daylight
+
+  # Trigger scene.night when p[1].b[6] pressed
+  - alias: hasp_bench_p1_SceneButton6
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[1].b[6]'
+      payload: 'ON'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.night
+
+  # Trigger lights_off.night when p[1].b[7] pressed
+  - alias: hasp_bench_p1_SceneButton7
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[1].b[7]'
+      payload: 'ON'
+    action:
+    - service: scene.turn_on
+      entity_id: scene.lights_off

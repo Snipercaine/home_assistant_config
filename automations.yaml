@@ -1,0 +1,2257 @@
+- id: writesteppervaluetestesp32
+  alias: Write Stepper Value to ESP
+  trigger:
+    platform: state
+    entity_id: input_number.stepper_control
+  action:
+  - service: esphome.steppers_control_stepper
+    data_template:
+      target: '{{ trigger.to_state.state | int }}'
+- id: ACoffifcoldoutside
+  alias: ACoffifcoldoutside
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.yr_temperature
+    below: 65
+  action:
+  - service: climate.turn_off
+    data:
+      entity_id:
+      - climate.upstairs_ac
+      - climate.main_floor_ac
+- id: fire_switch_control_crownLEDs
+  alias: fire_switch_control_crownLEDs
+  trigger:
+  - entity_id: switch.master_fire
+    platform: state
+  condition: []
+  action:
+    service: switch.toggle
+    entity_id: switch.master_crown
+- id: wled_speed
+  alias: wled_speed
+  trigger:
+  - entity_id: input_number.ledspeed
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      topic: wled/all/api
+      payload: SX={{ states('input_number.ledspeed') | int }}
+    service: mqtt.publish
+- id: wled_intensity
+  alias: wled_intensity
+  trigger:
+  - entity_id: input_number.ledintensity
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      topic: wled/all/api
+      payload: IX={{ states('input_number.ledintensity') | int }}
+    service: mqtt.publish
+- id: wled_palette
+  alias: WLED Palette
+  trigger:
+  - platform: state
+    entity_id: input_select.wled_palette_list
+  condition: []
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: wled/all/api
+      payload: '{{ states(''input_select.wled_palette_list'') }}'
+- id: wled_presets
+  alias: WLED Presets
+  trigger:
+  - platform: state
+    entity_id: input_select.wled_presets
+  condition: []
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: wled/all/api
+      payload: '{{ states(''input_select.wled_presets'') }}'
+- alias: Holly_LEDs_Button
+  id: hollyledbutton
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 1001
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/holly/api
+      payload: T=2
+- alias: Holly_LEDs_Button_tap
+  id: hollyledbuttontap
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 1002
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/holly/api
+      payload: PL=~
+- alias: Holly_LEDs_Button_dbltap
+  id: hollyledbuttondbltap
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 1004
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/holly/api
+      payload: NL=15
+- alias: Grace_LEDs_Button
+  id: graceledbutton
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 2001
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/grace/api
+      payload: T=2
+- alias: Grace_LEDs_Button_tap
+  id: graceledbuttontap
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 2002
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/grace/api
+      payload: PL=~
+- alias: Grace_LEDs_Button_dbltap
+  id: graceledbuttondbltap
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: transmitter_2_gang
+      event: 2004
+  action:
+    service: mqtt.publish
+    data:
+      topic: wled/grace/api
+      payload: NL=15
+- alias: sartorixboxlimit
+  id: sartorixboxlimit
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.xbox_time
+    above: 1.0
+  action:
+    service: switch.turn_off
+    entity_id: switch.sartori_xbox
+- alias: slide1pause
+  id: slide1pause
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 1000
+  action:
+    service: media_player.media_play_pause
+    entity_id: media_player.workbench
+- alias: doubletap2foroutlawcountry
+  id: doubletap2foroutlawcountry
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 2002
+  action:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.workbench
+      media_content_id: outlaw country radio
+      media_content_type: PANDORA
+- alias: doubletap3forlindsay
+  id: doubletap3forlindsay
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 3003
+  action:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.workbench
+      media_content_id: lindsay sterling radio
+      media_content_type: PANDORA
+- alias: doubletap1forhairbands
+  id: doubletap1forhairbands
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 1001
+  action:
+    service: media_player.play_media
+    data:
+      entity_id: media_player.workbench
+      media_content_id: hair bands radio
+      media_content_type: PANDORA
+- alias: flip1to4volumeup
+  id: flip1to4volumeup
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 4001
+  action:
+    service: media_player.volume_set
+    data:
+      entity_id: media_player.workbench
+      volume_level: 0.7
+- alias: flip1to3volumedown
+  id: flip1to3volumedown
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 3001
+  action:
+    service: media_player.volume_set
+    data:
+      entity_id: media_player.workbench
+      volume_level: 0.3
+- alias: doubletap5volume5
+  id: doubletap5volume5
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 5005
+  action:
+    service: media_player.volume_set
+    data:
+      entity_id: media_player.workbench
+      volume_level: 0.5
+- alias: shakeitforbedtime
+  id: shakeitforbedtime3423895492345
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_14
+      event: 7007
+  action:
+    service: input_boolean.toggle
+    entity_id: input_boolean.bedtime
+- alias: janis garage button
+  id: janisgaragebutton12312472895yhsdfj
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switch_8
+      event: 1002
+  action:
+    service: switch.toggle
+    entity_id: switch.janis_garage_control_2
+- alias: Main Bathroom Lights Off
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_bathroom_motion
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 10
+  action:
+  - service: switch.turn_off
+    entity_id: switch.main_bathroom_light, switch.main_bathroom_fan
+  id: mainbathroomlightoffifnomotion
+- alias: stop dinning shade when Open
+  id: stopdinningshadewhenopen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dinning_shade_open
+  action:
+    service: cover.stop_cover
+    entity_id: cover.kitchen_window_full
+- alias: stop dinning shade when Closed
+  id: stopdinningshadewhenclosed
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dinning_shade_closed
+  action:
+    service: cover.stop_cover
+    entity_id: cover.kitchen_window_full
+- alias: turn off quietcool if AC is on
+  id: 48y54893ytufhjdnvbjkdfu34ry489u234ui23orwedfd
+  trigger:
+  - platform: state
+    entity_id: switch.upstairs_ac
+    to: 'on'
+  - platform: state
+    entity_id: switch.main_floor_ac
+    to: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.quietcool_low
+- alias: turn on quietcool when temp is low outside
+  id: i482u348923ufjdsknfjkwnr9823ru32unrfjsdnfwc
+  trigger:
+  - platform: time
+    at: 05:00:00
+  - platform: time
+    at: '22:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.yr_temperature
+    above: 50
+    below: 68
+  - condition: numeric_state
+    entity_id: sensor.average_upstairs_temp
+    above: 74
+  action:
+  - service: switch.turn_on
+    entity_id: switch.quietcool_low
+  - delay: 04:00:00
+  - service: switch.turn_off
+    entity_id: switch.quietcool_low
+- alias: turn on mudroom lights if motion
+  id: 47534895yjknfgdfjghelrrjkthhtgdf
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.mudroom_motion
+    to: 'on'
+  action:
+    service: switch.turn_on
+    entity_id: switch.mudroom_light
+- alias: turn off mudroom lights if no motion
+  id: 47534895y34723894yhjkfdsrrjkthhtgdf
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.mudroom_motion
+    to: 'off'
+    for:
+      minutes: 3
+  action:
+    service: switch.turn_off
+    entity_id: switch.mudroom_light
+- alias: lower mountian room shades in the morning
+  id: lowermountainroomshadesinthemorning
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  condition:
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.right_upper_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.middle_upper_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.left_upper_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.right_lower_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.middle_lower_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.left_lower_shade_closed
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.kitchen_shade_closed
+  action:
+  - service: cover.close_cover
+    entity_id:
+    - cover.kitchen_window_full
+    - cover.mw_middle_lower
+    - cover.mw_middle_upper
+    - cover.mw_right_lower
+    - cover.mw_right_upper
+    - cover.mw_left_lower
+    - cover.mw_left_upper
+- alias: raise mountian room shades in the afternoon
+  id: raisemountainroomshadesintheafternoon
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    above: 60.0
+  condition:
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.right_upper_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.middle_upper_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.left_upper_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.right_lower_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.middle_lower_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.left_lower_shade_open
+  - condition: state
+    state: 'off'
+    entity_id: binary_sensor.kitchen_shade_open
+  action:
+  - service: cover.open_cover
+    entity_id:
+    - cover.kitchen_window_full
+    - cover.mw_middle_lower
+    - cover.mw_middle_upper
+    - cover.mw_right_lower
+    - cover.mw_right_upper
+    - cover.mw_left_lower
+    - cover.mw_left_upper
+- alias: window open when quietcool fan is on
+  id: openwindowwhenquietcoolfanison2875478945y34y
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.quietcool_low
+    - switch.quietcool_med
+    - switch.quietcool_high
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.theater_windows
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.toyroom_window_state
+      state: 'off'
+  action:
+  - service: cover.open_cover
+    entity_id:
+    - cover.window_control
+    - cover.toyroom_window
+- alias: window close when quietcool fan is off
+  id: openwindowwhenquietcoolfanisoff28543545345345
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.quietcool_low
+    - switch.quietcool_med
+    - switch.quietcool_high
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.theater_windows
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.toyroom_window_state
+      state: 'on'
+  action:
+  - service: cover.close_cover
+    entity_id:
+    - cover.window_control
+    - cover.toyroom_window
+- alias: temperature to start quietcool fan
+  id: temptostartqcfan7487238945y
+  trigger:
+  - platform: time
+    at: 07:00:00
+  - platform: time
+    at: '20:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.yr_temperature
+    above: 50
+    below: 68
+  - condition: numeric_state
+    entity_id: sensor.upstairs_temp
+    above: 70
+  - condition: state
+    entity_id: switch.quietcool_low
+    state: 'off'
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      title: It's really nice outside
+      message: Shall I open the window and turn on the fan?
+      data:
+        push:
+          category: quietcool
+- alias: QCfanlow
+  id: qcfanlow234234234
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: QC_LOW
+  action:
+  - service: switch.turn_on
+    entity_id: switch.quietcool_low
+  - delay: 01:00:00
+  - service: switch.turn_off
+    entity_id: switch.quietcool_low
+- alias: QCfanMed
+  id: qcfanmed234234234
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: QC_MED
+  action:
+  - service: switch.turn_on
+    entity_id: switch.quietcool_med
+  - delay: 01:00:00
+  - service: switch.turn_off
+    entity_id: switch.quietcool_med
+- alias: QCfanHigh
+  id: qcfanhigh234234234
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: QC_HIGH
+  action:
+  - service: switch.turn_on
+    entity_id: switch.quietcool_high
+  - delay: 01:00:00
+  - service: switch.turn_off
+    entity_id: switch.quietcool_high
+- alias: turn off dreamlight
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  action:
+  - service: light.turn_off
+    entity_id: light.dreamlight
+  id: 71038f7583b247d7a7633e9daba52699
+- alias: who is out of bed
+  initial_state: false
+  id: howisoutofbed7583475893475897345
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.ttgocam_pir
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: time
+    after: '23:00:00'
+    before: 05:00:00
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      title: Busted
+      message: Who is out of Bed?
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.ttgocam_camera
+  - service: notify.ios_janis7
+    data:
+      title: Mommy Alert
+      message: Who is out of Bed?
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.ttgocam_camera
+- alias: girls room doorbell button press
+  id: girlsroomdoorbellbuttonpress94847589y4rthjs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.ttgocam_button
+    from: 'off'
+    to: 'on'
+  action:
+  - service: media_player.alexa_tts
+    data:
+      entity_id: media_player.zoe_s_echo_dot
+      message: Knock Knock. Someone is at the Lovely Beautiful's door
+  - service: notify.ios_girls_ipad
+    data:
+      title: Knock Knock
+      message: Who is at the door?
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.ttgocam_camera
+- alias: motion detected send notification and light
+  id: fijetgue54ijtgiouf45u690uegncvbmnvbdf
+  trigger:
+  - platform: webhook
+    webhook_id: back_yard_cam_motion
+  condition:
+  - condition: state
+    entity_id: device_tracker.life360_drzzs
+    state: not_home
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      title: ALERT
+      message: Someone is moving in the backyard
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.silverptz
+  - service: switch.turn_on
+    entity_id: switch.back_porch
+- alias: M5cam doorbell AN with button press
+  id: M5camdoorbellbuttonpress723894578492375
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.m5_cam_touch_pad
+    to: 'on'
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      title: Knock Knock
+      message: Who wants access to the Keep?
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.m5_cam
+  - service: media_player.alexa_tts
+    data:
+      entity_id: media_player.workbench
+      message: Ding Dong. Someone is at the office door
+- alias: browser_popup_front_door
+  id: jhruhjernvi239482ioehtfjksdnvs
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.m5_cam_touch_pad
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.browser_tablet
+- alias: blinds tilt servo input
+  id: blindstiltservoinput45765934785
+  trigger:
+    platform: state
+    entity_id: input_number.blinds_tilt
+  action:
+  - service: esphome.blinds_control_servo
+    data_template:
+      level: '{{ trigger.to_state.state | int }}'
+- alias: office blinds tilt servo input
+  id: officeblindstiltservoinput45765934785
+  trigger:
+    platform: state
+    entity_id: input_number.office_blinds_tilt
+  action:
+  - service: esphome.office_blinds_control_servo
+    data_template:
+      level: '{{ trigger.to_state.state | int }}'
+- alias: salt level Notifications
+  id: saltlevelnotifications3274639872
+  trigger:
+    platform: time
+    at: '15:00:00'
+  condition:
+    condition: numeric_state
+    entity_id: sensor.salt_level
+    above: 0.39
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      title: Maintenance
+      message: Water Softener Salt Level is Low
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.workbench
+      - media_player.jackson_s_echo_dot
+      - media_player.justin_s_echo_show
+      title: Refill Water Softener
+      data:
+        type: tts
+        message: The Salt in the Water Softener is Low. Please get some Salt and Refill
+          it as soon as possible.
+- alias: leaf charging status
+  id: isdadscarpluggedin0001
+  trigger:
+    platform: time
+    at: '22:00:00'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: device_tracker.life360_drzzs
+      state: home
+    - condition: state
+      entity_id: sensor.adensville_charging_status
+      state: standby
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      message: It's 10pm and your car isn't charging
+      data:
+        attachment:
+          url: https://468y981o84o43v2wo2600a0gcj-wpengine.netdna-ssl.com/wp-content/uploads/2014/07/LEAF-Charging.png
+  - service: notify.alexa_media_workbench
+    data:
+      type: tts
+      message: It's 10pm and your car isn't charging. Maybe you should do something
+        about that.
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_dot_2
+      - media_player.kitchen
+      - media_player.justin_s_echo_show
+      - media_player.zoe_s_echo_dot
+      data:
+        type: tts
+      message: It's 10pm and daddy's car isn't charging. Please make sure he knows
+        so he can plug it in.
+- alias: picroft tts
+  id: picrofttexttospeachbox
+  trigger:
+    platform: state
+    entity_id: input_text.picroft
+  action:
+    service: notify.picroft
+    data_template:
+      message: '{{  states.input_text.picroft.state }}'
+- alias: NodeMCU LEDs Scheme
+  initial_state: 'on'
+  id: 8495jfgdfnlkbnsldjwedf
+  trigger:
+  - platform: state
+    entity_id: input_number.nodemcu_scheme
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/nodemcu/scheme
+      payload_template: '{{ states.input_number.nodemcu_scheme.state | int }}'
+- alias: NodeMCU LEDs Speed
+  initial_state: 'on'
+  id: 823784hwfgjkgdbncvmnwedf
+  trigger:
+  - platform: state
+    entity_id: input_number.nodemcu_speed
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/nodemcu/speed
+      payload_template: '{{ states.input_number.nodemcu_speed.state | int }}'
+- alias: Motion Triggers Image Update Mountain Room
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_mountain_room_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Mountain Room
+  id: 4f1a3dfc60be4580a2372b3991f7789c
+- alias: Motion Triggers Image Update Piano Room
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_piano_room_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Piano Room
+  id: 614fddc4116647ad849281442dde7bfc
+- alias: Motion Triggers Image Update Toy Room
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_toy_room_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Toy Room
+  id: d520ed3b78a846d498ad954a40854fa3
+- alias: Motion Triggers Image Update Garage
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_garage_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Garage
+  id: d6ada810e9b74e39afb282798d8a6c9f
+- alias: Motion Triggers Image Update Basement
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_basement_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Basement
+  id: fa34a004a6c546afaa408311ba2e5d0c
+- alias: Motion Triggers Image Update Back Yard
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_back_yard_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Back Yard
+  id: 365f192ae3f44e55874663d042866f04
+- alias: Motion Triggers Image Update Front Yard
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_front_yard_motion_detected
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Front Yard
+  id: 1db39bd159d9484daf7bd6208df0399f
+- alias: Blink Cameras Refresh All
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.blink_refresh
+    to: 'on'
+  action:
+  - service: blink.trigger_camera
+    data:
+      name: Front Yard
+  - service: blink.trigger_camera
+    data:
+      name: Back Yard
+  - service: blink.trigger_camera
+    data:
+      name: Garage
+  - service: blink.trigger_camera
+    data:
+      name: Basement
+  - service: blink.trigger_camera
+    data:
+      name: Mountain Room
+  - service: blink.trigger_camera
+    data:
+      name: Piano Room
+  - service: blink.trigger_camera
+    data:
+      name: Toy Room
+  - service: blink.blink_update
+  - delay: 00:01
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.blink_refresh
+  id: 4d0e5edc523348cbb96414f4738b6fdb
+- alias: Sunday Music
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.sunday_music
+    to: 'on'
+  action:
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumiohomelocal
+      source: Sunday
+  - delay: 0:01
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.sunday_music
+  id: 5736864813ec4c5ba4ecd8474914e280
+- alias: Lindsay Music
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.lindsay_music
+    to: 'on'
+  action:
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumiohomelocal
+      source: Lindsay
+  - delay: 0:01
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.lindsay_music
+  id: 8752eb84210847f48ecec0ab1ef941a0
+- alias: Rock Music
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.rock_music
+    to: 'on'
+  action:
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumiohomelocal
+      source: Rock On
+  - delay: 0:01
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.rock_music
+  id: 8ebee93c11a9496b974625cb3b15b0fd
+- alias: Country Music
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.country_music
+    to: 'on'
+  action:
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumiohomelocal
+      source: Country
+  - delay: 0:01
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.country_music
+  id: 23705fb2d71240229e68c9c14d5bbfd3
+- alias: FHE
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.fhe
+    to: 'on'
+  action:
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.basement
+      - media_player.jackson_s_echo_dot
+      - media_player.kitchen
+      - media_player.kitchen_dot_2
+      - media_player.workbench
+      - media_player.toy_room_2
+      - media_player.zoe_s_echo_dot
+      - media_player.mom_and_dads_room_2
+      - media_player.garage
+      - media_player.theater_room
+      - media_player.justin_s_echo_show
+      data:
+        type: announce
+      message: Everyone please pause what you're doing and come to the Piano Room.
+        I know you heard me. Yes I mean you too. Everyone gather in the Piano room
+        or I will shut off everything in the house. Thank you!
+  id: 0728e0a7aeb849b09ed6392a06fbadf3
+- alias: FHE shutdown
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.fhe
+    to: 'on'
+    for:
+      minutes: 5
+  action:
+  - service: switch.turn_off
+    entity_id: switch.toy_room, switch.upstairs_hall, switch.theater, switch.office_light,
+      switch.office_crown, switch.office_light, switch.master_lights, switch.girls_sun,
+      switch.girls_lights, switch.boys_sun, switch.boys_lights, switch.boys_shower,
+      switch.boys_bathroom
+  id: 507123d287314b4e94e047f9798b14c2
+- id: 4d6f13fd347646c99afaa93d0fa03197
+  alias: Dinner Time
+  trigger:
+  - entity_id: input_boolean.dinner_time
+    platform: state
+    to: 'on'
+  action:
+  - data:
+      message: Its dinner time. Come and get it while its hot. Please go now, I dont
+        want your mom to have to yell at you again.
+      type: tts
+    service: notify.alexa_media_everywhere
+  - delay: 0:01
+  - entity_id: input_boolean.dinner_time
+    service: input_boolean.turn_off
+  initial_state: 'on'
+- alias: Boys Bathroom Lock on
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.boys_toilet
+    from: 'off'
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.boys_bathroom_lock
+  id: a9b4a16ad5ce49eca8ec847711c273bb
+- alias: Boys Bathroom Lock off
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.boys_toilet
+    to: 'off'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.boys_bathroom_lock
+  id: dd556dc5eec340b5b1976d6b42645ba1
+- alias: Boys Bathroom Lock off after 20
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.boys_toilet
+    to: 'on'
+    for:
+      minutes: 20
+  action:
+  - service: switch.turn_off
+    entity_id: switch.boys_bathroom_lock
+  id: 0f4e2bd8e3e542d29b790cf70de44b30
+- alias: Boys Toilet Destinker
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.boys_toilet
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.10024200b4e62d51cd4b
+  - delay: 0:10
+  - service: switch.turn_off
+    entity_id: switch.10024200b4e62d51cd4b
+  id: 725b8df5d57745f7b0766f80631fcc54
+- alias: Main Toilet Destinker
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_toilet
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.10024200b4e62d51d3d7
+  - delay: 0:10
+  - service: switch.turn_off
+    entity_id: switch.10024200b4e62d51d3d7
+  id: 0e3c84d89f9d4f0cafba3d92fd2fe5de
+- alias: Master Toilet Destinker
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.master_toilet
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.10024200b4e62d51d558
+  - delay: 0:10
+  - service: switch.turn_off
+    entity_id: switch.10024200b4e62d51d558
+  id: f96c692b6395461297acc245e8f3cd77
+- alias: Summer Night Temp adjustment
+  initial_state: 'on'
+  trigger:
+  - platform: time
+    at: '20:30:00'
+  condition:
+    condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ now().month == 5 }}'
+    - condition: template
+      value_template: '{{ now().month == 6 }}'
+    - condition: template
+      value_template: '{{ now().month == 7 }}'
+    - condition: template
+      value_template: '{{ now().month == 8 }}'
+    - condition: template
+      value_template: '{{ now().month == 9 }}'
+  action:
+  - service: climate.set_temperature
+    data:
+      entity_id: climate.upstairs_ac, climate.main_floor_ac
+      temperature: 78
+  id: 8948e266c4164b5cbb16e1e79a24abf6
+- alias: Summer Daytime Temp adjustment
+  initial_state: 'on'
+  trigger:
+  - platform: time
+    at: 09:00:00
+  condition:
+    condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ now().month == 5 }}'
+    - condition: template
+      value_template: '{{ now().month == 6 }}'
+    - condition: template
+      value_template: '{{ now().month == 7 }}'
+    - condition: template
+      value_template: '{{ now().month == 8 }}'
+    - condition: template
+      value_template: '{{ now().month == 9 }}'
+  action:
+  - service: climate.set_temperature
+    data:
+      entity_id: climate.upstairs_ac, climate.main_floor_ac
+      temperature: 73
+  id: 7484b3bb02134d9982554fb3fd6bcbcb
+- alias: No one home Away Mode On
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: device_tracker.life360_mom, device_tracker.life360_drzzs
+    to: not_home
+    for:
+      hours: 24
+  action:
+  - service: climate.set_preset_mode
+    data:
+      entity_id: climate.upstairs_ac, climate.upstairs_furnace, climate.main_floor_ac,
+        climate.main_floor_heat, climate.master_bedroom_heat, climate.kitchen_heat,
+        climate.kids_bedroom_heat, climate.entryway_heat, climate.toy_room_heat, climate.guest_bedroom_heat,
+        climate.theater_room_heat
+      preset_mode: away
+  id: c00e26e2f8b94214a81fc8c5c71b38dd
+- alias: Projector Receiver Toggle
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.receiver
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_66
+    data:
+      packet: JgCoAQABJZQRFBE4ERQRFBE4ERQRORE4ExIRFBE4ETkRFBE4ETkRFBA5ETkRExE5ERQRExE5ETkRExEUETkRExE5ETgRFBEUEQAFHAABJE0RAAxJAAEmSxIADEgAASZLEgAMSAABJksSAAxIAAEnShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASdKEwAMRwABJ0oTAAxHAAElTBEADEkAASVMEQAMSgABJkoTAAxHAAElTBEADEkAASdIFQAMSAABJEwRAAxKAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEgAASVLEgAMSQABJkoTAAxIAAEmShMADEgAASZKEwAMSAABJkoUAAxHAAEmShQADEcAASZKFAAMRwABJkoUAAxHAAEmShQADEcAASZKFAAMRwABJkoUAAxHAAEmShQADQU=
+  id: cb3a14e7fba742a78a27b499b0bac5a8
+- alias: Select Desk LEDs Blue
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.desk_leds
+    to: Blue
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_62
+    data:
+      packet: JgC4AQABKZQSExMSFBIRFRESFBMRFBISEzcTNxI3FDcTNxI3FDcTNxI4EzcTEhM3EzcSFBISExMRFBISEzcTEhMTETgTNxM3EgAFHQABKUsTAAxUAAEpSxIADFAAASlLEwAMVAABKUsSAAxUAAEqShMADFUAASlLEgAMVQABKUsTAAxUAAEqShMADFQAASpKEwAMVQABKUoTAAxVAAEpShMADFUAASlKEwAMVQABKEsTAAxUAAEpSxIADFUAASlLEgAMVQABKUsTAAxUAAEqShMADFQAASlLEwAMVAABKUsTAAxUAAEpSxMADFQAASpKEwAMVAABKkoTAAxUAAEqShMADFQAASpKEwAMVAABKUsTAAxUAAEpSxMADFQAASlLEwAMVAABKkoTAAxUAAEpSxMADFQAASlLEwAMVAABKUsTAAxUAAEpSxIADFUAASlKEwAMVAABKUsTAAxUAAEpShMADFQAASpKEwAMVAABKkoTAAxUAAEqShMADFQAASpKEwAMVAABKkoTAAxUAAEqShMADFQAASpKEwAMVAABKkoTAAxUAAEqShMADFQAASlLEwAMRQABKksTAA0F
+  id: 8280772fbac04f11bdc6b2309d8078d7
+- alias: Select Desk LEDs Maize
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.desk_leds
+    to: Maize
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_62
+    data:
+      packet: JgCYAQABJ5YRFRETEhMRFRETEhQQFREUEjgRORA5EzgRORA6EjgRORAVERQSOBI4EDoRFBAVEhMSOBI4EBUSExITEDoSOBI4EQAFIAABKEwSAAxWAAEpShEADFcAASdMEQAMVgABJ00SAAxVAAEoSxMADFQAAShLEwAMVAABKUoTAAxUAAEpShMADFQAASlKEwAMVAABKEsTAAxUAAEoSxMADFQAASlKEwAMVAABKUoTAAxUAAEpShMADFQAASlKEwAMVAABKEsTAAxUAAEoSxIADFUAAShLEwAMUwABKUsSAAxUAAEpSxIADFQAASlKEwAMVAABKUoTAAxUAAEpShMADFQAAShLEwAMUwABKUsSAAxUAAEpShMADFQAAShLEwAMUwABKUoTAAxUAAEmTRIADFQAASdMEwAMUwABJ00QAAxWAAEnTBEADFYAASZNEAAMVgABKUoRAAxWAAEpShAADFYAASdNEAAMVgABJ0wRAAxWAAEnTBAADFYAASdMEQAMVgABJ0wQAAxWAAEnTBEADFYAASdMEQANBQ==
+  id: 812e653601504c63873d58f053b69d0c
+- alias: Select Desk LEDs Green
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.desk_leds
+    to: Green
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_62
+    data:
+      packet: JgAgAQABKpUSExITERUQFBMTEBURFBITETkSORE4ETkTOBE5EDkTOBI4EBUSExITETkSExEVERMSFBA6EjgRORAVETkQOhI4EgAFIAABKUsSAAxTAAEqShIADFYAASlLEgAMVQABKkoSAAxWAAEpSxIADFYAASlKEwAMVQABKkoSAAxVAAEqShMADFEAASlLEgAMVgABKUsSAAxWAAEpSxIADFYAASpKEgAMVgABKkoSAAxWAAEpSxIADFUAASlLEwAMVQABK0kTAAxVAAEqShMADFQAAStJFAAMVAABK0kUAAxUAAErSRQADFQAAStJFAAMVAABK0kUAAxUAAErSRQADFQAASpKEwAMVAABKUsUAAxUAAEqShMADFIAAStKEwANBQAAAAAAAAAA
+  id: 7a524f8ce9514511b186268c83271aa7
+- alias: Select Desk LEDs Red
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.desk_leds
+    to: Red
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_62
+    data:
+      packet: ''
+  id: 41cc87d510a14a5c9512202311ec0220
+- alias: Select Desk LEDs Smooth
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.desk_leds
+    to: Smooth
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_62
+    data:
+      packet: JgCYAQABJpYSExITEBURFBEUEBURFBITEDoRORE5EDkTOBE5EDkROhAUEhMRORI5ERMSExEVEBQSORA5EBYQFBI4EjgQOhE5EQAFIAABJ0sSAAxWAAEnSxIADFcAASZMEQAMVQABKEsSAAxWAAEnTBEADFcAASdMEQAMVwABJ0wRAAxXAAEoShIADFYAASlKEgAMVgABKEsSAAxWAAEoSxEADFYAASlKEgAMVgABKUoSAAxWAAEpShIADFYAASlKEgAMVgABKEsRAAxXAAEoSxEADFcAAShKEgAMVgABKUoSAAxWAAEnTBEADFYAAShLEgAMVgABJ0sRAAxXAAEnSxIADFYAASdMEQAMVwABJ0sSAAxWAAEoSxIADFYAASdLEgAMVgABJ0wRAAxWAAEoSxEADFYAAShLEgAMVgABJ0sSAAxWAAEnTBEADFYAASdMEQAMVwABJ0sSAAxWAAEoShMADFUAASdMEgAMVQABKEsSAAxVAAEoSxIADFYAASdLEgAMVgABJ0sSAAxWAAEnSxIADFYAASZMEgANBQ==
+  id: 3b3c6dc9cf5c4e9fa2af736e5d62a352
+- alias: Select Projector Input Roku
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.projector_input
+    to: Roku
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_66
+    data:
+      packet: JgAoAgABJpQTEhM2ExITEhM2FBETNhM3FDYTERQ2FDUUERQ2FDUUERM3EzYUNhM2FBETEhMRExITEhMSExETEhM3EzYTNxM2EwAE9gABJkoUAAxHAAEkTBEADEoAASRMEQAMSgABJkoTAAxIAAEkTREADEkAASRNEQAMSQABJE0SAAxIAAEmSxIADEkAASVLEgAMSQABJUsSAAxJAAElSxIADEkAASVLEgAMSQABJE0RAAxJAAEkTREADEkAASRNEQAMSQABJE0RAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJE0RAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRNEQAMSQABJE0RAAxJAAEmSxEADEkAASZLEwAMRwABJksTAAxIAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmSxIADEgAASZLEgAMSAABJksTAAxHAAEmSxMADEcAASZLEwAMSAABJkoTAAxIAAEmShMADEgAASdJEwAMSAABJ0kTAAxIAAEnShMADEcAASdKEwAMRwABJ0oUAAxGAAEnShQADEcAASZKEwAMSAABJkoTAAxIAAEmShMADEgAASZKEwAMSAABJE0TAAxHAAEkTREADEkAASVMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQANBQ==
+  id: 71f9e69542d14f39a768f7ca213662d4
+- alias: Select Projector Input Cable
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.projector_input
+    to: Cable
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_66
+    data:
+      packet: JgDgAQABJpMTEhM3EhITEhM3EhITNxM2EzcTEhM2EzcTEhI3EzcSEhMSEzcTNhM3ExISEhMSExITNhMSExITEhI3EzcTNhM3EwAE9QABJksTAAxHAAEmSxMADEgAASVLEwAMSAABJUsTAAxIAAEmShMADEgAASdJFAAMRwABJkoTAAxIAAEmShMADEgAASZLEwAMRwABJksRAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJE0RAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwSAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTREADEkAASRNEQAMSQABJE0RAAxJAAElTBEADEkAASVMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBIADEkAASRNEQAMSQABJE0RAAxJAAEkTREADEkAASZLEQANBQAAAAAAAAAA
+  id: 6f6b8f682ddd4ad884e1639025d79534
+- alias: Select Projector Input DVD
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.projector_input
+    to: DVD
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_66
+    data:
+      packet: JgDYAgABJJYRExI4ERQRExI4ERQROBE5ETgSExE5ETgRFBE5ETgRFBE5ERMRORE4ERQRFBEUERMRFBE5ERMSExE5ETgRORE4EgAE9wABJE0RAAxJAAEkTREADEkAASRNEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBIADEkAASRNEQAMSQABJE0RAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRNEQAMSQABJE0RAAxJAAEkTREADEkAASVMFAAMRwABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJE0RAAxJAAEkTREADEkAASRNEQAMSQABJUwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRNEQAMSQABJE0RAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEgAMSQABJE0RAAxJAAEkTREADEkAASVMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEgAMSQABJE0RAAxJAAEkTREADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRMEgAMSQABJE0RAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBEADEoAASRNEQAMSQABJE0RAAxJAAElTBEADEkAASVMEQAMSgABJEwRAAxKAAEkTBEADEoAASRNEQAMSQABJE0RAAxJAAElTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTBIADEkAASRNEQAMSQABJUwRAAxKAAEkTBEADEoAASRMEQAMSgABJEwRAAxKAAEkTREADEkAASRNEQAMSQABJUwRAA0F
+  id: 417dc34db40446e2b0bb00438a30ff5b
+- alias: Select Projector Input extra
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.projector_input
+    to: extra
+  action:
+  - service: switch.broadlink_send_packet_192_168_1_66
+    data:
+      packet: JgCYAgABJpMTEhM2FBETEhM2FBETNxM2ExITEhM2EzcTEhM2EzcTERQRExITNhQ2ExITEhMREzcTNhQ2ExITERQ2EzYUNhMSEwAFGgABJkoUAAxHAAEmShQADEcAASZKEwAMSAABJkoTAAxIAAEmShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASdKEwAMRwABJksTAAxHAAEmShQADEcAASZKFAAMRwABJkoUAAxHAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEgAASZKEwAMRwABJ0oTAAxHAAEnShMADEcAASdKEwAMRwABJ0oTAAxHAAEmSxMADEcAASZLEwAMRwABJkoUAAxHAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASZLEwAMRwABJkoUAAxHAAEmShQADEcAASZKEwAMSAABJkoTAAxIAAEmShMADEcAASdKEwAMRwABJ0oTAAxHAAEnShMADEcAASZLEwAMRwABJkoUAAxHAAEmShQADEcAASZKEwAMSAABJkoTAAxIAAEmShMADEcAASdKEwAMRwABJ0oTAAxHAAEmShQADEcAASZKFAAMRwABJkoUAAxHAAEmShMADEgAASZKEwAMRwABJ0oTAAxHAAEnShMADEcAASZLEwAMRwABJkoUAAxHAAEmShMADEgAASZKEwAMSAABJkoTAAxIAAEmShMADEcAASdKEwAMRwABJksTAAxHAAEmSxIADEgAASVLEwAMSAABJEwRAAxKAAEkTBEADEkAASVMEQAMSQABJE0RAAxJAAEkTREADEkAASRMEQAMSgABJUsSAAxJAAElSxIADQU=
+  id: 1142c7e7a9f347bc9edc8cb465990279
+- alias: Trigger alarm while armed home or away
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.shop_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.garage_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.basement_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.garage_entry
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.kitchen_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.kitchen_windows
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.front_windows
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.master_bedroom
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.theater_windows
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hafens_room
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.grandmas_room
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.gym_window
+    to: 'on'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarm
+      state: armed_away
+    - condition: state
+      entity_id: alarm_control_panel.alarm
+      state: armed_home
+  action:
+    service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.alarm
+  id: a55d6b63cb9346488b00ad75b882b4c8
+- alias: Alarm Triggered
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.alarm
+    to: triggered
+  action:
+  - service: notify.notify
+    data:
+      message: '!Alarm Triggered!'
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen
+      - media_player.kitchen_dot_2
+      - media_player.workbench
+      - media_player.toy_room_2
+      - media_player.zoe_s_echo_dot
+      - media_player.mom_and_dads_room_2
+      - media_player.garage
+      - media_player.theater_room
+      - media_player.justin_s_echo_show
+      data:
+        type: tts
+      message: The Alarm has been triggered. Input the disarm code or an automated
+        message will be sent to the police in 30 seconds.
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumioboxlocal
+      source: Sneak Caught
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.volumio_volumiohomelocal
+      source: Home Alarm
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.all_leds
+      option: Police All
+  - service: notify.ios_justin_iphone7
+    data:
+      title: ALARM TRIGGERED
+      message: Maybe check the cameras
+  - service: notify.ios_janis7
+    data:
+      title: ALARM TRIGGERED
+      message: Scream! Run! Hide!
+  id: fa737cb5d10b410eb3fb083c8113dd2f
+- alias: Homekit Delayed Start
+  initial_state: 'on'
+  trigger:
+  - platform: homeassistant
+    event: start
+  action:
+  - delay: 00:05
+  - service: homekit.start
+  id: aab945cad3e8491a95bde9cd0c5e496d
+- id: ae896abf285e4e83a324fe48aaa42682
+  alias: Back Door Open
+  trigger:
+  - entity_id: binary_sensor.kitchen_door
+    for: 00:02:00
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - data:
+      target:
+      - media_player.justin_s_echo_show
+      title: Close the Backdoor
+      data:
+        type: tts
+      message: Can someone please close the backdoor?
+    service: notify.alexa_media
+  initial_state: 'on'
+- alias: Garage Fridge Open
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_fridge
+    from: 'off'
+    to: 'on'
+    for: 00:05:00
+  action:
+  - service: notify.alexa_media_everywhere
+    data:
+      type: tts
+      message: Can someone please close the garage fridge?
+  id: 1962b6a39a044432b2d7ce2827420a1e
+- alias: Basement Water Leak
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.basment_water
+    from: 'off'
+    to: 'on'
+  action:
+  - service: notify.alexa_media_everywhere
+    data:
+      type: tts
+      message: Holy Crap there's water in the Basement again! Call someone, do something,
+        ahhhhhhhh?
+  id: 7cbfef8b83d74ccc9b224c230206c9d8
+- alias: DrZzs Xbox 2hr warning
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: sensor.drzzs_xbox
+    to: 'on'
+    for:
+      minutes: 120
+  action:
+  - service: notify.drzzs_xbox
+    data:
+      message: You've been playing for 2 hours bud. Time to take a break.
+  id: fda692a3dd6d4093b8df386fa83ad628
+- alias: Zach Xbox 3hr text
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: sensor.i_am_zerp
+    to: 'on'
+    for:
+      minutes: 180
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: Zach Xbox
+      message: Zach's been on the Xbox for 3 hours
+  id: 2dc766d9f8db4ed7b8c8561a13aa8da8
+- alias: Reset garagePIR state
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_motion
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 5
+  action:
+  - service: mqtt.publish
+    data:
+      topic: tele/RF_Bridge/RESULT
+      payload: D54C1Eoff
+  id: 942c07bde7734b5e8c14b73f0c8cd8c9
+- alias: Boy Bathroom Lights Off
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.boys_bathroom_motion
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 10
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.boys_bathroom
+  - service: switch.turn_off
+    data:
+      entity_id: switch.boys_shower
+  id: 272f2724cb7f41cda55cf7243f34rfsd
+- alias: Garage Lights Off
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_motion
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 5
+  action:
+  - service: switch.turn_off
+    entity_id: switch.garage_lights
+  id: 272f2724cb7f41cda55cf703a89c94de
+- alias: Garage Lights On
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.shop_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.garage_entry
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.garage_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.garage_lights
+    state: 'off'
+  action:
+    service: switch.turn_on
+    data:
+      entity_id: switch.garage_lights
+  id: 957b28584f3543bb862d5dc3b18689fd
+- action:
+  - data:
+      entity_id: cover.test
+    service: cover.open_cover
+  alias: CarPresenceJustin_on
+  initial_state: 'on'
+  condition:
+  - condition: state
+    entity_id: cover.test
+    state: closed
+  id: '1519177386792'
+  trigger:
+  - entity_id: binary_sensor.carpresencejustin
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: cover.test
+    service: cover.close_cover
+  alias: CarPresenceJustin_off
+  initial_state: 'on'
+  condition:
+  - condition: state
+    entity_id: cover.test
+    state: open
+  id: '1519177468452'
+  trigger:
+  - entity_id: binary_sensor.carpresencejustin
+    from: 'on'
+    platform: state
+    to: 'off'
+- alias: DrZzs leaving Work
+  id: daddyjustleftwork
+  trigger:
+  - platform: state
+    entity_id: device_tracker.life360_drzzs
+    from: Work
+    to: not_home
+  action:
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen
+      - media_player.kitchen_dot_2
+      - media_player.workbench
+      - media_player.toy_room_2
+      - media_player.zoe_s_echo_dot
+      - media_player.mom_and_dads_room_2
+      - media_player.garage
+      - media_player.theater_room
+      - media_player.justin_s_echo_show
+      - media_player.justin_s_echo_flex
+      - media_player.jackson_s_echo_dot
+      data:
+        type: announce
+      message: Daddy just left work, he should be home in about thirty minutes. Get
+        ready for hugs!
+  - service: notify.notify
+    data:
+      message: Daddy just left work, should be home soon
+- action:
+    data:
+      friendly_name: Garage
+    service: blink.snap_picture
+  alias: Garage Blink Pic
+  initial_state: 'on'
+  condition: []
+  id: '1509405186382'
+  trigger:
+  - entity_id: input_boolean.garage_blink
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: input_boolean.garage_blink
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: switch.upstairs_hall
+    service: switch.toggle
+  alias: Multi Switch Hall Lights
+  initial_state: 'on'
+  condition: []
+  id: '1514764929766'
+  trigger:
+  - entity_id: switch.sonoff_11
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: switch.sonoff_11
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: switch.sonoff_12
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: switch.sonoff_12
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - delay: 00:30:00
+  - data:
+      entity_id: switch.back_porch
+    service: switch.turn_off
+  alias: side porch timer
+  initial_state: 'on'
+  condition: []
+  id: '1515120730104'
+  trigger:
+  - entity_id: switch.back_porch
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: switch.back_porch
+    service: switch.turn_off
+  alias: light timer
+  initial_state: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.back_porch
+    state: 'on'
+  id: '1519190216462'
+  trigger:
+  - at: '22:00:00'
+    platform: time
+- alias: Christmas LED Sunset
+  initial_state: true
+  trigger:
+  - platform: sun
+    event: sunset
+  condition:
+  - condition: template
+    value_template: '{{ now().month == 12 }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.wled_lights
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.wled_presets
+      option: '[PL=01] Preset 1'
+  - delay: 05:00:00
+  - service: light.turn_off
+    data:
+      entity_id: light.wled_lights
+      effect: '[FX=00] Solid'
+  id: 4ff77dd5be9d447194f57ff600147152
+- alias: Justin Garage Notification iOS
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: cover.single
+    from: closed
+    to: open
+  action:
+  - service: notify.ios_justin_iphone7
+    data:
+      message: Justin's Garage is Open
+      data:
+        push:
+          sound: US-EN-Morgan-Freeman-Garage-Door-Opened.wav
+          badge: 0
+          category: GARAGE2
+  id: f62eba7911c141ef852e65873e05864f
+- alias: Janis Garage Notification iOS
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: cover.double
+    from: closed
+    to: open
+  action:
+  - service: notify.ios_janis7
+    data:
+      message: Janis' Garage is Open
+      data:
+        push:
+          sound: US-EN-Daisy-Garage-Door-Open.wav
+          badge: 0
+          category: GARAGE1
+  id: 984f7751692c4d0f92a370dbc13fcc0e
+- alias: Camera actionable notification
+  id: cameraactionablenotification238409284
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_boolean.test_trigger
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: ALERT
+      message: Someone is at the Front Door
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.blackptz
+- alias: office security system
+  id: officesecuritysystem34928374982374
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: binary_sensor.office_pir
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: template
+    value_template: '{{ states.device_tracker.life360_drzzs.state != ''home'' }}'
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: Yo!
+      message: Someones in the Keep!
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.pizero_105
+- alias: trigger the alarm
+  id: triggerthealarm234234234
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TRIGGER_ALARM
+  action:
+    service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.alarm
+- alias: turn on police lights
+  id: turnonpolicealllights38247982374
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: POLICE_ALL
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.all_leds
+      option: Police All
+  - delay: 00:30:00
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.all_leds
+      option: solid
+  - delay: 00:00:10
+  - service: light.turn_off
+    entity_id: light.holiday_lights, light.side_lights, light.tree_lights, light.office_test_lights
+- alias: turn on porch lights
+  id: turnonporchlights23432423
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: PORCH_LIGHTS
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.front_porch, switch.back_porch, switch.side_porch
+- alias: unlock office door
+  id: unlockofficedoor23453534
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: UNLOCK_OFFICE
+  action:
+  - service: switch.toggle
+    data:
+      entity_id: switch.office_lock
+- alias: trigger office alarm
+  id: triggerofficealarm12323423
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OFFICE_ALARM
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.office_fan, switch.office_light, switch.office_crown, switch.desk_leds
+  - service: notify.alexa_media_workbench
+    data:
+      type: tts
+      message: Well, hello there. Please don't make a mess in Daddys office and whatever
+        you do, don't eat all his cinnamon bears.
+- alias: notificationTTSbutton
+  id: notificationttsbutton23424234234
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TTS_MESSAGE
+  action:
+  - service: notify.alexa_media_workbench
+    data_template:
+      message: '{{ trigger.event.data["textInput"] }}'
+- alias: Notify iOS app
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: input_boolean.test_trigger
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: Alert
+      message: Something happened at home!
+      data:
+        push:
+          badge: 0
+          category: DOOR
+  id: 05c68f6f4a664b26a26eee4fe6a4f045
+- alias: Notify iOS Janis Garage
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:00:00'
+  condition:
+    condition: state
+    entity_id: cover.double
+    state: open
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: Janis' Garage Check
+      message: It's 10pm and Janis' Garage is Open
+      data:
+        push:
+          badge: 0
+          category: GARAGE1
+  id: 46468ce1b6424ba6a5ac9924c033d9fd
+- alias: Notify iOS Justin Garage
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '22:00:00'
+  condition:
+    condition: state
+    entity_id: cover.test
+    state: open
+  action:
+    service: notify.ios_justin_iphone7
+    data:
+      title: Justin Garage Check
+      message: It's 10pm and Justin's Garage is Open
+      data:
+        push:
+          badge: 0
+          category: GARAGE2
+  id: e5ca40be78ff4edbb48da3eeff4ca151
+- alias: iOS app notification action garage1
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_JANIS
+  action:
+    service: cover.close_cover
+    entity_id: cover.double
+  id: 315e15e4be244008901a2ae973b401a4
+- alias: iOS app notification action garage2
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_JUSTIN
+  action:
+    service: cover.close_cover
+    entity_id: cover.test
+  id: ed54cf6df2ec48c1b4a5eb3192a1a5d5
+- alias: iOS app notification action pressed1
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OPEN_FIRST
+  action:
+    service: input_boolean.turn_on
+    entity_id: input_boolean.result
+  id: a446a33962934986b3b8b187513f20bc
+- alias: iOS app notification action pressed2
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OPEN_SECOND
+  action:
+    service: cover.close_cover
+    entity_id: cover.double
+  id: 474ec91f0b794874a4eda54ab936c2a1
+- alias: iOS app notification action pressed3
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OPEN_THIRD
+  action:
+    service: cover.close_cover
+    entity_id: cover.test
+  id: b26b048a438b402fa5422cbf181d718d
+- alias: iOS app AN Game WIN
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: WIN
+  action:
+    service: input_select.select_option
+    data:
+      entity_id: input_select.holiday_led_effect
+      option: Touchdown
+  id: 8e1514456bb2403f86fbbfa690fb1b41
+- alias: iOS app AN Game LOSS
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: LOSS
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.holiday_led_effect
+      option: Solid
+  - service: light.turn_off
+    entity_id: light.holiday_lights
+  id: 06a40c28b19644a58c3b06e46f0953ac
+- id: '1544127660556'
+  alias: Fridge door
+  initial_state: 'on'
+  trigger:
+  - entity_id: binary_sensor.garage_fridge
+    for: 05:00
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: The fridge door is open
+      title: FRIDGE ALARM
+    service: notify.ios_justin_iphone7
+- id: '1546879760847'
+  alias: Janis Garage Webhook
+  initial_state: 'on'
+  trigger:
+  - platform: webhook
+    webhook_id: janis-garage-webhook
+  condition: []
+  action:
+  - service: switch.toggle
+    entity_id: switch.janis_garage_relay
+- id: 154684543trg0847
+  alias: Justin Garage Webhook
+  initial_state: 'on'
+  trigger:
+  - platform: webhook
+    webhook_id: justin-garage-webhook
+  condition: []
+  action:
+  - data:
+      entity_id: cover.test
+    service: cover.open_cover
+- id: '1547768614550'
+  alias: Boys Bathroom PIR lights ON
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.boys_bathroom_motion
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.boys_bathroom
+    service: switch.turn_on
+  - data:
+      entity_id: switch.boys_shower
+    service: switch.turn_on
+- id: '1547769827082'
+  alias: Webhook Janis Garage
+  trigger:
+  - platform: webhook
+    webhook_id: janis-garage
+  condition: []
+  action:
+  - data:
+      entity_id: cover.double
+    service: cover.open_cover
+- id: '1548641451838'
+  alias: Frenck Stream
+  initial_state: true
+  trigger:
+  - entity_id: sensor.frenck
+    platform: state
+    to: streaming
+  condition: []
+  action:
+  - data:
+      entity_id: light.office_west
+    service: light.turn_on
+- id: '1548851728578'
+  alias: Porch off
+  trigger:
+  - at: '22:00:00'
+    platform: time
+  condition:
+  - condition: state
+    entity_id: device_tracker.life360_drzzs
+    state: home
+  - condition: state
+    entity_id: device_tracker.mom
+    state: home
+  - condition: state
+    entity_id: device_tracker.jackson_aden
+    state: home
+  action:
+  - data:
+      entity_id: switch.front_porch
+    service: light.turn_off
+- id: 1548852677916off
+  alias: Digiblur Stream End
+  initial_state: true
+  trigger:
+  - entity_id: sensor.digiblurdiy
+    platform: state
+    from: streaming
+  condition:
+  - condition: state
+    entity_id: sensor.drzzs
+    state: offline
+  action:
+  - data:
+      entity_id: light.office_west
+    service: light.turn_off
+- id: '1548852677916'
+  alias: Digiblur Stream Alert
+  initial_state: true
+  trigger:
+  - entity_id: sensor.digiblurdiy
+    platform: state
+    to: streaming
+  condition:
+  - condition: state
+    entity_id: sensor.drzzs
+    state: offline
+  action:
+  - data:
+      entity_id: light.office_west
+    service: light.turn_on
+- id: '1550627138971'
+  alias: Franck Stream Off
+  initial_state: true
+  trigger:
+  - entity_id: sensor.frenck
+    from: streaming
+    platform: state
+  condition: []
+  action:
+  - data:
+      entity_id: light.office_west
+    service: light.turn_off
+- id: '1551993824159'
+  alias: motioneye webhook test
+  trigger:
+  - platform: webhook
+    webhook_id: motioneye_webhook_test
+  condition: []
+  action:
+  - data:
+      message: motioneye webhook test
+    service: notify.ios_justin_iphone7
+- id: '1552619801097'
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: switch.laundry_room
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.laundry_room
+  alias: Laundry Room Light AutoOff 5min
+- id: '1571242093784'
+  alias: Garage Lights on with motion or door opening
+  trigger:
+  - entity_id: binary_sensor.garage_motion
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.garage_entry
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.garage_lights
+    service: switch.turn_on
+- id: '1571242282484'
+  alias: Garage Lights off after 5 min without motion
+  trigger:
+  - entity_id: switch.garage_lights
+    for: 10 min
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.garage_lights
+    service: switch.turn_off
+- id: '1572110188244'
+  alias: Power Monitor Triggered Notification
+  description: When something draws power send notification
+  trigger:
+  - below: '0.1'
+    entity_id: sensor.sonoff_energy_current
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: The washer is finished
+    service: notify.notify
+- id: '1573762869101'
+  alias: turn off porch lights
+  description: so the front porch light won't be on during the day anymore
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - data:
+      entity_id: switch.front_porch
+    service: switch.turn_off
+- id: '1575663379500'
+  alias: UM BasketBall Game
+  description: Turn on Office LEDs when UM plays bball
+  trigger:
+  - entity_id: calendar.michigan_wolverines_bball
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - alias: ''
+    data:
+      effect: Running 2
+    service: light.turn_on
+    entity_id: light.office_2
+- id: 4573thjkfgnvjklwe4u8905n3rfgsfgmj3l5terf
+  alias: score update at half of bball game
+  trigger:
+  - platform: state
+    entity_id: calendar.michigan_wolverines_bball
+    to: 'on'
+    for: 01:00:00
+  action:
+  - service: notify.notify
+    data:
+      message: Half-time {{ state_attr('calendar.michigan_wolverines_bball', 'message')
+        }}
+- id: 4573thjkfg47yhfsdhfvbhfgsfgmj3l5terf
+  alias: score update at end of bball game
+  trigger:
+  - platform: state
+    entity_id: calendar.michigan_wolverines_bball
+    to: 'off'
+    from: 'on'
+  action:
+  - service: notify.notify
+    data:
+      message: Game Over {{ state_attr('calendar.michigan_wolverines_bball', 'message')
+        }}
+- id: '1576437738651'
+  alias: mudroom motion stop
+  description: ''
+  trigger:
+  - device_id: a89f0f7c3bed40b38abf5f82c26ecd01
+    domain: binary_sensor
+    entity_id: binary_sensor.mudroom_motion_2
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    platform: device
+    type: no_motion
+  condition: []
+  action:
+  - device_id: a89f0f7c3bed40b38abf5f82c26ecd01
+    domain: switch
+    entity_id: switch.mudroom_light_2
+    type: turn_off
+- id: '1580675974310'
+  alias: Grace's Birthday Lights
+  description: Grace's Birthday Lights
+  trigger:
+  - below: '5'
+    entity_id: sensor.grace_s_birthday
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.wled_lights
+    service: light.turn_on
+  - data:
+      option: '[PL=05]Preset 5'
+    entity_id: input_select.all_leds
+    service: input_select.select_option
+- id: '1587326735237'
+  alias: Desk Dimmer Camera Warning
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: DeskDimmerCameraWarning
+  condition:
+  - condition: state
+    entity_id: sensor.drzzs
+    state: streaming
+  action:
+  - data: {}
+    entity_id: light.desk_dimmer
+    service: light.turn_on
+- id: '1587425181206'
+  alias: Webhooktest
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: bladewebhooktest
+  condition: []
+  action:
+  - device_id: 8fcaa1e5b65742b785fe3827cf898a1d
+    domain: light
+    entity_id: light.wled_hype_office
+    type: toggle

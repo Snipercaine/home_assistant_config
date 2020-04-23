@@ -1,0 +1,222 @@
+##############################################################################
+# The devices created below are essential to the page control automations
+# and you'll probably want to carry them over to your own configuration
+homeassistant:
+  customize:
+    input_number.hasp_bench_alarmcode1:
+      hidden: true
+    input_number.hasp_bench_alarmcode2:
+      hidden: true
+    input_number.hasp_bench_alarmcode3:
+      hidden: true
+    input_number.hasp_bench_alarmcode4:
+      hidden: true
+
+# Enable this iframe to integrate the HASP web admin panel in Hass.
+# This will not work if you have SSL enabled, see details here:
+# https://www.home-assistant.io/components/panel_iframe/
+#
+# panel_iframe:
+#   bench:
+#     title: "bench"
+#     url: "http://bench"
+#     icon: "mdi:cellphone-text"
+
+light:
+  - platform: mqtt
+    name: bench Backlight
+    command_topic: "hasp/bench/light/switch"
+    state_topic: "hasp/bench/light/state"
+    brightness_state_topic: "hasp/bench/brightness/state"
+    brightness_command_topic: "hasp/bench/brightness/set"
+    availability_topic: "hasp/bench/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+binary_sensor:
+  - platform: mqtt
+    name: bench Connected
+    device_class: connectivity
+    state_topic: "hasp/bench/status"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "hasp/bench/status"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+
+sensor:
+  - platform: mqtt
+    name: bench Sensor
+    state_topic: "hasp/bench/sensor"
+    json_attributes_template: '{{ value_json.status }}'
+    # json_attributes:
+    #   - espVersion
+    #   - updateESPAvailable
+    #   - lcdVersion
+    #   - updateLcdAvailable
+    #   - espUptime
+    #   - signalStrength
+    #   - haspIP
+
+input_text:
+  hasp_bench_pagebutton1label:
+    name: bench Page 1 Label
+    icon: mdi:book-open-page-variant
+  hasp_bench_pagebutton2label:
+    name: bench Page 2 Label
+    icon: mdi:book-open-page-variant
+  hasp_bench_pagebutton3label:
+    name: bench Page 3 Label
+    icon: mdi:book-open-page-variant
+
+input_number:
+  hasp_bench_pagebutton1page:
+    name: bench Page 1 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_bench_pagebutton2page:
+    name: bench Page 2 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_bench_pagebutton3page:
+    name: bench Page 3 Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_bench_activepage:
+    name: bench Active Page
+    icon: mdi:format-list-numbers
+    min: 0
+    max: 9
+    step: 1
+  hasp_bench_alarmcode1:
+    name: bench AlarmCode1
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_bench_alarmcode2:
+    name: bench AlarmCode2
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_bench_alarmcode3:
+    name: bench AlarmCode3
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+  hasp_bench_alarmcode4:
+    name: bench AlarmCode4
+    icon: mdi:format-list-numbers
+    min: -1
+    max: 9
+    step: 1
+    initial: -1
+
+group:
+  bench:
+    name: bench
+    entities:
+      - binary_sensor.bench_connected
+      - sensor.bench_sensor
+      - light.bench_backlight
+      - group.bench_pageselect
+      - group.bench_colors
+      - group.bench_automations
+  bench_pageselect:
+    name: bench Page Selection
+    entities:
+      - input_number.hasp_bench_activepage
+      - input_number.hasp_bench_pagebutton1page
+      - input_text.hasp_bench_pagebutton1label
+      - input_number.hasp_bench_pagebutton2page
+      - input_text.hasp_bench_pagebutton2label
+      - input_number.hasp_bench_pagebutton3page
+      - input_text.hasp_bench_pagebutton3label
+  bench_automations:
+    name: bench automations
+    entities:
+      - automation.hasp_bench_00_firsttimesetup
+
+automation:
+##############################################################################
+# Run first time setup commands
+  - alias: hasp_bench_00_FirstTimeSetup
+    trigger: []
+    action:
+      - service: automation.trigger
+        data:
+          entity_id: 'automation.hasp_bench_00_automationgroupupdate'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: 'group.bench_automations'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_bench_pagebutton1label'
+          value: 'scenes'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_bench_pagebutton2label'
+          value: 'status'
+      - service: input_text.set_value
+        data:
+          entity_id: 'input_text.hasp_bench_pagebutton3label'
+          value: 'lights'
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_pagebutton1page'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_pagebutton2page'
+          value: 2
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_pagebutton3page'
+          value: 3
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_activepage'
+          value: 1
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_selectedforegroundcolor'
+          value: 0
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_selectedbackgroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_unselectedforegroundcolor'
+          value: 65535
+      - service: input_number.set_value
+        data:
+          entity_id: 'input_number.hasp_bench_unselectedbackgroundcolor'
+          value: 25388
+
+##############################################################################
+# Set automation group members on start - Thanks @Nightcat!
+  - alias: hasp_bench_00_AutomationGroupUpdate
+    trigger:
+    - platform: homeassistant
+      event: start
+    action:
+    - service: group.set
+      data_template:
+        object_id: "bench_automations"
+        entities: >-
+          {%- for item in states.automation if ((item.entity_id | lower).startswith('automation.hasp_bench_')) -%}
+          {{ item.entity_id }}
+          {% if not loop.last %}, {% endif %}
+          {%- endfor -%}

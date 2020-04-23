@@ -1,0 +1,487 @@
+automation.leaving_work_notify_janis:
+  alexa_hidden: true
+switch.back_porch:
+  alexa_description: the lights behind the house silly
+  alexa_name: Patio
+  icon: mdi:candle
+cover.double:
+  device_class: garage
+  friendly_name: Janis Garage
+  icon: mdi:garage
+cover.single:
+  device_class: garage
+  friendly_name: Justin Garage
+sensor.justin_adens_iphone_battery_level:
+  hidden: true
+sensor.justins_iphone_7_battery_level:
+  hidden: true
+sensor.justins_iphone_7_battery_state:
+  hidden: true
+sensor.justin_adens_iphone_battery_state:
+  hidden: true
+sensor.dawsons_ipod_touch_battery_level:
+  hidden: true
+sensor.dawsons_ipod_touch_battery_state:
+  hidden: true
+sensor.zoes_ipod_touch_battery_level:
+  hidden: true
+sensor.zoes_ipod_touch_battery_state:
+  hidden: true
+device_tracker.justin_iphone:
+  hidden: true
+device_tracker.adensville_iphonejustin:
+  hidden: true
+device_tracker.phonejustin_iphonejustin:
+  friendly_name: Zerp
+  entity_picture: /local/zach_emoji.png
+device_tracker.dawsons_ipod_touch:
+  friendly_name: Dawson
+  entity_picture: /local/D_emoji.png
+device_tracker.zoes_ipod_touch:
+  friendly_name: ZipZo
+  entity_picture: /local/ZipZo_icon.png
+device_tracker.phonejackson_phonejackson:
+  hidden: true
+sensor.mommys_iphone_battery_level:
+  hidden: true
+sensor.mommys_iphone_battery_state:
+  hidden: true
+device_tracker.janisphone_janisphone:
+  hidden: true
+device_tracker.janis_iphone:
+  hidden: true
+sensor.blink_mountain_room_temperature:
+  friendly_name: Mountian Room
+sensor.blink_Basement_Notifications:
+  hidden: true
+sensor.date_time:
+  hidden: true
+sensor.blink_Garage_Notifications:
+  hidden: true
+sensor.blink_Toy_Room_Notifications:
+  hidden: true
+sensor.blink_Piano_Room_Notifications:
+  hidden: true
+sensor.blink_Mountain_Room_Notifications:
+  hidden: true
+sensor.blink_Basement_Battery:
+  hidden: true
+sensor.blink_Garage_Battery:
+  hidden: true
+sensor.blink_Toy_Room_Battery:
+  hidden: true
+sensor.blink_Piano_Room_Battery:
+  hidden: true
+sensor.blink_Mountain_Room_Battery:
+  hidden: true
+zone.home:
+  track_ios: true
+sensor.adensville_amps:
+  hidden: true
+sensor.adensville_charge_time:
+  hidden: true
+sensor.adensville_energy_added:
+  hidden: true
+sensor.adensville_temperature:
+  hidden: true
+sensor.adensville_voltage:
+  hidden: true
+sensor.adensville_watts:
+  hidden: true
+sensor.adensville_charging_status:
+  friendly_name: Leaf
+sensor.bearbait16:
+  hidden: true
+sensor.blue_man_suit:
+  hidden: true
+sensor.drzzs_xbox: {}
+sensor.i_am_zerp:
+  hidden: true
+sensor.irotras:
+  hidden: true
+sensor.octoprint_target_tool0_temp:
+  hidden: true
+sensor.octoprint_target_tool1_temp:
+  hidden: true
+sensor.octoprint_target_bed_temp:
+  hidden: true
+sensor.octoprint_actual_tool1_temp:
+  hidden: true
+sensor.octoprint_actual_tool0_temp:
+  hidden: true
+sensor.octoprint_actual_bed_temp:
+  hidden: true
+binary_sensor.octoprint_printing:
+  hidden: true
+binary_sensor.octoprint_printing_error:
+  hidden: true
+sensor.octoprint_current_state:
+  icon: mdi:printer-3d
+sensor.octoprint_job_percentage:
+  icon: mdi:percent
+sensor.yr_symbol:
+  friendly_name: Forcast
+sensor.yr_temperature:
+  friendly_name: Temp
+switch.office_fan:
+  icon: mdi:waves
+binary_sensor.floorplan:
+  custom_ui_state_card: state-card-floorplan
+  config:
+    name: Demo Floorplan
+    image: /local/custom_ui/floorplan/floorplan.svg
+    stylesheet: /local/custom_ui/floorplan/floorplan.css
+    pan_zoom:
+    hide_app_toolbar:
+    last_motion_entity: sensor.template_last_motion
+    last_motion_class: last-motion
+    groups:
+    - name: Sensors
+      entities:
+      - sensor.dark_sky_temperature
+      text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}'
+      class_template: ' var temp = parseFloat(entity.state.replace("°", "")); if (temp
+        < 10) return "temp-low"; else if (temp < 30) return "temp-medium"; else return
+        "temp-high"; '
+    - name: Lights
+      entities:
+      - light.hallway
+      - light.living_room
+      - light.patio
+      - group.kitchen_lights
+      - group.living_room_lights
+      states:
+      - state: 'on'
+        class: doorbell-on
+      - state: 'off'
+        class: doorbell-off
+      action:
+        domain: homeassistant
+        service: toggle
+    - name: Switches
+      entities:
+      - switch.toy_room
+      - switch.upstairs_hall
+      - switch.office_light
+      - switch.office_fan
+      - switch.boys_shower
+      - switch.boys_bathroom
+      - switch.back_porch
+      - switch.front_porch
+      - switch.side_porch
+      - switch.office_crown
+      - switch.master_crown
+      - switch.theater
+      states:
+      - state: 'on'
+        class: switch-on
+      - state: 'off'
+        class: switch-off
+      action:
+        domain: homeassistant
+        service: toggle
+    - name: Covers
+      entities:
+      - cover.double
+      - cover.test
+      states:
+      - state: open
+        class: cover-open
+      - state: closed
+        class: cover-closed
+      action:
+        domain: homeassistant
+        service: toggle
+    - name: NVR
+      entities:
+      - binary_sensor.blue_iris_nvr
+      text_template: '${(entity.state === "on") ? "online" : "offline"}'
+      states:
+      - state: 'off'
+        class: danger-text
+      - state: 'on'
+        class: success-text
+    - name: Alarm Panel
+      entities:
+      - alarm_control_panel.alarm
+      states:
+      - state: armed_away
+        class: alarm-armed
+      - state: armed_home
+        class: alarm-armed
+      - state: disarmed
+        class: alarm-disarmed
+    - name: Binary sensors
+      entities:
+      - binary_sensor.front_hallway
+      - binary_sensor.kitchen
+      - binary_sensor.master_bedroom
+      - binary_sensor.theatre_room
+      states:
+      - state: 'off'
+        class: info-background
+      - state: 'on'
+        class: warning-background
+      state_transitions:
+      - name: On to off
+        from_state: 'on'
+        to_state: 'off'
+        duration: 10
+    - name: Cameras
+      entities:
+      - camera.toy_room
+      - camera.mountain_room
+      - camera.piano_room
+      - camera.basement
+      - camera.garage
+      states:
+      - state: idle
+        class: camera-idle
+      action:
+        domain: blink
+        service: snap_picture
+script.spotify_music:
+  friendly_name: Play
+  icon: mdi:play
+cover.test:
+  device_class: garage
+  friendly_name: Justin Garage
+  icon: mdi:garage
+sensor.carpresencejustinsignal:
+  hidden: true
+sensor.carpresencejanisuptime:
+  hidden: true
+sensor.carpresencejustinuptime:
+  hidden: true
+sensor.carpresencejanissignal:
+  hidden: true
+binary_sensor.carpresencejanis:
+  hidden: true
+binary_sensor.carpresencejustin:
+  hidden: true
+sensor.ring_front_door_battery:
+  hidden: true
+binary_sensor.ring_front_door_ding:
+  hidden: true
+binary_sensor.ring_front_door_motion:
+  hidden: true
+device_tracker.justin_iphone7:
+  friendly_name: DrZzs
+  entity_picture: /local/DrZzs_Emoji.png
+device_tracker.jackson_iphone:
+  entity_picture: /local/Jackson_icon.png
+  friendly_name: Jackson
+  hidden: true
+sensor.mommys_iphone_battery_level_2:
+  hidden: true
+sensor.mommys_iphone_battery_state_2:
+  hidden: true
+sensor.iphone_battery_state_2:
+  hidden: true
+sensor.iphone_battery_level_2:
+  hidden: true
+sensor.iphone_battery_state:
+  hidden: true
+sensor.iphone_battery_level:
+  hidden: true
+device_tracker.janis7:
+  entity_picture: /local/Kiss_emoji.png
+  friendly_name: Mommy
+  hidden: true
+sensor.blink_piano_room_temperature:
+  friendly_name: Paino Room
+sensor.blink_toy_room_temperature:
+  friendly_name: Toy Room
+sensor.blink_garage_temperature:
+  friendly_name: Garage
+sensor.blink_basement_temperature:
+  friendly_name: Basement
+switch.Sonoff_11:
+  hidden: true
+switch.Sonoff_12:
+  hidden: true
+sensor.ring_front_door_last_activity:
+  hidden: true
+sensor.ring_front_door_last_ding:
+  hidden: true
+sensor.ring_front_door_last_motion:
+  hidden: true
+sensor.ring_front_door_volume:
+  hidden: true
+sensor.ring_front_door_wifi_signal_category:
+  hidden: true
+sensor.ring_front_door_wifi_signal_strength:
+  hidden: true
+sensor.dr_zzs:
+  hidden: true
+sensor.pow_current:
+  hidden: true
+sensor.pow_power:
+  hidden: true
+sensor.pow_voltage:
+  hidden: true
+switch.boys_shower:
+  friendly_name: Boys Shower
+  icon: mdi:nuke
+switch.office_light:
+  icon: mdi:white-balance-incandescent
+switch.office_lock:
+  icon: mdi:sword-cross
+switch.office_crown:
+  icon: mdi:crown
+switch.toy_room:
+  icon: mdi:lightbulb
+switch.upstairs_hall:
+  icon: mdi:ceiling-light
+switch.boys_bathroom:
+  friendly_name: Boys Bathroom
+  icon: mdi:water-pump
+switch.garage_lights:
+  icon: mdi:car
+switch.girls_fan:
+  friendly_name: Girls Fan
+  icon: mdi:fan
+switch.girls_wall:
+  friendly_name: Girls Ceiling Lights
+  icon: mdi:white-balance-incandescent
+switch.girls_light:
+  friendly_name: Girls Fan Light
+  hidden: true
+  icon: mdi:white-balance-sunny
+switch.theater:
+  icon: mdi:theater
+switch.master_crown:
+  icon: mdi:crown
+light.office_test_lights:
+  icon: mdi:football-helmet
+automation.garage_blink_pic:
+  hidden: true
+switch.88800443bcddc2e42e95:
+  friendly_name: Garage Lights
+  icon: mdi:car
+switch.girls_lights:
+  icon: mdi:lightbulb
+switch.boys_lights:
+  icon: mdi:lightbulb
+switch.boys_sun:
+  icon: mdi:weather-sunny
+switch.girls_sun_2:
+  hidden: true
+switch.girls_sun:
+  icon: mdi:weather-sunny
+switch.boys_fan:
+  icon: mdi:fan
+switch.master_fan:
+  icon: mdi:fan
+switch.master_lights:
+  icon: mdi:white-balance-sunny
+switch.boys_bathroom_lock:
+  icon: mdi:sword-cross
+switch.front_porch:
+  icon: mdi:candle
+switch.side_porch:
+  icon: mdi:candle
+light.boys_closet:
+  icon: mdi:alarm-light
+light.tree_lights:
+  icon: mdi:pine-tree
+light.holiday_lights:
+  icon: mdi:home-heart
+input_boolean.lindsay_music:
+  icon: mdi:violin
+device_tracker.jackson_aden:
+  entity_picture: /local/Jackson_icon.png
+  friendly_name: Shrek
+zone.af_shops: {}
+device_tracker.janis_iphone7:
+  hidden: true
+switch.girls_fan_2:
+  hidden: true
+light.office_bulb_1:
+  friendly_name: Bulbo
+switch.10024200b4e62d51cf22:
+  friendly_name: Zach Light
+  icon: mdi:ear-hearing-off
+switch.0720007168c63ac6c5f5:
+  friendly_name: Xbox
+  icon: mdi:xbox
+light.side_lights:
+  icon: mdi:home
+switch.4336784084f3eb5d66c2:
+  friendly_name: 3D Printer
+  icon: mdi:printer-3d
+switch.office_closet:
+  icon: mdi:nas
+switch.office_closet_2:
+  friendly_name: Closet Vent
+  icon: mdi:fan
+switch.plugstrip_1:
+  friendly_name: Soldering Iron
+  icon: mdi:marker
+switch.plugstrip_2:
+  friendly_name: Bench Power
+  icon: mdi:video-input-component
+switch.plugstrip_3:
+  friendly_name: Hot Glue Gun
+  icon: mdi:pen-plus
+switch.usb_1:
+  icon: mdi:usb
+switch.usb_2:
+  friendly_name: Keyboard LEDs
+  icon: mdi:keyboard
+switch.88800443bcddc2e42a22:
+  friendly_name: Laundry Room
+  icon: mdi:washing-machine
+switch.77060208bcddc298aaa7:
+  friendly_name: Laundry Room
+  icon: mdi:washing-machine
+switch.blinds_plug:
+  friendly_name: M5cam Plug
+light.side:
+  hidden: true
+binary_sensor.janis_car:
+  icon: mdi:car
+binary_sensor.justin_car:
+  icon: mdi:car-sports
+cover.window_control:
+  friendly_name: Theater Window
+binary_sensor.theater_windows:
+  device_class: window
+binary_sensor.toyroom_window_state:
+  device_class: window
+switch.toyroom_fan:
+  icon: mdi:fan
+light.wled_light:
+  friendly_name: WLED Tree
+  icon: mdi:pine-tree
+light.wled_windows:
+  icon: mdi:image-filter-hdr
+light.wled_front:
+  icon: mdi:home-outline
+light.wled_side:
+  icon: mdi:garage-open
+  supported_features: 21
+light.wled_back:
+  icon: mdi:home-variant-outline
+light.wled_office:
+  icon: mdi:crown
+light.wled_tree:
+  icon: mdi:pine-tree
+binary_sensor.basment_water:
+  device_class: moisture
+  friendly_name: Basement Water
+light.interruptor1:
+  hidden: true
+switch.kids_bedroom_heat:
+  hidden: true
+light.dreamlight:
+  hidden: true
+input_number.ledintensity:
+  friendly_name: Intensity
+light.wled_lights:
+  friendly_name: All Lights
+light.office_west:
+  friendly_name: Closet Bulb
+  icon: mdi:ceiling-light
+light.office_2:
+  friendly_name: Office Floor LEDs

@@ -1,0 +1,522 @@
+##############################################################################
+# Automations for handling toggle state buttons on page 3
+automation:
+  # Set font and text for toggle buttons on device connection
+  - alias: hasp_bench_p6_ToggleInit
+    trigger:
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[4].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[4].txt'
+        payload: '"Solder"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[5].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[5].txt'
+        payload: '"PSU"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[6].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[6].txt'
+        payload: '"Hotglue"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[7].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[7].txt'
+        payload: '"DeskLEDs"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[8].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[8].txt'
+        payload: '"Home"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[9].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[9].txt'
+        payload: '"Bedtime"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[10].font'
+        payload: '2'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[10].txt'
+        payload: '"Away"'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[11].font'
+        payload: '1'
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[11].txt'
+        payload: '"Sign Off"'
+
+  # Toggle light1 when p[6].b[4] pressed
+  - alias: hasp_bench_p6_ToggleLight1
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[4]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.plugstrip_1
+      
+  # Toggle light2 when p[6].b[5] pressed
+  - alias: hasp_bench_p6_ToggleLight2
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[5]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.plugstrip_2  
+
+  # Toggle light3 when p[6].b[6] pressed
+  - alias: hasp_bench_p6_ToggleLight3
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[6]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.plugstrip_3
+
+  # Toggle light3 when p[6].b[7] pressed
+  - alias: hasp_bench_p6_b7
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[7]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.usb_1
+
+  # Toggle light3 when p[6].b[8] pressed
+  - alias: hasp_bench_p6_b8
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[8]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.usb_2
+
+  # Toggle light3 when p[6].b[9] pressed
+  - alias: hasp_bench_p6_b9
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[9]'
+      payload: 'ON'
+    action:
+    - service: input_boolean.toggle
+      entity_id: input_boolean.bedtime
+
+  # Toggle light3 when p[6].b[10] pressed
+  - alias: hasp_bench_p6_b10
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[10]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.usb_1
+
+  # Toggle light3 when p[6].b[11] pressed
+  - alias: hasp_bench_p6_b11
+    trigger:
+    - platform: mqtt
+      topic: 'hasp/bench/state/p[6].b[11]'
+      payload: 'ON'
+    action:
+    - service: switch.toggle
+      entity_id: switch.usb_1
+
+  # Toggle all light_toggle_group when p[6].b[7] pressed
+  # - alias: hasp_bench_p6_ToggleAll
+  #   trigger:
+  #   - platform: mqtt
+  #     topic: 'hasp/bench/state/p[6].b[7]'
+  #     payload: 'ON'
+  #   action:
+  #   - service_template: >
+  #         {% if states.group.light_toggle_group.state == "on" -%}
+  #           homeassistant.turn_off
+  #         {%- else -%}
+  #           homeassistant.turn_on
+  #         {%- endif %}
+  #     entity_id: group.light_toggle_group
+      
+  # Toggle colors on p[6].b[4] when light1 changes
+  - alias: hasp_bench_p6_ToggleColor1
+    trigger:
+    - platform: state
+      entity_id: switch.plugstrip_1
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[4].bco'
+        payload_template: >-
+          {% if states.switch.plugstrip_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[4].pco'
+        payload_template: >-
+          {% if states.switch.plugstrip_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[5] when light1 changes
+  - alias: hasp_bench_p6_ToggleColor2
+    trigger:
+    - platform: state
+      entity_id: switch.plugstrip_2
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[5].bco'
+        payload_template: >-
+          {% if states.switch.plugstrip_2.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[5].pco'
+        payload_template: >-
+          {% if states.switch.plugstrip_2.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[6] when light1 changes
+  - alias: hasp_bench_p6_ToggleColor3
+    trigger:
+    - platform: state
+      entity_id: switch.plugstrip_3
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[6].bco'
+        payload_template: >-
+          {% if states.switch.plugstrip_3.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[6].pco'
+        payload_template: >-
+          {% if states.switch.plugstrip_3.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[7] when light1 changes
+  - alias: hasp_bench_p6_b7
+    trigger:
+    - platform: state
+      entity_id: switch.usb_1
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[7].bco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[7].pco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[8] when light1 changes
+  - alias: hasp_bench_p6_b8
+    trigger:
+    - platform: state
+      entity_id: switch.usb_2
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[8].bco'
+        payload_template: >-
+          {% if states.switch.usb_2.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[8].pco'
+        payload_template: >-
+          {% if states.switch.usb_2.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[9] when light1 changes
+  - alias: hasp_bench_p6_b9
+    trigger:
+    - platform: state
+      entity_id: switch.usb_1
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[9].bco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[9].pco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[10] when light1 changes
+  - alias: hasp_bench_p6_b10
+    trigger:
+    - platform: state
+      entity_id: switch.usb_1
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[10].bco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[10].pco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Toggle colors on p[6].b[11] when light1 changes
+  - alias: hasp_bench_p6_b11
+    trigger:
+    - platform: state
+      entity_id: switch.usb_1
+    - platform: state
+      entity_id: 'binary_sensor.bench_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_bench_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/bench/command/p[6].b[11].bco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+          {%- endif %}
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/bench/command/p[6].b[11].pco'
+        payload_template: >-
+          {% if states.switch.usb_1.state == "on" -%}
+            {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+          {%- else -%}
+            {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+          {%- endif %}
+
+  # Set button 4 to "All Off" if any lights are on, otherwise set to "All On"
+  # - alias: hasp_bench_p6_ToggleColorAll
+  #   trigger:
+  #   - platform: state
+  #     entity_id: group.light_toggle_group
+  #   - platform: state
+  #     entity_id: 'binary_sensor.bench_connected'
+  #     to: 'on'
+  #   - platform: homeassistant
+  #     event: start
+  #   - platform: state
+  #     entity_id: input_number.hasp_bench_selectedbackgroundcolor
+  #   - platform: state
+  #     entity_id: input_number.hasp_bench_unselectedbackgroundcolor
+  #   - platform: state
+  #     entity_id: input_number.hasp_bench_selectedforegroundcolor
+  #   - platform: state
+  #     entity_id: input_number.hasp_bench_unselectedforegroundcolor
+  #   action:
+  #   - service: mqtt.publish
+  #     data:
+  #       topic: 'hasp/bench/command/p[6].b[7].bco'
+  #       payload_template: >-
+  #         {% if states.group.light_toggle_group.state == "on" -%}
+  #           {{ states.input_number.hasp_bench_unselectedbackgroundcolor.state | int }}
+  #         {%- else -%}
+  #           {{ states.input_number.hasp_bench_selectedbackgroundcolor.state | int }}
+  #         {%- endif %}
+  #   - service: mqtt.publish
+  #     data_template:
+  #       topic: 'hasp/bench/command/p[6].b[7].pco'
+  #       payload_template: >-
+  #         {% if states.group.light_toggle_group.state == "on" -%}
+  #           {{ states.input_number.hasp_bench_unselectedforegroundcolor.state | int }}
+  #         {%- else -%}
+  #           {{ states.input_number.hasp_bench_selectedforegroundcolor.state | int }}
+  #         {%- endif %}
+  #   - service: mqtt.publish
+  #     data_template:
+  #       topic: 'hasp/bench/command/p[6].b[7].txt'
+  #       payload_template: >-
+  #         {% if states.group.light_toggle_group.state == "on" -%}
+  #          "Office Off"
+  #         {%- else -%}
+  #          "Office On"
+  #         {%- endif %}

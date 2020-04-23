@@ -1,0 +1,16 @@
+id: pixelnotificationsteststeam
+alias: pixelnotificationsteststeam
+trigger:
+- entity_id: binary_sensor.janis_fob_a
+  platform: state
+  to: 'on'
+action: 
+  service: notify.mobile_app_pixel_3a
+  data:
+    message: "test action buttons"
+    data: 
+      actions:
+        - action: "turn on office_lamp"
+          title: "Turn on Office Lamp"
+        - action: "turn off office_lamp"
+          title: "Turn off the Lamp"

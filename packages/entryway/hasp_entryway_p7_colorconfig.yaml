@@ -1,0 +1,32 @@
+##############################################################################
+# Automations to set colors on HASP Page 7
+
+automation:
+  - alias: hasp_entryway_p7_ColorConfig
+    trigger:
+    - platform: state
+      entity_id: 'binary_sensor.entryway_connected'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: input_number.hasp_entryway_selectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_entryway_unselectedbackgroundcolor
+    - platform: state
+      entity_id: input_number.hasp_entryway_selectedforegroundcolor
+    - platform: state
+      entity_id: input_number.hasp_entryway_unselectedforegroundcolor
+    action:
+    - service: mqtt.publish
+      data:
+        topic: 'hasp/entryway/command/json'
+        payload_template: >-
+          [{%- for i in range(4,13) -%}"p[7].b[{{i}}].pco={{ states.input_number.hasp_entryway_selectedforegroundcolor.state|int }}",{%- endfor -%}
+          "p[7].b[14].pco={{ states.input_number.hasp_entryway_selectedforegroundcolor.state|int }}",
+          {%- for i in range(4,13) -%}"p[7].b[{{i}}].bco={{ states.input_number.hasp_entryway_selectedbackgroundcolor.state|int }}",{%- endfor -%}
+          "p[7].b[14].bco={{ states.input_number.hasp_entryway_selectedbackgroundcolor.state|int }}",
+          {%- for i in range(4,13) -%}"p[7].b[{{i}}].pco2={{ states.input_number.hasp_entryway_unselectedforegroundcolor.state|int }}",{%- endfor -%}
+          "p[7].b[14].pco2={{ states.input_number.hasp_entryway_unselectedforegroundcolor.state|int }}",
+          {%- for i in range(4,13) -%}"p[7].b[{{i}}].bco2={{ states.input_number.hasp_entryway_unselectedbackgroundcolor.state|int }}",{%- endfor -%}
+          "p[7].b[14].bco2={{ states.input_number.hasp_entryway_unselectedbackgroundcolor.state|int }}"]

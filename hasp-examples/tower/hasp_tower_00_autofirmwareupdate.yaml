@@ -1,0 +1,18 @@
+automation:
+##############################################################################
+# Auto update firmware at 3:00am every day if a new version is available
+  - alias: hasp_tower_00_AutoFirmwareUpdate
+    trigger:
+      - platform: time
+        at: '3:00:00'
+    condition:
+    - condition: template
+      value_template: '{{ states.sensor.tower_status.attributes.updateESPAvailable == true }}'
+    - condition: state
+      entity_id: 'binary_sensor.tower_connected'
+      state: 'on'
+    action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'hasp/tower/command/espupdate'
+        payload: ''

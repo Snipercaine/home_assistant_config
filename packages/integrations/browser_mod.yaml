@@ -1,0 +1,11 @@
+browser_mod:
+  prefix: "browser_"
+  devices:
+    5bd881e9-abfde9c8:
+      name: drzzs_pc
+    8d8abb6c_ac47b849:
+      name: fire_10_silk
+    d1b2931a-e5761427:
+      name: fire_10_fully
+    fcf177e3-190e5ee5:
+      name: google_hub

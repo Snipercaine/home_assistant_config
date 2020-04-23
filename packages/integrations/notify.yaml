@@ -1,0 +1,10 @@
+notify:
+  - platform: telegram
+    name: drzzs_bot
+    chat_id: !secret tele_id
+  - platform: pushbullet
+    name: drzzs_iphone
+    api_key: !secret pb_key
+  - platform: mycroft
+    name: picroft
+ 

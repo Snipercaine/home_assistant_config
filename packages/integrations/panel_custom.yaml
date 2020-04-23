@@ -1,0 +1,10 @@
+panel_custom:
+  - name: hassio-main
+    sidebar_title: Configuratorinator
+    sidebar_icon: mdi:robot
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: configuratorinator
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator

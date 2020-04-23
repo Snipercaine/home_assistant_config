@@ -1,0 +1,44 @@
+esphome:
+  name: m5cam_esp32_camera
+  platform: ESP32
+  board: m5stack-core-esp32
+
+wifi:
+  ssid: !secret wifi
+  password: !secret wifi_pw
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+web_server:
+  port: 80
+  
+esp32_camera:
+  name: M5 Cam
+  external_clock:
+    pin: GPIO27
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO25
+    scl: GPIO23
+  data_pins: [GPIO17, GPIO35, GPIO34, GPIO5, GPIO39, GPIO18, GPIO36, GPIO19]
+  vsync_pin: GPIO22
+  href_pin: GPIO26
+  pixel_clock_pin: GPIO21
+  reset_pin: GPIO15
+  resolution: 800x600
+  jpeg_quality: 30
+
+esp32_touch:
+  setup_mode: False
+
+binary_sensor:
+  - platform: esp32_touch
+    name: "M5 Cam Touch Pad"
+    pin: GPIO13
+    threshold: 600
