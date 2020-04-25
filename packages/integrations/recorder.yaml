@@ -14,5 +14,4 @@ recorder:
       - zone
     entities:
       - sun.sun
-  purge_keep_days: 14
-  purge_interval: 1
+  purge_keep_days: 3

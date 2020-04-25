@@ -47,7 +47,15 @@ logger:
 sun:
 scene: !include scenes.yaml
 
-sensor: 
+sensor:
+- platform: sql
+  db_url: !secret mariaDB_url
+  queries:
+    - name: DB size
+      query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / 1073741824, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: 'value'
+      unit_of_measurement: GB
+
 - platform: mqtt
   name: Dad RA Location
   state_topic: room-assistant/sensor/bluetooth-classic-18-65-90-86-26-9b/state
@@ -401,14 +409,14 @@ binary_sensor:
   value_template: '{{value_json.RfReceived.Data}}'
   payload_on: "F8030A"
   payload_off: "F8030E"
-  device_class: Door
+  device_class: door
   qos: 1
 - platform: mqtt
   name: "Basment Water"
   state_topic: "tele/RF_Bridge/RESULT"
   value_template: '{{value_json.RfReceived.Data}}'
   payload_on: "84B90E"
-  device_class: Moisture
+  device_class: moisture
   qos: 1
 - platform: mqtt
   name: "Office Wand"

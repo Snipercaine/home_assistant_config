@@ -5,11 +5,11 @@ switch.back_porch:
   alexa_name: Patio
   icon: mdi:candle
 cover.double:
-  device_class: garage
+  device_class: garage_door
   friendly_name: Janis Garage
   icon: mdi:garage
 cover.single:
-  device_class: garage
+  device_class: garage_door
   friendly_name: Justin Garage
 sensor.justin_adens_iphone_battery_level:
   hidden: true
@@ -244,7 +244,7 @@ script.spotify_music:
   friendly_name: Play
   icon: mdi:play
 cover.test:
-  device_class: garage
+  device_class: garage_door
   friendly_name: Justin Garage
   icon: mdi:garage
 sensor.carpresencejustinsignal:
