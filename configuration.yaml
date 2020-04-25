@@ -213,9 +213,6 @@ sensor:
         
 - platform: socialblade
   channel_id: !secret socialblade
-- platform: google_wifi
-  host: 192.168.1.1
-  name: Internet
 - platform: mqtt
   name: POW Current
   state_topic: "tele/POW/SENSOR"
