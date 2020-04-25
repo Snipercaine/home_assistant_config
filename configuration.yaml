@@ -42,7 +42,7 @@ history:
 logbook:
 
 logger:
-  default: critical
+  default: info
 
 sun:
 scene: !include scenes.yaml
@@ -51,25 +51,7 @@ sensor:
 - platform: mqtt
   name: Dad RA Location
   state_topic: room-assistant/sensor/bluetooth-classic-18-65-90-86-26-9b/state
-# - platform: rest
-#   name: foo
-#   json_attributes:
-#     - batteryLevel
-#     - kioskMode
-#     - screenBrightness
-#     - motionDetectorState
-#     - maintenanceMode
-#     - appFreeMemory
-#     - appUsedMemory
-#     - totalFreeMemory
-#     - totalUsedMemory
-#     - hostname4
-#     - ip4
-#     - mac
-#     - startUrl
-#     - currentPage
-#   resource: !secret ha_hub
-#   value_template: '{{ value_json.isScreenOn }}'
+
 - platform: command_line
   name: Home Assistant automations.yaml lines
   command: wc -l automations.yaml | awk '{ print $1 }'
@@ -94,21 +76,7 @@ sensor:
 - platform: solaredge
   api_key: !secret se_api
   site_id: !secret se_site 
-  name: SolarEdge
-    # - platform: history_stats
-    #   name: Xbox Time
-    #   entity_id: switch.sartori_xbox
-    #   state: 'on'
-    #   type: time
-    #   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    #   end: '{{ now() }}'
-    # - platform: youtube
-    #   channel_id: UC5ZdPKE2ckcBhljTc2R_qNA
-    # - platform: youtube
-    #   channel_id: UCR7Xa7cU9wfkSY9v3yN2Vtw
-    # - platform: youtube
-    #   channel_id: UCu7_D0o48KbfhpEohoP7YSQ
-    
+  name: SolarEdge    
 - platform: min_max
   name: "Average Upstairs Temp"
   type: "mean"
@@ -146,11 +114,6 @@ sensor:
   name: 'Master Bedroom Temp' #AM2301
   unit_of_measurement: '°F'
   value_template: '{{ value_json.AM2301.Temperature }}'
-# - platform: mqtt
-#   state_topic: 'tele/GarageLights/SENSOR'
-#   name: 'Kitchen Temp' #AM2301
-#   unit_of_measurement: '°F'
-#   value_template: '{{ value_json.AM2301.Temperature }}'
 - platform: mqtt
   state_topic: 'tele/boys/SENSOR'
   name: 'Boys Room Temp' #AM2301
@@ -181,12 +144,6 @@ sensor:
   name: 'Office Humidity'
   unit_of_measurement: '%'
   value_template: '{{ value_json.AM2301.Humidity }}'
-# - platform: mqtt
-#   name: "Sub Count"
-#   state_topic: "youtubesubs/number"
-# - platform: mqtt
-#   name: "Subs New"
-#   state_topic: "youtubesubs/change"
 
 - platform: pvoutput
   system_id: 61105
@@ -1118,52 +1075,52 @@ stream:
 input_boolean:
   preset_1:
     name: preset_1
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_2:
     name: preset_2
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_3:
     name: preset_3
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_4:
     name: preset_4
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_5:
     name: preset_5
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_6:
     name: preset_6
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_7:
     name: preset_7
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_8:
     name: preset_8
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_9:
     name: preset_9
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_10:
     name: preset_10
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_11:
     name: preset_11
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_12:
     name: preset_12
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_13:
     name: preset_13
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_14:
     name: preset_14
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_15:
     name: preset_15
-    icon: mdi:light
+    icon: mdi:lightbulb
   preset_16:
     name: preset_16
-    icon: mdi:light
+    icon: mdi:lightbulb
 
   sign_off:
     name: Sign Off
