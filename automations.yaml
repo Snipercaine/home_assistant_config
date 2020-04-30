@@ -2255,3 +2255,17 @@
     domain: light
     entity_id: light.wled_hype_office
     type: toggle
+- id: '1588190192576'
+  alias: twist volume down
+  description: ''
+  trigger:
+  - device_id: c8e75d296a1548fa82ce8f2d4a9d3e68
+    domain: deconz
+    platform: device
+    subtype: ''
+    type: remote_turned_counter_clockwise
+  condition: []
+  action:
+  - data: {}
+    entity_id: media_player.justin_s_echo_plus
+    service: media_player.volume_down

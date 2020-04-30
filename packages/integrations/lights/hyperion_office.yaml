@@ -1,0 +1,3 @@
+light:
+  - platform: hyperion
+    host: 192.168.1.81

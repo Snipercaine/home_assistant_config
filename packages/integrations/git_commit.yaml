@@ -1,10 +1,10 @@
-id: 'git_commit'
-alias: Git Commit
-description: ''
-trigger: []
-action:
-- service: shell_command.git_update
-- service: input_text.set_value
-  data:
-    entity_id: input_text.commit_message
-    value: ""
+# id: 'git_commit'
+# alias: Git Commit
+# description: ''
+# trigger: []
+# action:
+# - service: shell_command.git_update
+# - service: input_text.set_value
+#   data:
+#     entity_id: input_text.commit_message
+#     value: ""
