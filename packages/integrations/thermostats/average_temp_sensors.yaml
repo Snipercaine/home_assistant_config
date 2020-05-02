@@ -1,0 +1,21 @@
+sensor:
+- platform: min_max
+  name: "Average Upstairs Temp"
+  type: "mean"
+  round_digits: 1
+  entity_ids:
+    - sensor.upstairs_temp
+#        - sensor.boys_room_temp
+    - sensor.girls_room_temp
+    - sensor.office_temp
+    - sensor.toy_room_multi_sensor_5
+
+- platform: min_max
+  name: "Average Main Temp"
+  type: "mean"
+  round_digits: 1
+  entity_ids:
+    - sensor.multi_sensor_6
+    - sensor.master_bedroom_temp_2
+    - sensor.main_bathroom_temp
+    - sensor.piano_room_multi_sensor_5

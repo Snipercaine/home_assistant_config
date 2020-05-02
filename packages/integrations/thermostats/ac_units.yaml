@@ -1,0 +1,50 @@
+climate:
+  - platform: generic_thermostat
+    name: Upstairs Heat
+    heater: switch.upstairs_furnace
+    target_sensor: sensor.average_upstairs_temp
+    min_temp: 40
+    max_temp: 90
+    min_cycle_duration:
+      minutes: 20
+    initial_hvac_mode: "heat"
+    target_temp: 68
+    away_temp: 60
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+  - platform: generic_thermostat
+    name: Upstairs AC
+    heater: switch.upstairs_ac
+    target_sensor: sensor.average_upstairs_temp
+    min_temp: 40
+    max_temp: 90
+    initial_hvac_mode: "cool"    
+    min_cycle_duration:
+      minutes: 20
+    target_temp: 76
+    away_temp: 80
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    ac_mode: true
+  - platform: generic_thermostat
+    name: Main Floor AC
+    heater: switch.main_floor_ac
+    target_sensor: sensor.average_main_temp
+    target_temp: 76
+    min_temp: 40
+    max_temp: 90
+    initial_hvac_mode: "cool"
+    away_temp: 80
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    ac_mode: true
+  - platform: generic_thermostat
+    name: Main Floor Heat
+    heater: switch.main_floor_heat
+    target_sensor: sensor.average_main_temp
+    min_temp: 40
+    max_temp: 90
+    initial_hvac_mode: "heat"
+    away_temp: 50
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
