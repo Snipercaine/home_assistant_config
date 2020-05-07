@@ -50,10 +50,6 @@
       friendly_name: Main Bathroom Light
       icon: ''
       state: 'off'
-    switch.master_crown:
-      friendly_name: Master Crown
-      icon: mdi:crown
-      state: 'off'
     switch.office_closet:
       friendly_name: Office Closet
       icon: mdi:nas
@@ -116,27 +112,12 @@
   name: Romantic
   entities:
     media_player.googlehome7032:
-      app_id: CC1AD845
-      app_name: Default Media Receiver
-      entity_picture_local:
       friendly_name: Master bedroom Speaker
-      is_volume_muted: false
-      media_content_id: Peter Citera Radio
-      media_position: 0
-      media_position_updated_at: '2020-04-23T19:02:46.276384+00:00'
-      state: idle
-      supported_features: 21391
-      volume_level: 0.4300000071525574
-    switch.master_crown:
-      friendly_name: Master Crown
-      icon: mdi:crown
       state: 'off'
+      supported_features: 21389
     switch.master_fan:
       friendly_name: Master Fan
       icon: mdi:fan
-      state: 'on'
-    switch.master_fire:
-      friendly_name: Master Fire
       state: 'on'
     switch.master_lights:
       friendly_name: Master Lights
@@ -370,17 +351,6 @@
       friendly_name: Main Bathroom Light
       icon: ''
       state: 'off'
-    switch.master_crown:
-      friendly_name: Master Crown
-      icon: mdi:crown
-      state: 'off'
-    switch.master_fan:
-      friendly_name: Master Fan
-      icon: mdi:fan
-      state: 'off'
-    switch.master_fire:
-      friendly_name: Master Fire
-      state: 'off'
     switch.master_lights:
       friendly_name: Master Lights
       icon: mdi:white-balance-sunny
@@ -399,15 +369,4 @@
       state: 'off'
 - id: '1576436767438'
   name: inception
-  entities:
-    scene.romantic:
-      entity_id:
-      - light.windows_2
-      - media_player.googlehome7032
-      - switch.master_crown
-      - switch.master_fan
-      - switch.master_fire
-      - switch.master_lights
-      friendly_name: Romantic
-      id: '1576435972930'
-      state: scening
+  entities: {}

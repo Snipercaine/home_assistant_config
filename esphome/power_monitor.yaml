@@ -45,22 +45,21 @@ sensor:
       current:
         name: ${disp_name} CT1 Amps
         id: ct1Amps
-      gain_voltage: 42620
+      gain_voltage: 7305
 # Voltage using a 9VAC power transformer
 # Note: If you can not get the voltage correct with the highest gain of 65535, uncomment the 2.0 multiply filter above and lower the gain as needed
-      gain_ct: 15420
-# Current calibration using a 50A/1V SCT-013-050
+      gain_ct: 27518
     phase_b:
       current:
         name: ${disp_name} CT2 Amps
         id: ct2Amps
-      gain_ct: 32498
+      gain_ct: 27518
 # Current calibration using a 100A/50ma SCT-013-000
     phase_c:
       current:
         name: ${disp_name} CT3 Amps
         id: ct3Amps
-      gain_ct: 32498
+      gain_ct: 27518
 # Current calibration using a 100A/50ma SCT-013-000
     frequency:
       name: ${disp_name} Freq A
@@ -77,21 +76,21 @@ sensor:
       current:
         name: ${disp_name} CT4 Amps
         id: ct4Amps
-      gain_voltage: 42620
-      gain_ct: 32498
+      gain_voltage: 7305
+      gain_ct: 27518
 # Current calibration using a 100A/50ma SCT-013-000
     phase_b:
       current:
         name: ${disp_name} CT5 Amps
         id: ct5Amps
-      gain_ct: 32498
+      gain_ct: 27518
 # Current calibration using a 100A/50ma SCT-013-000      
     phase_c:
       current:
         name: ${disp_name} CT6 Amps
         id: ct6Amps
-      gain_ct: 8650
-# Current calibration using a 30A/1V SCT-013-030
+      gain_ct: 27518
+
     frequency:
       name: ${disp_name} Freq B
     line_frequency: 60Hz
