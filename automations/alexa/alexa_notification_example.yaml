@@ -1,0 +1,15 @@
+id: officeclosetdooropennotification
+alias: office closet door left open for 3 minutes
+trigger:
+  platform: state
+  entity_id: binary_sensor.office_closet
+  to: 'off'
+  for:
+    minutes: 3 
+
+action:
+  - service: script.activate_alexa_actionable_notification
+    data:
+      text: 'The office closet door has been open for a while, would you like me to turn off the light?'
+      event_id: 'actionable_notification_office_closet_open'
+      alexa_device: 'media_player.justin_s_echo_plus'

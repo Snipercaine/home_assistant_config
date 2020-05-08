@@ -4,3 +4,22 @@ browser_tablet:
       event_data:
         command: navigate
         navigation_path: /lovelace/11
+activate_alexa_actionable_notification:
+  description: 'Activates an actionable notification on a specific echo device'
+  fields:
+    text:
+      description: 'The text you would like alexa to speak.'
+    event_id:
+      description: 'Correlation ID for event responses'
+    alexa_device: 
+      description: 'Alexa device you want to trigger'
+  sequence:
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.alexa_actionable_notification
+        value: '{"text": "{{ text }}", "event": "{{ event_id }}"}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: "{{ alexa_device }}"
+        media_content_type: skill
+        media_content_id: amzn1.ask.skill.36be6177-12c9-4f56-bdce-18ad4d7ec930

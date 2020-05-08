@@ -1,0 +1,12 @@
+id: officeclosetdooropenaction
+alias: turn off closet light via actionable notificaiton
+trigger:
+    platform: event
+    event_type: alexa_actionable_notificaiton
+    event_data:
+      event_id: actionable_notification_office_closet_open
+      event_response: True
+    
+action:
+  - service: light.turn_off
+    entity_id: light.office_west
