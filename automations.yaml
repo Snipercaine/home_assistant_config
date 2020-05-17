@@ -1858,3 +1858,65 @@
   action:
   - data: {}
     service: camera.turn_on
+- id: '1589080729221'
+  alias: keep master crown light off
+  description: keep master crown light off
+  trigger:
+  - entity_id: switch.master_crown
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - after: '22:00:00'
+    before: 06:00:00
+    condition: time
+  action:
+  - data: {}
+    entity_id: switch.master_crown
+    service: switch.turn_off
+- id: '1589222649085'
+  alias: alexa actionable notification ui version
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - data:
+      alexa_device: media_player.living_room_echo
+      event_id: actionable_notification_lock_left_unlocked
+      text: The front door has been unlocked for 5 mins, would you like me to lock
+        it?
+    service: script.activate_alexa_actionable_notification
+- id: '1589222904633'
+  alias: alexa notification action ui example
+  description: ''
+  trigger:
+  - event_data:
+      event_id: actionable_notification_lock_left_unlocked
+      event_response: ResponseYes
+    event_type: alexa_actionable_notification
+    platform: event
+  - event_data:
+      event_id: actionable_notification_lock_left_unlocked
+      event_response: ResponseNone
+    event_type: 'alexa_actionable_notification '
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.4336784084f3eb5cedea
+    service: switch.toggle
+- id: '1589608466010'
+  alias: Brighten Girls Fancy Lights at Sunrise
+  description: ''
+  trigger:
+  - at: 08:15:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      brightness: 15
+      color_name: yellow
+    entity_id: light.zoe
+    service: light.turn_on

@@ -1,0 +1,12 @@
+id: alexabedtimeannouncement
+alias: alexa_bedtime_reminder
+trigger:
+  platform: time
+  at: "21:00:00"
+  
+action:
+  - service: script.activate_alexa_actionable_notification
+    data_template:
+      text: "It's 9 o'clock, would you like me to make the bedtime announcement?"
+      event_id: 'actionable_notification_bedtime'
+      alexa_device: 'group.main_alexas'

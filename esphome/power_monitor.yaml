@@ -48,12 +48,12 @@ sensor:
       gain_voltage: 7305
 # Voltage using a 9VAC power transformer
 # Note: If you can not get the voltage correct with the highest gain of 65535, uncomment the 2.0 multiply filter above and lower the gain as needed
-      gain_ct: 27518
+      gain_ct: 41787
     phase_b:
       current:
         name: ${disp_name} CT2 Amps
         id: ct2Amps
-      gain_ct: 27518
+      gain_ct: 41787
 # Current calibration using a 100A/50ma SCT-013-000
     phase_c:
       current:
@@ -147,7 +147,7 @@ sensor:
   - platform: template
     name: ${disp_name} Total Amps
     id: totalAmps
-    lambda: return id(ct4Amps).state + id(ct5Amps).state;
+    lambda: return id(ct1Amps).state + id(ct2Amps).state;
     accuracy_decimals: 2
     unit_of_measurement: A
     icon: "mdi:flash"
@@ -158,7 +158,7 @@ sensor:
     id: totalWatts
     lambda: return id(totalAmps).state * id(ic2Volts).state;
     accuracy_decimals: 1
-    unit_of_measurement: W
+    unit_of_measurement: Watts
     icon: "mdi:flash-circle"
     update_interval: ${update_time}             
 
@@ -168,6 +168,7 @@ sensor:
     filters:
       - multiply: 0.001
     unit_of_measurement: kWh
+
     
 switch:
   - platform: restart

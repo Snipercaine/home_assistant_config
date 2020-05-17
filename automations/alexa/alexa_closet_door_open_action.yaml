@@ -1,10 +1,11 @@
 id: officeclosetdooropenaction
-alias: turn off closet light via actionable notificaiton
+alias: turn off closet light via actionable notification
 trigger:
     platform: event
-    event_type: alexa_actionable_notificaiton
+    event_type: alexa_actionable_notification
     event_data:
       event_id: actionable_notification_office_closet_open
+      event_person_id: amzn1.ask.person.AGF535QWV7MGRZIS7VBGURG2ETQSSJZMWDQFRLYIZJJOOMTDXFRPMP2VQAL34NLSFPQTL7E2XBWZWI6A2MNU3FRHWJ4LPU77LCE5ZSA2
       event_response: True
     
 action:

@@ -144,12 +144,18 @@ sensor:
     power_generation:
       value_template: '{% if is_state_attr("sensor.pvoutput", "power_generation", "NaN") %}0{% else %}{{ states.sensor.pvoutput.attributes.power_generation }}{% endif %}'
       friendly_name: 'Generating'
-      unit_of_measurement: 'Watt'
+      unit_of_measurement: 'Watts'
     energy_generation:
       value_template: '{% if is_state_attr("sensor.pvoutput", "energy_generation", "NaN") %}0{% else %}{{ "%0.2f"|format(states.sensor.pvoutput.attributes.energy_generation|float/1000) }}{% endif %}'
       friendly_name: 'Generated'
       unit_of_measurement: 'kWh'
-        
+- platform: template
+  sensors:
+    grid_power_production:
+      value_template: "{{ states('sensor.power_generation') | float - states('sensor.power_monitor_total_watts') | float }}"
+      unit_of_measurement: 'Watts'
+      friendly_name: 'Grid Production'
+      
 - platform: socialblade
   channel_id: !secret socialblade
 - platform: mqtt
