@@ -820,7 +820,7 @@
     entity_id: binary_sensor.garage_motion
     to: 'on'
   - platform: state
-    entity_id: binary_sensor.basement_door
+    entity_id: binary_sensor.basement_doors
     to: 'on'
   - platform: state
     entity_id: binary_sensor.garage_entry
@@ -875,34 +875,14 @@
   - service: notify.notify
     data:
       message: '!Alarm Triggered!'
-  - service: notify.alexa_media
-    data:
-      target:
-      - media_player.kitchen
-      - media_player.kitchen_dot_2
-      - media_player.workbench
-      - media_player.toy_room_2
-      - media_player.zoe_s_echo_dot
-      - media_player.mom_and_dads_room_2
-      - media_player.garage
-      - media_player.theater_room
-      - media_player.justin_s_echo_show
+  - service: notify.alexa_media_echo_show
       data:
-        type: tts
-      message: The Alarm has been triggered. Input the disarm code or an automated
-        message will be sent to the police in 30 seconds.
-  - service: media_player.select_source
+        type: announce
+      message: The Alarm has been triggered. Input the disarm code or an automated message will be sent to the police in 30 seconds.
+  - service: light.turn_on
     data:
-      entity_id: media_player.volumio_volumioboxlocal
-      source: Sneak Caught
-  - service: media_player.select_source
-    data:
-      entity_id: media_player.volumio_volumiohomelocal
-      source: Home Alarm
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.all_leds
-      option: Police All
+      entity_id: light.windows_2
+      effect: 'Police All'
   - service: notify.ios_justin_iphone7
     data:
       title: ALARM TRIGGERED
@@ -910,7 +890,7 @@
   - service: notify.ios_janis7
     data:
       title: ALARM TRIGGERED
-      message: Scream! Run! Hide!
+      message: Maybe check the cameras
   id: fa737cb5d10b410eb3fb083c8113dd2f
 - alias: Homekit Delayed Start
   initial_state: 'on'
@@ -1920,3 +1900,16 @@
       color_name: yellow
     entity_id: light.zoe
     service: light.turn_on
+- id: '1589942422119'
+  alias: office TV remote test
+  description: ''
+  trigger:
+  - at: '23:00:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      command: turn on
+      device: office_tv
+    entity_id: remote.broadlink_rm_pro
+    service: remote.send_command
