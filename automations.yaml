@@ -875,10 +875,6 @@
   - service: notify.notify
     data:
       message: '!Alarm Triggered!'
-  - service: notify.alexa_media_echo_show
-      data:
-        type: announce
-      message: The Alarm has been triggered. Input the disarm code or an automated message will be sent to the police in 30 seconds.
   - service: light.turn_on
     data:
       entity_id: light.windows_2
@@ -891,6 +887,21 @@
     data:
       title: ALARM TRIGGERED
       message: Maybe check the cameras
+  - service: notify.alexa_media_echo_show
+    data:
+      message: "The Alarm has been triggered. Input the disarm code or an automated message will be sent to the police in 30 seconds."
+      data:
+        type: announce
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.office_display
+      volume_level: 0.9
+  - delay: '00:00:30'
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.office_display
+      media_content_id: 'http://192.168.1.71:8123/local/audio/labrador-barking-daniel_simon.mp3'
+      media_content_type: music     
   id: fa737cb5d10b410eb3fb083c8113dd2f
 - alias: Homekit Delayed Start
   initial_state: 'on'
