@@ -1,0 +1,22 @@
+binary_sensor:
+- platform: mqtt
+  name: "Boys Toilet"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "0F800E"
+  payload_off: "0F800A"
+  qos: 1
+- platform: mqtt
+  name: "Main Toilet"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "F7EF0E"
+  payload_off: "F7EF0A"
+  qos: 1
+- platform: mqtt
+  name: "Master Toilet"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "0DC30E"
+  payload_off: "0DC30A"
+  qos: 1

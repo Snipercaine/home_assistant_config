@@ -1,0 +1,9 @@
+switch:
+- platform: command_line
+  switches:
+    fire10_screen:
+      command_on: !secret foo_screen_on
+      command_off: !secret foo_screen_off
+      command_state: !secret foo_screen_state
+      value_template: '{{ value == "on" }}'
+      friendly_name: Fire10 Screen

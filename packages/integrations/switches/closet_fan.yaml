@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Office Closet Fan"
+  command_topic: "cmnd/PC_Fan/power"
+  state_topic: "stat/PC_Fan/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

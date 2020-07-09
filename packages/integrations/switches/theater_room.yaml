@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Theater"
+  command_topic: "cmnd/ZzTheater/power"
+  state_topic: "stat/ZzTheater/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Back Porch"
+  command_topic: "cmnd/sonoff/power"
+  state_topic: "stat/sonoff/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false 
+- platform: mqtt
+  name: "Front Porch"
+  command_topic: "cmnd/sonoff1/power"
+  state_topic: "stat/sonoff1/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Side Porch"
+  command_topic: "cmnd/sonoff5/power"
+  state_topic: "stat/sonoff5/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

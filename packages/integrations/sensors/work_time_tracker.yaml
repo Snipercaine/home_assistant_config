@@ -1,0 +1,17 @@
+sensor:
+- platform: history_stats
+  name: Work Week
+  entity_id: device_tracker.life360_drzzs
+  state: 'Work'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    days: 8
+- platform: history_stats
+  name: Work Month
+  entity_id: device_tracker.life360_drzzs
+  state: 'Work'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    days: 30

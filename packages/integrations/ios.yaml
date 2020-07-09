@@ -1,0 +1,57 @@
+ios:
+  push:
+    categories:
+      - name: cameras
+        identifier: 'camera'
+        actions:
+          - identifier: 'TRIGGER_ALARM'
+            title: 'Trigger Alarm'
+            destructive: 'true' 
+          - identifier: 'POLICE_ALL'
+            title: 'Turn on Police Lights'
+          # - identifier: 'PORCH_LIGHTS'
+          #   title: 'Turn on Porch Lights'
+          - identifier: 'UNLOCK_OFFICE'
+            title: 'Unlock Office Door'
+          - identifier: 'OFFICE_ALARM'
+            title: 'Office Alarm'
+          - identifier: 'TTS_MESSAGE'
+            title: 'Alexa TTS Message'
+            behavior: 'textInput'
+            textInputButtonTitle: 'Send TTS'
+            textInputPlaceholder: 'Who goes there?'
+      - name: quietcool
+        identifier: 'quietcool'
+        actions:
+          - identifier: 'QC_LOW'
+            title: 'Fan on Low 1 hr'
+          - identifier: 'QC_MED'
+            title: 'Fan on Medium 1 hr'
+          - identifier: 'QC_HIGH'
+            title: 'Fan on High 1 hr'
+      - name: garage1
+        identifier: 'garage1'
+        actions:
+          - identifier: 'CLOSE_JANIS' ## this must point to an action ##
+            title: 'Close Janis Garage Door'
+      - name: garage2
+        identifier: 'garage2'
+        actions:
+          - identifier: 'CLOSE_JUSTIN' ## this must point to an action ##
+            title: 'Close Justin Garage Door'
+      - name: michigan
+        identifier: 'game'
+        actions:
+          - identifier: 'WIN'
+            title: 'They Won!'
+          - identifier: 'LOSS'
+            title: 'Not this time...'
+      - name: door
+        identifier: 'door'
+        actions:
+          - identifier: 'open_first' ## these need to point to an action ##
+            title: 'Open First'
+          - identifier: 'open_second'
+            title: 'Open Second'
+          - identifier: 'open_third'
+            title: 'Open Third'

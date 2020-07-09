@@ -1,0 +1,18 @@
+id: '15huhfjsdfksdnv923'
+alias: Dawson Phone Charging
+description: ''
+trigger:
+- platform: time
+  at: '23:00:00'
+condition:
+- condition: template
+  value_template: '{{ state_attr(''device_tracker.life360_dawson'', ''battery_charging'') == false}}'
+action:
+- service: notify.ios_janis7
+  data:
+    message: Dawsons Phone isnt on the charger
+    title: Phone Bedroom Alarm
+- service: notify.mobile_app_drzzs
+  data:
+    message: Dawsons Phone isnt on the charger
+    title: Phone Bedroom Alarm

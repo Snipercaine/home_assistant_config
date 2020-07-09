@@ -1,0 +1,6 @@
+sensor:
+- platform: waqi
+  token: !secret waqi_token
+  locations:
+    - salt lake city
+    - utah

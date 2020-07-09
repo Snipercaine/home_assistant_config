@@ -1,0 +1,17 @@
+switch:
+- platform: mqtt
+  name: "Upstairs Fan"
+  command_topic: "cmnd/ThermoZztat/POWER1"
+  state_topic: "stat/ThermoZztat/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Upstairs AC"
+  command_topic: "cmnd/ThermoZztat/POWER2"
+  state_topic: "stat/ThermoZztat/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

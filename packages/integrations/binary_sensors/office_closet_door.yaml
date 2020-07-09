@@ -1,0 +1,8 @@
+binary_sensor:
+- platform: mqtt
+  name: "Office Closet"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "DD6B0E"
+  payload_off: "DD6B0A"
+  qos: 1

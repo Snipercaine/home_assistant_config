@@ -1,3 +1,5 @@
 weather:
   - platform: darksky
     api_key: !secret darksky
+  - platform: openweathermap
+    api_key: !secret openweathermap

@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Girls Lights"
+  command_topic: "cmnd/Girls/power3"
+  state_topic: "stat/Girls/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Girls Fan"
+  command_topic: "cmnd/Girls/power2"
+  state_topic: "stat/Girls/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Girls Sun"
+  command_topic: "cmnd/Girls/power1"
+  state_topic: "stat/Girls/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

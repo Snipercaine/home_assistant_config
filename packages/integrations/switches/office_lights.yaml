@@ -1,0 +1,41 @@
+switch:
+- platform: mqtt
+  name: "Office Lock"
+  command_topic: "cmnd/officelock/power"
+  state_topic: "stat/officelock/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Office Closet"
+  command_topic: "cmnd/Office_Closet/power"
+  state_topic: "stat/Office_Closet/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false 
+- platform: mqtt
+  name: "Office Crown"
+  command_topic: "cmnd/Tower_T3/power3"
+  state_topic: "stat/Tower_T3/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Office Fan"
+  command_topic: "cmnd/Tower_T3/power2"
+  state_topic: "stat/Tower_T3/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Office Light"
+  command_topic: "cmnd/Tower_T3/power1"
+  state_topic: "stat/Tower_T3/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

@@ -1,0 +1,22 @@
+#sensor:
+# - platform: history_stats
+#   name: Zach Xbox
+#   entity_id: sensor.i_am_zerp
+#   state: 'Online'
+#   type: time
+#   start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+#   end: '{{ now() }}'
+# - platform: history_stats
+#   name: Jackson Xbox
+#   entity_id: sensor.bearbait16
+#   state: 'Online'
+#   type: time
+#   start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+#   end: '{{ now() }}'
+# - platform: history_stats
+#   name: DrZzs Xbox
+#   entity_id: sensor.dr_zzs
+#   state: 'Online'
+#   type: time
+#   start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+#   end: '{{ now() }}'

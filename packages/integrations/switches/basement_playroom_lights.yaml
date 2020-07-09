@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Basement Playroom"
+  command_topic: "cmnd/basement_playroom/power"
+  state_topic: "stat/basement_playroom/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

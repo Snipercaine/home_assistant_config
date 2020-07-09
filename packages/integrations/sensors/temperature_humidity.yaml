@@ -1,0 +1,36 @@
+sensor:
+- platform: mqtt
+  state_topic: 'tele/Master_Lights/SENSOR'
+  name: 'Master Bedroom Temp' #AM2301
+  unit_of_measurement: '°F'
+  value_template: '{{ value_json.AM2301.Temperature }}'
+- platform: mqtt
+  state_topic: 'tele/boys/SENSOR'
+  name: 'Boys Room Temp' #AM2301
+  unit_of_measurement: '°F'
+  value_template: '{{ value_json.AM2301.Temperature }}'
+- platform: mqtt
+  state_topic: 'tele/Girls/SENSOR'
+  name: 'Girls Room Temp' #AM2301
+  unit_of_measurement: '°F'
+  value_template: '{{ value_json.AM2301.Temperature }}'
+- platform: mqtt
+  state_topic: 'tele/Tower_T3/SENSOR'
+  name: 'Office Temp' #AM2301
+  unit_of_measurement: '°F'
+  value_template: '{{ value_json.AM2301.Temperature }}'
+- platform: mqtt
+  state_topic: 'tele/ThermoZztat/SENSOR'
+  name: 'Upstairs Temp' #AM2301
+  unit_of_measurement: '°F'
+  value_template: '{{ value_json.AM2301.Temperature }}'
+- platform: mqtt
+  state_topic: 'tele/ThermoZztat/SENSOR'
+  name: 'Upstairs Humidity'
+  unit_of_measurement: '%'
+  value_template: '{{ value_json.AM2301.Humidity }}'
+- platform: mqtt
+  state_topic: 'tele/Tower_T3/SENSOR'
+  name: 'Office Humidity'
+  unit_of_measurement: '%'
+  value_template: '{{ value_json.AM2301.Humidity }}'

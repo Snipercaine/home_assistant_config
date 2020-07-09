@@ -1,0 +1,20 @@
+sensor:
+- platform: mqtt
+  name: Power Plug Current 2
+  state_topic: "tele/PowerPlug_2/SENSOR"
+  value_template: "{{ value_json.ENERGY.Current }}"
+  unit_of_measurement: 'amps'
+- platform: mqtt
+  name: Power Plug Power 2
+  state_topic: "tele/PowerPlug_2/SENSOR"
+  value_template: "{{ value_json.ENERGY.Power }}"
+  unit_of_measurement: 'watts'
+- platform: mqtt
+  name: Power Plug Voltage 2
+  state_topic: "tele/PowerPlug_2/SENSOR"
+  value_template: "{{ value_json.ENERGY.Voltage }}"
+  unit_of_measurement: 'volts'
+- platform: statistics
+  entity_id: sensor.power_plug_2_current
+  name: Average Plug 2 Current
+  sampling_size: 1000

@@ -32,6 +32,11 @@ api:
         - stepper.set_target:
             id: my_stepper
             target: !lambda 'return target;'
+    - service: report_position
+      then:
+        - stepper.report_position
+            id: my_stepper
+            position: 0
 
 stepper:
   - platform: a4988
@@ -39,5 +44,5 @@ stepper:
     step_pin: GPIO22
     dir_pin: GPIO23
     sleep_pin: GPIO21
-    max_speed: 500 steps/s
+    max_speed: 250 steps/s
     

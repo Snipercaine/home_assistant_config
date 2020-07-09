@@ -1,0 +1,10 @@
+binary_sensor:
+- platform: mqtt
+  state_topic: "tele/RF_Bridge/RESULT"
+  name: 'Garage Motion'
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: 'D54C1E'
+  payload_off: 'D54C1Eoff'
+  device_class: motion
+  off_delay: 5
+  qos: 1

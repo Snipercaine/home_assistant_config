@@ -1,0 +1,57 @@
+switch:
+- platform: mqtt
+  name: "Master Bedroom Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER1"
+  state_topic: "stat/Radiant_Heat/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Entryway Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER2"
+  state_topic: "stat/Radiant_Heat/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Kitchen Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER3"
+  state_topic: "stat/Radiant_Heat/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Theater Room Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER4"
+  state_topic: "stat/Radiant_Heat/POWER4"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Guest Bedroom Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER5"
+  state_topic: "stat/Radiant_Heat/POWER5"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Toy Room Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER6"
+  state_topic: "stat/Radiant_Heat/POWER6"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Kids Bedroom Heat"
+  command_topic: "cmnd/Radiant_Heat/POWER7"
+  state_topic: "stat/Radiant_Heat/POWER7"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

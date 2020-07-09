@@ -1,0 +1,29 @@
+binary_sensor:
+- platform: mqtt
+  name: "Janis Fob A"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "2A21A2"
+  off_delay: 2
+  qos: 1
+- platform: mqtt
+  name: "Janis Fob B"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "2A21A8"
+  off_delay: 2
+  qos: 1
+- platform: mqtt
+  name: "Janis Fob C"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "2A21A1"
+  off_delay: 2
+  qos: 1
+- platform: mqtt
+  name: "Janis Fob D"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "2A21A4"
+  off_delay: 2
+  qos: 1

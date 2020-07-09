@@ -1,0 +1,5 @@
+switch:
+- platform: switchbot
+  mac: 'D0:1E:20:65:63:62'
+- platform: switchbot
+  mac: 'EA:F3:15:A4:22:14' 

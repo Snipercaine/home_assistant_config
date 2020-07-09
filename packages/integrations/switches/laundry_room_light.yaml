@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Laundry Room"
+  command_topic: "cmnd/laundry_room/power"
+  state_topic: "stat/laundry_room/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

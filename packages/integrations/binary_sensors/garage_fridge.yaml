@@ -1,0 +1,9 @@
+binary_sensor:
+- platform: mqtt
+  name: "Garage Fridge"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "DF000A"
+  payload_off: "DF000E"
+  device_class: door
+  qos: 1

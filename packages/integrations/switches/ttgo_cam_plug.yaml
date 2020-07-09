@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "TTGOcam Plug"
+  command_topic: "cmnd/ttgo_cam_plug/power"
+  state_topic: "stat/ttgo_cam_plug/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

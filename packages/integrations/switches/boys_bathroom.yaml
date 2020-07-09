@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Boys Bathroom Lock"
+  command_topic: "cmnd/Boys_Bathroom_Lock/power"
+  state_topic: "stat/Boys_Bathroom_Lock/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Boys Shower"
+  command_topic: "cmnd/zzboysshower/power"
+  state_topic: "stat/zzboysshower/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false 
+- platform: mqtt
+  name: "Boys Bathroom"
+  command_topic: "cmnd/sonoff15/power"
+  state_topic: "stat/sonoff15/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

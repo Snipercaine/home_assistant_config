@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Upstairs Hall"
+  command_topic: "cmnd/sonoff10/power"
+  state_topic: "stat/sonoff10/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Sonoff 11"
+  command_topic: "cmnd/sonoff11/power"
+  state_topic: "stat/sonoff11/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false 
+- platform: mqtt
+  name: "Sonoff 12"
+  command_topic: "cmnd/sonoff12/power"
+  state_topic: "stat/sonoff12/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

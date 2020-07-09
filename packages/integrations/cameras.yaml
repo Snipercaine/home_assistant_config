@@ -7,8 +7,14 @@ camera:
   #   password: !secret bi_password
   #   authentication: basic
   - platform: mjpeg
+    mjpeg_url: http://192.168.1.28:38500/mjpg/xbox
+    name: Toyroom Xbox
+    username: !secret bi_username
+    password: !secret bi_password
+    authentication: basic
+  - platform: mjpeg
     mjpeg_url: http://192.168.1.28:38500/mjpg/toyroom
-    name: Toyroom
+    name: Toyroom Wyze
     username: !secret bi_username
     password: !secret bi_password
     authentication: basic

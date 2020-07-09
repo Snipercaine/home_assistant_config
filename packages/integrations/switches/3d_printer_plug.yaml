@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "3D Printer"
+  command_topic: "cmnd/3d_printer/power"
+  state_topic: "stat/3d_printer/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

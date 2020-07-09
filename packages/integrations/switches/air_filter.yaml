@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Air Filter"
+  command_topic: "cmnd/AirFilter/power"
+  state_topic: "stat/AirFilter/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false  

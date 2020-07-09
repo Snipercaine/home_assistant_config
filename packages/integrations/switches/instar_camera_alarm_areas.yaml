@@ -1,0 +1,30 @@
+switch:
+- platform: mqtt
+  name: 'Alarm Area 1'
+  state_topic: 'instar/10D1DC21673C/status/alarm/area1/enable'
+  command_topic: 'instar/10D1DC21673C/alarm/area1/enable'
+  qos: 1
+  payload_on: '{"val":"1"}'
+  payload_off: '{"val":"0"}'
+  optimistic: false
+  retain: false
+
+- platform: mqtt
+  name: 'Alarm Area 2'
+  state_topic: 'instar/10D1DC21673C/status/alarm/area2/enable'
+  command_topic: 'instar/10D1DC21673C/alarm/area2/enable'
+  qos: 1
+  payload_on: '{"val":"1"}'
+  payload_off: '{"val":"0"}'
+  optimistic: false
+  retain: false
+
+- platform: mqtt
+  name: 'Alarm Area 3'
+  state_topic: 'instar/10D1DC21673C/status/alarm/area3/enable'
+  command_topic: 'instar/10D1DC21673C/alarm/area3/enable'
+  qos: 1
+  payload_on: '{"val":"1"}'
+  payload_off: '{"val":"0"}'
+  optimistic: false
+  retain: false

@@ -1,0 +1,9 @@
+binary_sensor:
+- platform: mqtt
+  name: "Shop Door"
+  state_topic: "tele/RF_Bridge/RESULT"
+  value_template: '{{value_json.RfReceived.Data}}'
+  payload_on: "F8030A"
+  payload_off: "F8030E"
+  device_class: door
+  qos: 1

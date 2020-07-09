@@ -1,0 +1,37 @@
+input_boolean:
+  sunday_music:
+    name: Sunday Music
+    icon: mdi:music
+  rock_music:
+    name: Rock On
+    icon: mdi:guitar-electric
+  country_music:
+    name: Country
+    icon: mdi:guitar-acoustic
+  lindsay_music:
+    name: Lindsay
+    icon: mdi:play
+  kids_bop:
+    name: Kids Bop
+    icon: mdi:flower-tulip
+  sign_off:
+    name: Sign Off
+    icon: mdi:hand
+  zach:
+    name: Zach Button
+    icon: mdi:ear-hearing-off
+  fhe:
+    name: FHE
+    icon: mdi:cards-heart
+  blink_refresh:
+    name: Blink Cameras
+    icon: mdi:camera
+  receiver:
+    name: Projector Sound
+    icon: mdi:surround-sound
+  dinner_time:
+    name: Dinner Time
+    icon: mdi:food
+  bedtime:
+    name: Bedtime
+    icon: mdi:hotel

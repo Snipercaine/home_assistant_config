@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Boys Lights"
+  command_topic: "cmnd/boys/power3"
+  state_topic: "stat/boys/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Boys Fan"
+  command_topic: "cmnd/boys/power2"
+  state_topic: "stat/boys/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Boys Sun"
+  command_topic: "cmnd/boys/power1"
+  state_topic: "stat/boys/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

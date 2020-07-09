@@ -1,0 +1,15 @@
+# binary_sensor:
+# - platform: mqtt
+#   name: "Office Wand"
+#   state_topic: "tele/RF_Bridge/RESULT"
+#   value_template: '{{value_json.RfReceived.Data}}'
+#   payload_on: "D31421"
+#   payload_off: "D31421off"
+#   qos: 1
+# - platform: mqtt
+#   name: "Office Book"
+#   state_topic: "tele/RF_Bridge/RESULT"
+#   value_template: '{{value_json.RfReceived.Data}}'
+#   payload_on: "C7C2A1"
+#   payload_off: "C7C2A19off"
+#   qos: 1

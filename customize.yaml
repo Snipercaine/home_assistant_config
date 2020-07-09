@@ -485,3 +485,7 @@ light.office_west:
   icon: mdi:ceiling-light
 light.office_2:
   friendly_name: Office Floor LEDs
+device_tracker.life360_zach:
+  friendly_name: Zach
+device_tracker.life360_zoe_aden:
+  friendly_name: Zoe

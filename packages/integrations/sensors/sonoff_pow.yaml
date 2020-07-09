@@ -1,0 +1,16 @@
+sensor:
+- platform: mqtt
+  name: POW Current
+  state_topic: "tele/POW/SENSOR"
+  value_template: "{{ value_json.ENERGY.Current }}"
+  unit_of_measurement: 'amps'
+- platform: mqtt
+  name: POW Power
+  state_topic: "tele/POW/SENSOR"
+  value_template: "{{ value_json.ENERGY.Power }}"
+  unit_of_measurement: 'watts'
+- platform: mqtt
+  name: POW Voltage
+  state_topic: "tele/POW/SENSOR"
+  value_template: "{{ value_json.ENERGY.Voltage }}"
+  unit_of_measurement: 'volts'

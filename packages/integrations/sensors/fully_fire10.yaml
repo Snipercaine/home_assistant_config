@@ -1,0 +1,23 @@
+sensor:
+- platform: rest
+  name: fire10
+  json_attributes:
+    - batteryLevel
+    - kioskMode
+    - screenBrightness
+    - motionDetectorState
+    - maintenanceMode
+    - appFreeMemory
+    - appUsedMemory
+    - totalFreeMemory
+    - totalUsedMemory
+    - hostname4
+    - ip4
+    - mac
+    - locationLatitude
+    - locationLongitude
+    - locationAltitude
+    - startUrl
+    - currentPage
+  resource: !secret foo_rest
+  value_template: '{{ value_json.isScreenOn }}'

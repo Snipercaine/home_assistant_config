@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "Main Floor Fan"
+  command_topic: "cmnd/MainAC/POWER1"
+  state_topic: "stat/MainAC/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Main Floor AC"
+  command_topic: "cmnd/MainAC/POWER2"
+  state_topic: "stat/MainAC/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Main Floor Heat"
+  command_topic: "cmnd/MainAC/POWER3"
+  state_topic: "stat/MainAC/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

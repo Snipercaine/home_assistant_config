@@ -1,0 +1,25 @@
+switch:
+- platform: mqtt
+  name: "QuietCool Low"
+  command_topic: "cmnd/QuietCool/power1"
+  state_topic: "stat/QuietCool/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "QuietCool Med"
+  command_topic: "cmnd/QuietCool/power2"
+  state_topic: "stat/QuietCool/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "QuietCool High"
+  command_topic: "cmnd/QuietCool/power3"
+  state_topic: "stat/QuietCool/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false

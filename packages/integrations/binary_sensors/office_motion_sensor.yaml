@@ -1,0 +1,9 @@
+binary_sensor:
+- platform: mqtt
+  name: "Office PIR"
+  device_class: motion
+  state_topic: "stat/Tower_T3/POWER4"
+  payload_on: "ON"
+  payload_off: "OFF"
+  off_delay: 5
+  qos: 1

@@ -1,0 +1,9 @@
+sensor:
+- platform: command_line
+  name: Home Assistant automations.yaml lines
+  command: wc -l automations.yaml | awk '{ print $1 }'
+  unit_of_measurement: lines
+- platform: command_line
+  name: Home Assistant configuration.yaml lines
+  command: wc -l configuration.yaml | awk '{ print $1 }'
+  unit_of_measurement: lines

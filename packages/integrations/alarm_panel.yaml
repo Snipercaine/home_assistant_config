@@ -7,9 +7,8 @@ alarm_control_panel:
       trigger_time: 0
     armed_home:
       delay_time: 0
-      pending_time: 0
+      arming_time: 0
     armed_away:
       delay_time: 60
-      pending_time: 30
-    triggered:
-      pending_time: 0
+      arming_time: 30
+

@@ -1,0 +1,15 @@
+# binary_sensor:
+# - platform: mqtt
+#   name: "Dinning Shade Open"
+#   state_topic: "tele/RF_Bridge/RESULT"
+#   value_template: '{{value_json.RfReceived.Data}}'
+#   payload_on: "9E7A0E"
+#   payload_off: "9E7A0A"
+#   qos: 1
+# - platform: mqtt
+#   name: "Dinning Shade Closed"
+#   state_topic: "tele/RF_Bridge/RESULT"
+#   value_template: '{{value_json.RfReceived.Data}}'
+#   payload_on: "FE2C0E"
+#   payload_off: "FE2C0A"
+#   qos: 1

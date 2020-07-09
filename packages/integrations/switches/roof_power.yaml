@@ -1,0 +1,17 @@
+switch:
+- platform: mqtt
+  name: "House LEDs"
+  command_topic: "shellies/shellyswitch-135860/relay/0/command"
+  state_topic: "shellies/shellyswitch-135860/relay/0"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: false
+- platform: mqtt
+  name: "Snow Melt"
+  command_topic: "shellies/shellyswitch-135860/relay/1/command"
+  state_topic: "shellies/shellyswitch-135860/relay/1"
+  qos: 1
+  payload_on: "on"
+  payload_off: "off"
+  retain: false

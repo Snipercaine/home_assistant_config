@@ -1,0 +1,7 @@
+#EXTM3U
+#EXTINF:146,bensound-ukulele.mp3
+#EXTVLCOPT:network-caching=1000
+https://www.bensound.com/bensound-music/bensound-ukulele.mp3
+#EXTINF:217,bensound-summer.mp3
+#EXTVLCOPT:network-caching=1000
+https://www.bensound.com/bensound-music/bensound-summer.mp3

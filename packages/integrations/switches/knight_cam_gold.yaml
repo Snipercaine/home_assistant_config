@@ -1,0 +1,9 @@
+switch:
+- platform: mqtt
+  name: "Knight Cam Gold"
+  command_topic: "cmnd/knight_cam_gold/power"
+  state_topic: "stat/knight_cam_gold/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false  

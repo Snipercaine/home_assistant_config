@@ -1,0 +1,33 @@
+switch:
+- platform: mqtt
+  name: "Master Lights"
+  command_topic: "cmnd/Master_Lights/power3"
+  state_topic: "stat/Master_Lights/POWER3"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Master Fan"
+  command_topic: "cmnd/Master_Lights/power2"
+  state_topic: "stat/Master_Lights/POWER2"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Master Fire"
+  command_topic: "cmnd/Master_Lights/power1"
+  state_topic: "stat/Master_Lights/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+- platform: mqtt
+  name: "Master Crown"
+  command_topic: "cmnd/sonoffsv1/power"
+  state_topic: "stat/sonoffsv1/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false 
