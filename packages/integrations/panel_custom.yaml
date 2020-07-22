@@ -1,7 +1,7 @@
 panel_custom:
   - name: hassio-main
     sidebar_title: Configuratorinator
-    sidebar_icon: mdi:robot
+    sidebar_icon: fas:dice-d20
     js_url: /api/hassio/app/entrypoint.js
     url_path: configuratorinator
     embed_iframe: true

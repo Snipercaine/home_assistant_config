@@ -4,7 +4,7 @@ esphome:
   board: esp01_1m
 
 wifi:
-  ssid: DrZzs-NoT-main
+  ssid: DrZzs-NoT
   password: !secret NoT
   manual_ip:
     static_ip: 192.168.1.19

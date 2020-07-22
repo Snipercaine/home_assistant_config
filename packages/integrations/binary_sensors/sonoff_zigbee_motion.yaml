@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: template
+    sensors:
+      sonoff_zigbee_motion:
+        friendly_name: "Sonoff Zigbee Motion"
+        device_class: motion
+        value_template: >-
+          '{{ state_attr("binary_sensor.sonoff_a400005031", "motion")}}'

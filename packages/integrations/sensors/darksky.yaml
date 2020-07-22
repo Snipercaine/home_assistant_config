@@ -1,0 +1,6 @@
+sensor:
+  - platform: darksky
+    api_key: !secret darksky
+    monitored_conditions:
+      - temperature
+      - apparent_temperature

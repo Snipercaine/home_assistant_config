@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: template
+    sensors:
+      sonoff_zigbee_door:
+        friendly_name: "Sonoff Zigbee Door"
+        device_class: door ##or window
+        value_template: >-
+          '{{ state_attr("binary_sensor.sonoff_a400005091", "lock")}}'

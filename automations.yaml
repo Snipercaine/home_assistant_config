@@ -1946,3 +1946,14 @@
       message: Jacksons phone isnt on the charger
       title: Phone Bedroom Alert
     service: notify.mobile_app_drzzs
+- id: '1594365729254'
+  alias: sonoff zigbee button press
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '''{{ state_attr("binary_sensor.sonoff_a400005146", "trigTime")}}'''
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.sonoff_zigbee_button
+    service: input_boolean.toggle

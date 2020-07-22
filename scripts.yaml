@@ -23,3 +23,25 @@ activate_alexa_actionable_notification:
         entity_id: "{{ alexa_device }}"
         media_content_type: skill
         media_content_id: amzn1.ask.skill.36be6177-12c9-4f56-bdce-18ad4d7ec930
+my_computer_notify_url:
+  alias: "My Computer - Notify Url"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/drzzspc/commands/notify"
+        payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "iconUrl": "", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+my_computer_notify_app:
+  alias: "My Computer - Notify App"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/drzzspc/commands/notify"
+        payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "iconUrl": "", "launchParams": "toast://open/C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe#https://iotlink.gitlab.io" }'
+my_computer_vol_mute:
+  alias: "My Computer - Toggle Mute"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/drzzspc/commands/volume/mute"
+        payload: ""
+          

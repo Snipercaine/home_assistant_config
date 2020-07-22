@@ -1,0 +1,14 @@
+id: enable_zigbee_join
+alias: Enable Zigbee joining
+trigger:
+  platform: state
+  entity_id: input_boolean.zigbee_permit_join
+  to: 'on'
+action:
+- service: mqtt.publish
+  data:
+    topic: zigbee2mqtt/bridge/config/permit_join
+    payload: 'true'
+- service: timer.start
+  data:
+    entity_id: timer.zigbee_permit_join
