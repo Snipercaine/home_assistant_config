@@ -1,0 +1,98 @@
+esphome:
+  name: toyroom_crank_32
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: "DrZzs-NoT"
+  password: "8dwE20!pq"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Toyroom Crank 32"
+    password: "12345678"
+
+captive_portal:
+
+ota:
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+web_server:
+  port: 80
+
+output:
+  - platform: gpio
+    id: 'win_en3'
+    pin: 16
+  - platform: gpio
+    id: 'win_en4'
+    pin: 17
+
+switch:
+  - platform: output
+    name: "winen3"
+    output: 'win_en3'
+    id: winen3
+  - platform: output
+    name: "winen4"
+    output: 'win_en4'
+    id: winen4
+    
+# cover:
+#   - platform: template
+#     name: "Toyroom Crank"
+#     id: tr_crank_open
+#     optimistic: true
+#     open_action:
+#       - switch.turn_off: winen4
+#       - switch.turn_on: winen3
+#       - delay: 30s
+#       - switch.turn_off: winen3
+#     close_action:
+#       - switch.turn_off: winen3
+#       - switch.turn_on: winen4
+#     stop_action:
+#       - switch.turn_off: winen3
+#       - switch.turn_off: winen4
+
+binary_sensor:
+  - platform: gpio
+    pin: 23
+    name: "Toyroom Window"
+    id: tr_window
+    # filters:
+    #   invert:    
+    on_release:
+      then:
+        - switch.turn_off: winen3
+        - switch.turn_off: winen4
+        
+  # - platform: gpio
+  #   pin: 34
+  #   name: "Toyroom Crank Button"
+  #   filters:
+  #     invert:
+  #   on_press: 
+  #     then:
+  #       - lambda: |
+  #           if (id(tr_crank_open).position == cover::COVER_OPEN) {
+  #             if (id(winen3).state){
+  #               // window is opening
+  #               id(tr_crank_open).stop();
+  #             } else {
+  #               // window is open and not moving
+  #               id(tr_crank_open).close();
+  #             }
+  #           } else {
+  #             if (id(winen4).state){
+  #               // window is closing
+  #               id(tr_crank_open).stop();
+  #             } else {
+  #               // win is closed and not moving
+  #               id(tr_crank_open).open();
+  #             }
+  #           }

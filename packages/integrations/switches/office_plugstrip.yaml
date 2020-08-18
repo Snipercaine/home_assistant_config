@@ -1,41 +1,41 @@
-switch:
-- platform: mqtt
-  name: "Plugstrip 1"
-  command_topic: "cmnd/plugstrip/power1"
-  state_topic: "stat/plugstrip/POWER1"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: false
-- platform: mqtt
-  name: "Plugstrip 2"
-  command_topic: "cmnd/plugstrip/power2"
-  state_topic: "stat/plugstrip/POWER2"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: false
-- platform: mqtt
-  name: "Plugstrip 3"
-  command_topic: "cmnd/plugstrip/power3"
-  state_topic: "stat/plugstrip/POWER3"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: false
-- platform: mqtt
-  name: "USB 1"
-  command_topic: "cmnd/plugstrip/power4"
-  state_topic: "stat/plugstrip/POWER4"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: false
-- platform: mqtt
-  name: "USB 2"
-  command_topic: "cmnd/plugstrip/power5"
-  state_topic: "stat/plugstrip/POWER5"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: false
+# switch:
+# - platform: mqtt
+#   name: "Plugstrip 1"
+#   command_topic: "cmnd/plugstrip/power1"
+#   state_topic: "stat/plugstrip/POWER1"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: false
+# - platform: mqtt
+#   name: "Plugstrip 2"
+#   command_topic: "cmnd/plugstrip/power2"
+#   state_topic: "stat/plugstrip/POWER2"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: false
+# - platform: mqtt
+#   name: "Plugstrip 3"
+#   command_topic: "cmnd/plugstrip/power3"
+#   state_topic: "stat/plugstrip/POWER3"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: false
+# - platform: mqtt
+#   name: "USB 1"
+#   command_topic: "cmnd/plugstrip/power4"
+#   state_topic: "stat/plugstrip/POWER4"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: false
+# - platform: mqtt
+#   name: "USB 2"
+#   command_topic: "cmnd/plugstrip/power5"
+#   state_topic: "stat/plugstrip/POWER5"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: false

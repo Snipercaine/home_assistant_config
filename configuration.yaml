@@ -11,13 +11,16 @@ homeassistant:
   unit_system: imperial
   time_zone: America/Denver
   customize: !include customize.yaml
+# http:
+#   ssl_certificate: /ssl/fullchain.pem
+#   ssl_key: /ssl/privkey.pem
 default_config:
 zone: !include zones.yaml
 shelly:
 breaking_changes:
 ffmpeg:
 frontend:
- themes: !include_dir_merge_named themes/
+  themes: !include_dir_merge_named themes/
 updater:
 discovery:
 conversation:
@@ -44,3 +47,5 @@ cloud:
 config:
 config_check:
 system_health:
+downloader:
+  download_dir: downloads

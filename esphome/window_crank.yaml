@@ -6,6 +6,11 @@ esphome:
 wifi:
   ssid: !secret wifi
   password: !secret wifi_pw
+  ap:
+    ssid: "Toyroom Crank 32"
+    password: "12345678"
+
+captive_portal:
 
 # Enable logging
 logger:
@@ -17,16 +22,16 @@ ota:
 web_server:
   port: 80
   
-dallas:
-  - pin: D5
+# dallas:
+#   - pin: D5
 
-sensor: 
-  - platform: dallas
-    address: 0x910218311D68FF28
-    name: Toyroom Temp
-    filters:
-      - lambda: return x * (9.0/5.0) + 32.0;
-    unit_of_measurement: "°F"
+# sensor: 
+#   - platform: dallas
+#     address: 0x910218311D68FF28
+#     name: Toyroom Temp
+#     filters:
+#       - lambda: return x * (9.0/5.0) + 32.0;
+#     unit_of_measurement: "°F"
     
 output:
   - platform: gpio
@@ -65,7 +70,7 @@ cover:
 
 binary_sensor:
   - platform: gpio
-    pin: D4
+    pin: D3
     name: "Toyroom Window State"
     id: tr_win_state
     # filters:
@@ -75,28 +80,28 @@ binary_sensor:
         - switch.turn_off: wincr1
         - switch.turn_off: wincr2
         
-  - platform: gpio
-    pin: D3
-    name: "Toyroom Window Button"
-    filters:
-      invert:
-    on_press: 
-      then:
-        - lambda: |
-            if (id(tr_win_open).position == cover::COVER_OPEN) {
-              if (id(wincr1).state){
-                // window is opening
-                id(tr_win_open).stop();
-              } else {
-                // window is open and not moving
-                id(tr_win_open).close();
-              }
-            } else {
-              if (id(wincr2).state){
-                // window is closing
-                id(tr_win_open).stop();
-              } else {
-                // win is closed and not moving
-                id(tr_win_open).open();
-              }
-            }
+  # - platform: gpio
+  #   pin: D3
+  #   name: "Toyroom Window Button"
+  #   filters:
+  #     invert:
+  #   on_press: 
+  #     then:
+  #       - lambda: |
+  #           if (id(tr_win_open).position == cover::COVER_OPEN) {
+  #             if (id(wincr1).state){
+  #               // window is opening
+  #               id(tr_win_open).stop();
+  #             } else {
+  #               // window is open and not moving
+  #               id(tr_win_open).close();
+  #             }
+  #           } else {
+  #             if (id(wincr2).state){
+  #               // window is closing
+  #               id(tr_win_open).stop();
+  #             } else {
+  #               // win is closed and not moving
+  #               id(tr_win_open).open();
+  #             }
+  #           }

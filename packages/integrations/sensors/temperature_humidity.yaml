@@ -34,3 +34,10 @@ sensor:
   name: 'Office Humidity'
   unit_of_measurement: '%'
   value_template: '{{ value_json.AM2301.Humidity }}'
+- platform: template
+  sensors:
+    adjusted_entryway_temp:
+      friendly_name: "Craft Closet Temp"
+      unit_of_measurement: '°F'
+      value_template: "{{ states('sensor.tuyatec_jigsujrv_rh3052_379cc9fe_temperature')|float -10 }}"
+    

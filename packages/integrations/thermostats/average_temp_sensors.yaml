@@ -19,5 +19,4 @@ sensor:
     - sensor.master_bedroom_temp_2
     - sensor.main_bathroom_temp
     - sensor.piano_room_multi_sensor_5
-    - sensor.tuyatec_jigsujrv_rh3052_379cc9fe_temperature
     - sensor.kitchen_temp_temperature

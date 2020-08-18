@@ -1617,20 +1617,17 @@
       message: motioneye webhook test
     service: notify.ios_justin_iphone7
 - id: '1552619801097'
-  initial_state: 'on'
+  alias: Laundry Room Light AutoOff 5min
   trigger:
-  - platform: state
-    entity_id: switch.laundry_room
-    from: 'off'
+  - entity_id: switch.laundry_room_2
+    for: 0:05:00
+    platform: state
     to: 'on'
-    for:
-      minutes: 5
   condition: []
   action:
-  - service: switch.turn_off
-    data:
-      entity_id: switch.laundry_room
-  alias: Laundry Room Light AutoOff 5min
+  - entity_id: switch.laundry_room_2
+    service: switch.turn_off
+  initial_state: 'on'
 - id: '1571242093784'
   alias: Garage Lights on with motion or door opening
   trigger:
@@ -1660,18 +1657,6 @@
   - data:
       entity_id: switch.garage_lights
     service: switch.turn_off
-- id: '1572110188244'
-  alias: Power Monitor Triggered Notification
-  description: When something draws power send notification
-  trigger:
-  - below: '0.1'
-    entity_id: sensor.sonoff_energy_current
-    platform: numeric_state
-  condition: []
-  action:
-  - data:
-      message: The washer is finished
-    service: notify.notify
 - id: '1573762869101'
   alias: turn off porch lights
   description: so the front porch light won't be on during the day anymore
@@ -1957,3 +1942,135 @@
   - data: {}
     entity_id: input_boolean.sonoff_zigbee_button
     service: input_boolean.toggle
+- id: '1595738382609'
+  alias: turn on laundry light when door opens
+  description: ''
+  trigger:
+  - device_id: 105ec73ed70c4c1991211622e8378310
+    domain: binary_sensor
+    entity_id: binary_sensor.sonoff_zigbee_door_f6f47c1b_ias_zone
+    platform: device
+    type: opened
+  condition: []
+  action:
+  - device_id: 4c9997bcdaff4249ad1a8b8d4504829f
+    domain: switch
+    entity_id: switch.laundry_room_2
+    type: turn_on
+  mode: single
+- id: '1595739106061'
+  alias: Turn off laundry room light when door is closed
+  description: ''
+  trigger:
+  - device_id: 105ec73ed70c4c1991211622e8378310
+    domain: binary_sensor
+    entity_id: binary_sensor.sonoff_zigbee_door_f6f47c1b_ias_zone
+    platform: device
+    type: not_opened
+  condition: []
+  action:
+  - device_id: 4c9997bcdaff4249ad1a8b8d4504829f
+    domain: switch
+    entity_id: switch.laundry_room_2
+    type: turn_off
+  mode: single
+- id: '1595742447973'
+  alias: Turn off boys lights if no motion
+  description: ''
+  trigger:
+  - device_id: 5a846915119a4133b0eab8df79b104f1
+    domain: binary_sensor
+    entity_id: binary_sensor.tuyatec_b5g40alm_rh3040_ias_zone
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    platform: device
+    type: no_motion
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.boys_lights
+    service: switch.turn_off
+  - data: {}
+    entity_id: switch.boys_sun
+    service: switch.turn_off
+  mode: single
+- id: '1595793741315'
+  alias: mode test
+  description: ''
+  trigger:
+  - entity_id: input_boolean.action_mode_test
+    platform: state
+  condition: []
+  action:
+  - brightness_pct: 100
+    device_id: f9e2538f1d0144e1a5d9c627e54fd184
+    domain: light
+    entity_id: light.desk_dimmer
+    type: turn_on
+  - delay: 00:00:05
+  - device_id: f9e2538f1d0144e1a5d9c627e54fd184
+    domain: light
+    entity_id: light.desk_dimmer
+    type: turn_off
+  mode: parallel
+  max: 10
+- id: '1596031669329'
+  alias: Ring Motion Record
+  description: ''
+  trigger:
+  - device_id: 974cda2e81664f9586456eb08cdf5995
+    domain: binary_sensor
+    entity_id: binary_sensor.front_door_ding
+    platform: device
+    type: occupied
+  condition: []
+  action:
+  - data:
+      data_template:
+        filename: '{{state_attr(''camera.front_door'', ''friendly_name'')}}'
+        subdir: '{{state_attr(''camera.front_door'', ''friendly_name'')}}'
+        url: '{{ state_attr(''camera.front_door'', ''video_url'') }}'
+    service: downloader.download_file
+  mode: single
+- id: '1596032652854'
+  alias: doorbell press camera view
+  description: ''
+  trigger:
+  - device_id: 974cda2e81664f9586456eb08cdf5995
+    domain: binary_sensor
+    entity_id: binary_sensor.front_door_ding
+    platform: device
+    type: occupied
+  condition: []
+  action:
+  - data:
+      media_player: media_player.fire_10_fully
+    entity_id: camera.front_door
+    service: camera.play_stream
+  mode: restart
+- id: '1596263038790'
+  alias: Washing machine finished
+  description: ''
+  trigger:
+  - above: 5
+    device_id: 40909ffc8f344e798e4aa300110929f0
+    domain: sensor
+    entity_id: sensor.sonoff_energy_power
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    platform: device
+    type: value
+  condition: []
+  action:
+  - delay: 00:43:00
+  - data:
+      data:
+        type: announce
+      message: The washing machine has finished. You may now transfer the clothes
+        to the dryer.
+    service: notify.alexa_media_echo_show
+  mode: single
