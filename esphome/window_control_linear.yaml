@@ -72,7 +72,7 @@ binary_sensor:
     on_press: 
       then:
         - lambda: |
-            if (id(win_open).state == cover::COVER_OPEN) {
+            if (id(win_open).position == cover::COVER_OPEN) {
               if (id(win1).state){
                 // window is opening
                 id(win_open).stop();

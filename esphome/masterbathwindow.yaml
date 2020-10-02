@@ -1,0 +1,89 @@
+esphome:
+  name: masterbathwindow
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: DrZzs-NoT
+  password: !secret NoT
+  manual_ip:
+    static_ip: 192.168.1.154
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: "Masterbathwindow"
+    password: "12345678"
+
+captive_portal:
+
+logger:
+
+api:
+
+ota:
+
+web_server:
+  port: 80
+output:
+  - platform: gpio
+    id: 'bathwin_1'
+    pin: D1
+  - platform: gpio
+    id: 'bathwin_2'
+    pin: D2
+
+switch:
+  - platform: output
+    name: "bathwin1"
+    output: 'bathwin_1'
+    id: bathwin1
+  - platform: output
+    name: "bathwin2"
+    output: 'bathwin_2'
+    id: bathwin2
+
+cover:
+  - platform: template
+    name: "Master Bath Window"
+    id: bathwin_open
+    optimistic: true
+    open_action:
+      - switch.turn_off: bathwin2
+      - switch.turn_on: bathwin1
+      - delay: 35s
+      - switch.turn_off: bathwin1
+    close_action:
+      - switch.turn_off: bathwin1
+      - switch.turn_on: bathwin2
+      - delay: 32s
+      - switch.turn_off: bathwin2
+    stop_action:
+      - switch.turn_off: bathwin1
+      - switch.turn_off: bathwin2
+     
+binary_sensor:
+  - platform: gpio
+    pin: D3
+    name: "Bathroom Window Button"
+    filters:
+      invert:
+    on_press: 
+      then:
+        - lambda: |
+            if (id(bathwin_open).position == cover::COVER_OPEN) {
+              if (id(bathwin1).state){
+                // window is opening
+                id(bathwin_open).stop();
+              } else {
+                // window is open and not moving
+                id(bathwin_open).close();
+              }
+            } else {
+              if (id(bathwin2).state){
+                // window is closing
+                id(bathwin_open).stop();
+              } else {
+                // win is closed and not moving
+                id(bathwin_open).open();
+              }
+            }

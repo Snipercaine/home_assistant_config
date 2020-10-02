@@ -21,8 +21,8 @@ climate:
     initial_hvac_mode: "cool"    
     min_cycle_duration:
       minutes: 20
-    target_temp: 74
-    away_temp: 80
+    target_temp: 76
+    away_temp: 85
     cold_tolerance: 0.5
     hot_tolerance: 0.5
     ac_mode: true
@@ -30,11 +30,11 @@ climate:
     name: Main Floor AC
     heater: switch.main_floor_ac
     target_sensor: sensor.average_main_temp
-    target_temp: 74
+    target_temp: 76
     min_temp: 40
     max_temp: 90
     initial_hvac_mode: "cool"
-    away_temp: 80
+    away_temp: 85
     cold_tolerance: 0.5
     hot_tolerance: 0.5
     ac_mode: true

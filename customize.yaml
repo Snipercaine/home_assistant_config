@@ -486,6 +486,16 @@ light.office_west:
 light.office_2:
   friendly_name: Office Floor LEDs
 device_tracker.life360_zach:
+  entity_picture: https://life360-img.s3.amazonaws.com/img/user_images/9ac789a6-8008-409f-8773-0c35b2d18510/6f9ace5e-b8b4-44e5-9300-faa4f9e8e77f.jpg?fd=2
   friendly_name: Zach
 device_tracker.life360_zoe_aden:
   friendly_name: Zoe
+device_tracker.life360_drzzs:
+  friendly_name: Dad
+device_tracker.life360_jackson_aden:
+  entity_picture: https://www.life360.com/img/user_images/50a21f1c-d98e-4544-9330-e1c788c9c521/f011666f-e1b3-4f3c-ad58-e6a36ba18421.jpg?fd=2
+  friendly_name: Jackson
+device_tracker.life360_mom:
+  friendly_name: Mom
+switch.sonoff:
+  friendly_name: Washing Machine

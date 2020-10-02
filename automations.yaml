@@ -156,22 +156,6 @@
   - service: switch.turn_off
     entity_id: switch.main_bathroom_light, switch.main_bathroom_fan
   id: mainbathroomlightoffifnomotion
-- alias: stop dinning shade when Open
-  id: stopdinningshadewhenopen
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.dinning_shade_open
-  action:
-    service: cover.stop_cover
-    entity_id: cover.kitchen_window_full
-- alias: stop dinning shade when Closed
-  id: stopdinningshadewhenclosed
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.dinning_shade_closed
-  action:
-    service: cover.stop_cover
-    entity_id: cover.kitchen_window_full
 - alias: turn off quietcool if AC is on
   id: 48y54893ytufhjdnvbjkdfu34ry489u234ui23orwedfd
   trigger:
@@ -249,6 +233,7 @@
     entity_id:
     - cover.window_control
     - cover.toyroom_window
+    - cover.master_bath_window
 - alias: window close when quietcool fan is off
   id: openwindowwhenquietcoolfanisoff28543545345345
   trigger:
@@ -273,6 +258,7 @@
     entity_id:
     - cover.window_control
     - cover.toyroom_window
+    - cover.master_bath_window
 - alias: temperature to start quietcool fan
   id: temptostartqcfan7487238945y
   trigger:
@@ -473,39 +459,6 @@
         type: tts
       message: It's 10pm and daddy's car isn't charging. Please make sure he knows
         so he can plug it in.
-- alias: Blink Cameras Refresh All
-  initial_state: 'on'
-  trigger:
-  - platform: state
-    entity_id: input_boolean.blink_refresh
-    to: 'on'
-  action:
-  - service: blink.trigger_camera
-    data:
-      name: Front Yard
-  - service: blink.trigger_camera
-    data:
-      name: Back Yard
-  - service: blink.trigger_camera
-    data:
-      name: Garage
-  - service: blink.trigger_camera
-    data:
-      name: Basement
-  - service: blink.trigger_camera
-    data:
-      name: Mountain Room
-  - service: blink.trigger_camera
-    data:
-      name: Piano Room
-  - service: blink.trigger_camera
-    data:
-      name: Toy Room
-  - service: blink.blink_update
-  - delay: 00:01
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.blink_refresh
-  id: 4d0e5edc523348cbb96414f4738b6fdb
 - alias: FHE
   initial_state: 'on'
   trigger:
@@ -658,7 +611,7 @@
   - service: climate.set_temperature
     data:
       entity_id: climate.upstairs_ac, climate.main_floor_ac
-      temperature: 78
+      temperature: 80
   id: 8948e266c4164b5cbb16e1e79a24abf6
 - alias: Summer Daytime Temp adjustment
   initial_state: 'on'
@@ -682,7 +635,7 @@
   - service: climate.set_temperature
     data:
       entity_id: climate.upstairs_ac, climate.main_floor_ac
-      temperature: 73
+      temperature: 76
   id: 7484b3bb02134d9982554fb3fd6bcbcb
 - alias: No one home Away Mode On
   initial_state: 'on'
@@ -976,57 +929,47 @@
       topic: tele/RF_Bridge/RESULT
       payload: D54C1Eoff
   id: 942c07bde7734b5e8c14b73f0c8cd8c9
-- alias: Boy Bathroom Lights Off
-  initial_state: 'on'
+- id: 272f2724cb7f41cda55cf7243f34rfsd
+  alias: Boy Bathroom Lights Off
   trigger:
-  - platform: state
-    entity_id: binary_sensor.boys_bathroom_motion
-    from: 'on'
+  - entity_id: binary_sensor.boys_bathroom_motion
+    for: 00:10:00
+    platform: state
     to: 'off'
-    for:
-      minutes: 10
   action:
-  - service: switch.turn_off
-    data:
+  - data:
       entity_id: switch.boys_bathroom
-  - service: switch.turn_off
-    data:
+    service: switch.turn_off
+  - data:
       entity_id: switch.boys_shower
-  id: 272f2724cb7f41cda55cf7243f34rfsd
-- alias: Garage Lights Off
+    service: switch.turn_off
   initial_state: 'on'
+  mode: single
+- id: 957b28584f3543bb862d5dc3b18689fd
+  alias: Garage Lights On
   trigger:
-  - platform: state
-    entity_id: binary_sensor.garage_motion
-    from: 'on'
-    to: 'off'
-    for:
-      minutes: 5
+  - entity_id: binary_sensor.shop_door
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.garage_entry
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.garage_motion
+    platform: state
+    to: 'on'
+  condition: []
   action:
-  - service: switch.turn_off
+  - device_id: 3d20aefb2ec74b398ed8dbcf5a61ebe4
+    domain: switch
     entity_id: switch.garage_lights
-  id: 272f2724cb7f41cda55cf703a89c94de
-- alias: Garage Lights On
+    type: turn_on
+  - delay: 00:05:00
+  - device_id: 3d20aefb2ec74b398ed8dbcf5a61ebe4
+    domain: switch
+    entity_id: switch.garage_lights
+    type: turn_off
   initial_state: 'on'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.shop_door
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.garage_entry
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.garage_motion
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: switch.garage_lights
-    state: 'off'
-  action:
-    service: switch.turn_on
-    data:
-      entity_id: switch.garage_lights
-  id: 957b28584f3543bb862d5dc3b18689fd
+  mode: restart
 - action:
   - data:
       entity_id: cover.test
@@ -1088,23 +1031,6 @@
   - service: notify.notify
     data:
       message: Daddy just left work, should be home soon
-- action:
-    data:
-      friendly_name: Garage
-    service: blink.snap_picture
-  alias: Garage Blink Pic
-  initial_state: 'on'
-  condition: []
-  id: '1509405186382'
-  trigger:
-  - entity_id: input_boolean.garage_blink
-    from: 'on'
-    platform: state
-    to: 'off'
-  - entity_id: input_boolean.garage_blink
-    from: 'off'
-    platform: state
-    to: 'on'
 - action:
   - data:
       entity_id: switch.upstairs_hall
@@ -1180,23 +1106,6 @@
       entity_id: light.wled_lights
       effect: '[FX=00] Solid'
   id: 4ff77dd5be9d447194f57ff600147152
-- alias: Justin Garage Notification iOS
-  initial_state: true
-  trigger:
-  - platform: state
-    entity_id: cover.single
-    from: closed
-    to: open
-  action:
-  - service: notify.ios_justin_iphone7
-    data:
-      message: Justin's Garage is Open
-      data:
-        push:
-          sound: US-EN-Morgan-Freeman-Garage-Door-Opened.wav
-          badge: 0
-          category: GARAGE2
-  id: f62eba7911c141ef852e65873e05864f
 - alias: Janis Garage Notification iOS
   initial_state: true
   trigger:
@@ -1351,25 +1260,6 @@
           badge: 0
           category: DOOR
   id: 05c68f6f4a664b26a26eee4fe6a4f045
-- alias: Notify iOS Janis Garage
-  initial_state: true
-  trigger:
-  - platform: time
-    at: '22:00:00'
-  condition:
-    condition: state
-    entity_id: cover.double
-    state: open
-  action:
-    service: notify.ios_justin_iphone7
-    data:
-      title: Janis' Garage Check
-      message: It's 10pm and Janis' Garage is Open
-      data:
-        push:
-          badge: 0
-          category: GARAGE1
-  id: 46468ce1b6424ba6a5ac9924c033d9fd
 - alias: Notify iOS Justin Garage
   initial_state: true
   trigger:
@@ -1497,17 +1387,6 @@
   action:
   - service: switch.toggle
     entity_id: switch.janis_garage_relay
-- id: 154684543trg0847
-  alias: Justin Garage Webhook
-  initial_state: 'on'
-  trigger:
-  - platform: webhook
-    webhook_id: justin-garage-webhook
-  condition: []
-  action:
-  - data:
-      entity_id: cover.test
-    service: cover.open_cover
 - id: '1547768614550'
   alias: Boys Bathroom PIR lights ON
   initial_state: true
@@ -1523,16 +1402,6 @@
   - data:
       entity_id: switch.boys_shower
     service: switch.turn_on
-- id: '1547769827082'
-  alias: Webhook Janis Garage
-  trigger:
-  - platform: webhook
-    webhook_id: janis-garage
-  condition: []
-  action:
-  - data:
-      entity_id: cover.double
-    service: cover.open_cover
 - id: '1548641451838'
   alias: Frenck Stream
   initial_state: true
@@ -1628,35 +1497,6 @@
   - entity_id: switch.laundry_room_2
     service: switch.turn_off
   initial_state: 'on'
-- id: '1571242093784'
-  alias: Garage Lights on with motion or door opening
-  trigger:
-  - entity_id: binary_sensor.garage_motion
-    from: 'off'
-    platform: state
-    to: 'on'
-  - entity_id: binary_sensor.garage_entry
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      entity_id: switch.garage_lights
-    service: switch.turn_on
-- id: '1571242282484'
-  alias: Garage Lights off after 5 min without motion
-  trigger:
-  - entity_id: switch.garage_lights
-    for: 10 min
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      entity_id: switch.garage_lights
-    service: switch.turn_off
 - id: '1573762869101'
   alias: turn off porch lights
   description: so the front porch light won't be on during the day anymore
@@ -2073,4 +1913,172 @@
       message: The washing machine has finished. You may now transfer the clothes
         to the dryer.
     service: notify.alexa_media_echo_show
+  mode: single
+- id: '1597950540344'
+  alias: toyroom lights off
+  description: ''
+  trigger:
+  - device_id: f3396e6c97664d1db8476fefdd83a59c
+    domain: binary_sensor
+    entity_id: binary_sensor.sonoff_zigbee_pir_ef25781b_ias_zone
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    platform: device
+    type: no_motion
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.toy_room
+    service: switch.turn_off
+  mode: single
+- id: '1597954899584'
+  alias: Office lights off if no motion 10 min
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.office_pir
+    for: 00:10:00
+    platform: state
+    to: 'off'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: device_tracker.life360_drzzs
+      state: home
+  action:
+  - data: {}
+    entity_id: switch.office_crown
+    service: switch.turn_off
+  - data: {}
+    entity_id: switch.office_light
+    service: switch.turn_off
+  - data: {}
+    entity_id: switch.office_fan
+    service: switch.turn_off
+  - data: {}
+    entity_id: switch.office_power_strip_desk_leds
+    service: switch.turn_off
+  mode: restart
+- id: '1597970173217'
+  alias: Lights off if no motion in basement
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.presence_33
+    for: 00:10:00
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.basement_playroom
+    service: switch.turn_off
+  mode: restart
+- id: '1598162186407'
+  alias: close mountain room shades at sunset
+  description: ''
+  trigger:
+  - event: sunset
+    offset: 00:30:00
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.mountain_room_shades
+    service: cover.close_cover
+  - data: {}
+    entity_id: cover.dining_room_shade
+    service: cover.close_cover
+  mode: single
+- id: '1598163581954'
+  alias: open mountain room shades after sun passes
+  description: ''
+  trigger:
+  - at: '13:00:00'
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.mountain_room_shades
+    service: cover.open_cover
+  - data: {}
+    entity_id: cover.dining_room_shade
+    service: cover.open_cover
+  mode: single
+- id: '1599067762355'
+  alias: Close Office Shade in the Morning
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.office_shade
+    service: cover.close_cover
+  mode: single
+- id: '1599067825489'
+  alias: Open Office Shade Afternoon
+  description: ''
+  trigger:
+  - at: '14:00:00'
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.office_shade
+    service: cover.open_cover
+  mode: single
+- id: '1599067920307'
+  alias: Close Toy Room Shade in Afternoon
+  description: ''
+  trigger:
+  - event: sunset
+    offset: -02:00:00
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.toy_room_shade
+    service: cover.close_cover
+  mode: single
+- id: '1599067987886'
+  alias: Open Toy Room Shade after Sunset
+  description: ''
+  trigger:
+  - event: sunset
+    offset: 00:30:00
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.toy_room_shade
+    service: cover.open_cover
+  mode: single
+- id: '1599163186306'
+  alias: Office Closet light on when door opens
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.office_closet
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.slampher
+    service: switch.turn_off
+  mode: single
+- id: '1599163258864'
+  alias: Office Closet light Off when door is closed
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.office_closet
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.slampher
+    service: switch.turn_on
   mode: single

@@ -1,0 +1,55 @@
+esphome:
+  name: digquad
+  platform: ESP32
+  board: wemos_d1_mini32
+
+wifi:
+  ssid: "ADEN"
+  password: "Holiness"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Digquad Fallback Hotspot"
+    password: "12345678"
+web_server:
+  port: 80
+captive_portal:
+
+# Enable logging
+logger:
+  baud_rate: 0
+# Enable Home Assistant API
+api:
+
+ota:
+
+light:
+  - platform: neopixelbus
+    type: RGB
+    num_leds: 7
+    name: "Quad first string"
+    pin: GPIO16
+  - platform: neopixelbus
+    type: RGB
+    num_leds: 7
+    name: "Quad second string"
+    pin: GPIO03
+  - platform: fastled_clockless
+    chipset: WS2811
+    pin: GPIO01
+    num_leds: 7
+    rgb_order: RGB
+    name: "Quad third string"
+  - platform: fastled_clockless
+    chipset: WS2811
+    pin: GPIO26
+    num_leds: 7
+    rgb_order: RGB
+    name: "Quad fourth string"
+
+dallas:
+  - pin: GPIO18
+sensor:
+  - platform: dallas
+    address: 0x5E8000002F928B28
+    name: "Quad temp"
