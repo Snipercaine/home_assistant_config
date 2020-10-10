@@ -1,4 +1,4 @@
 light:
   - platform: hyperion
     host: 192.168.1.81
-    priority: 255
+    priority: 99

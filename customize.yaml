@@ -499,3 +499,7 @@ device_tracker.life360_mom:
   friendly_name: Mom
 switch.sonoff:
   friendly_name: Washing Machine
+light.browser_c4d57284_f78fd601:
+  friendly_name: Fire 10 Tablet
+switch.3d_printer:
+  icon: mdi:printer-3d-nozzle

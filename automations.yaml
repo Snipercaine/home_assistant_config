@@ -2082,3 +2082,19 @@
     entity_id: switch.slampher
     service: switch.turn_on
   mode: single
+- id: '1601843438210'
+  alias: Turn on Boys Closet light at bedtime
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.boys_closet
+  - delay: 02:00:00
+  - service: light.turn_off
+    data: {}
+    entity_id: light.boys_closet
+  mode: single

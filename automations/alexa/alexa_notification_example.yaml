@@ -12,4 +12,4 @@ action:
     data_template:
       text: "<amazon:emotion name='excited' intensity='high'> The office closet door has been open for a while, would you like me to turn off the light? </amazon:emotion>"
       event_id: 'actionable_notification_office_closet_open'
-      alexa_device: 'media_player.justin_s_echo_plus'
+      alexa_device: 'media_player.echo_show_5'
