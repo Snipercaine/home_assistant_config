@@ -27,17 +27,13 @@ conversation:
 history:
 logbook:
 logger:
-  default: info
+  default: error
 sun:
 scene: !include scenes.yaml
 sensor:
 - platform: moon              
 - platform: socialblade
   channel_id: !secret socialblade
-- platform: yr
-  monitored_conditions:
-    - temperature
-    - symbol
 - platform: time_date
   display_options:
 binary_sensor:

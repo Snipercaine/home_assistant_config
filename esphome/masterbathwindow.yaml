@@ -4,17 +4,19 @@ esphome:
   board: nodemcuv2
 
 wifi:
-  ssid: DrZzs-NoT
-  password: !secret NoT
-  manual_ip:
-    static_ip: 192.168.1.154
-    gateway: 192.168.1.1
-    subnet: 255.255.255.0
-  ap:
-    ssid: "Masterbathwindow"
-    password: "12345678"
-
-captive_portal:
+  networks:
+  - ssid: ADEN
+    password: Holiness
+  - ssid: DrZzs-NoT
+    password: !secret NoT
+  # manual_ip:
+  #   static_ip: 192.168.1.154
+  #   gateway: 192.168.1.1
+  #   subnet: 255.255.255.0
+  # ap:
+  #   ssid: "Masterbathwindow"
+  #   password: "12345678"
+# captive_portal:
 
 logger:
 

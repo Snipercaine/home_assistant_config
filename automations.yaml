@@ -2098,3 +2098,47 @@
     data: {}
     entity_id: light.boys_closet
   mode: single
+- id: '1607225310906'
+  alias: Xmas tree water needs a refill
+  description: ''
+  trigger:
+  - type: turned_off
+    platform: device
+    device_id: 75c45243761644a49a108370b0ba1209
+    entity_id: binary_sensor.water_level_bottom
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.windows_2
+      color_name: red
+      effect: Solid
+    entity_id: light.windows_2
+  mode: single
+- id: '1607228967835'
+  alias: Xmas Tree water is full
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: 75c45243761644a49a108370b0ba1209
+    entity_id: binary_sensor.water_level_top
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.windows_2
+      color_name: green
+      effect: Heartbeat
+    entity_id: light.windows_2
+  mode: single

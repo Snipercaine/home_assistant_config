@@ -9,4 +9,4 @@ action:
     data_template:
       text: "It's 9 o'clock, would you like me to make the bedtime announcement?"
       event_id: 'actionable_notification_bedtime'
-      alexa_device: 'group.main_alexas'
+      alexa_device: 'media_player.echo_show_5'

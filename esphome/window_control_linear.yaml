@@ -4,16 +4,16 @@ esphome:
   board: d1_mini
 
 wifi:
-  ssid: DrZzs-NoT
-  password: !secret NoT
-  ap:
-    ssid: window_control_linear
-    password: "12345678"
-  manual_ip:
-    static_ip: 192.168.1.89
-    gateway: 192.168.1.1
-    subnet: 255.255.255.0    
-captive_portal: 
+  networks:
+  - ssid: DrZzs-NoT
+    password: !secret NoT
+  - ssid: ADEN
+    password: Holiness
+  # manual_ip:
+  #   static_ip: 192.168.1.89
+  #   gateway: 192.168.1.1
+  #   subnet: 255.255.255.0    
+# captive_portal: 
 
 web_server:
   port: 80

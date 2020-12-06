@@ -1,0 +1,38 @@
+esphome:
+  name: xmastree_watersensor
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  networks:
+  - ssid: DrZzs-NoT
+    password: !secret NoT
+  - ssid: ADEN
+    password: !secret wifi_pw
+  manual_ip:
+    static_ip: 192.168.1.24
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+web_server:
+  port: 80
+
+logger:
+
+api:
+
+ota:
+
+captive_portal:
+
+esp32_touch:
+  setup_mode: False
+
+binary_sensor:
+  - platform: esp32_touch
+    name: "Water level bottom"
+    pin: GPIO32
+    threshold: 850
+  - platform: esp32_touch
+    name: "Water level top"
+    pin: GPIO33
+    threshold: 800
